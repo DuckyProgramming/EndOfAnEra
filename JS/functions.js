@@ -3,6 +3,7 @@ function setupLayer(layer){
 	layer.textAlign(CENTER,CENTER)
 	layer.rectMode(CENTER)
 	layer.colorMode(RGB,255,255,255,1)
+	layer.noStroke()
 }
 function displayTransition(layer,transition){
 	layer.noStroke()
@@ -27,8 +28,8 @@ function regTriangle(layer,x,y,radius,direction){
 }
 function regPoly(layer,x,y,sides,radius,direction){
 	layer.beginShape()
-	for(k=0;k<sides;k++){
-		layer.vertex(x+sin(direction+k*360/sides)*radius,y+cos(direction+k*360/sides)*radius)
+	for(let a=0;a<sides;a++){
+		layer.vertex(x+sin(direction+a*360/sides)*radius,y+cos(direction+a*360/sides)*radius)
 	}
 	layer.endShape(CLOSE)
 }
@@ -45,4 +46,20 @@ function updateMouse(layer){
 	inputs.mouse.y=mouseY
 	inputs.rel.x=(inputs.mouse.x-width/2)/stage.scale+layer.width/2
 	inputs.rel.y=(inputs.mouse.y-height/2)/stage.scale+layer.height/2
+}
+function generateWorld(layer,level){
+	if(level.length>0&&level[0].length>0){
+		game.edge.x=level[0].length*game.tileSize
+		game.edge.y=level.length*game.tileSize
+		for(let a=0,la=level.length;a<la;a++){
+			for(let b=0,lb=level[a].length;b<lb;b++){
+				if(level[a][b]>=100){
+					entities.walls.push(new wall(layer,b*game.tileSize+floor((level[a][b]%100)/10)*game.tileSize/2-game.tileSize/2,a*game.tileSize+(level[a][b]%10)*game.tileSize/2-game.tileSize/2,floor(level[a][b]/100),floor((level[a][b]%100)/10)*game.tileSize+game.tileSize,(level[a][b]%10)*game.tileSize+game.tileSize))
+				}else if(level[a][b]==-1){
+					entities.players.push(new player(layer,a*game.tileSize+game.tileSize/2,b*game.tileSize+game.tileSize/2))
+				}
+			}
+		}
+	}
+	run={fore:[entities.walls,entities.players]}
 }

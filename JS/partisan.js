@@ -1,0 +1,16 @@
+class partisan extends physical{
+	constructor(layer,x,y,type,width,height){
+		super(layer,x,y,type,width,height)
+		this.trigger={resistance:true,gravity:true}
+	}
+	update(){
+		super.update()
+		if(this.trigger.resistance){
+			this.velocity.x*=(1-physics.resistance)
+			this.velocity.y*=(1-physics.resistance)
+		}
+		if(this.trigger.gravity){
+			this.velocity.y+=physics.gravity
+		}
+	}
+}
