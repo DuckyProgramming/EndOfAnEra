@@ -126,9 +126,9 @@ function generateWorld(layer,level){
 		for(let a=0,la=level.length;a<la;a++){
 			for(let b=0,lb=level[a].length;b<lb;b++){
 				if(level[a][b]>=100){
-					entities.walls.push(new wall(layer,b*game.tileSize+floor((level[a][b]%100)/10)*game.tileSize/2-game.tileSize/2,a*game.tileSize+(level[a][b]%10)*game.tileSize/2-game.tileSize/2,floor(level[a][b]/100),floor((level[a][b]%100)/10)*game.tileSize+game.tileSize,(level[a][b]%10)*game.tileSize+game.tileSize))
+					entities.walls.push(new wall(layer,b*game.tileSize+floor((level[a][b]%100)/10)*game.tileSize/2+game.tileSize/2,a*game.tileSize+(level[a][b]%10)*game.tileSize/2+game.tileSize/2,floor(level[a][b]/100),floor((level[a][b]%100)/10)*game.tileSize+game.tileSize,(level[a][b]%10)*game.tileSize+game.tileSize))
 				}else if(level[a][b]==-1){
-					entities.players.push(new player(layer,a*game.tileSize+game.tileSize/2,b*game.tileSize+game.tileSize/2))
+					entities.players.push(new player(layer,b*game.tileSize+game.tileSize/2,a*game.tileSize+game.tileSize/2))
 				}
 			}
 		}
