@@ -8,7 +8,6 @@ class partisan extends physical{
 		super.update()
 		if(this.trigger.resistance){
 			this.velocity.x*=(1-physics.resistance)
-			this.velocity.y*=(1-physics.resistance)
 		}
 		if(this.trigger.gravity){
 			this.velocity.y+=physics.gravity
