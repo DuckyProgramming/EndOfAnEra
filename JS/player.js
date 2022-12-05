@@ -1,7 +1,8 @@
 class player extends partisan{
     constructor(layer,x,y){
         super(layer,x,y,0,30,90)
-        this.anim={eye:0,sandal:1,sleeve:1,kimono:1,decoration:1}
+        this.anim={eye:0,sandal:1,sleeve:1,kimono:1,decoration:1,direction:25}
+        this.spin={eye:[-12,12]}
         this.movement={speed:0.4,jump:8}
 
         this.size=3
@@ -269,28 +270,28 @@ class player extends partisan{
             this.layer.ellipse(0,-75,30,30)
             this.layer.stroke(201,108,113,this.fade)
             this.layer.strokeWeight(4-this.anim.eye*3)
-            this.layer.line(4+this.anim.eye*2,-72,4-this.anim.eye,-72-this.anim.eye*2)
-            this.layer.line(4+this.anim.eye*2,-72,4-this.anim.eye,-72+this.anim.eye*2)
-            this.layer.line(12-this.anim.eye*2,-72,12+this.anim.eye,-72-this.anim.eye*2)
-            this.layer.line(12-this.anim.eye*2,-72,12+this.anim.eye,-72+this.anim.eye*2)
+            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*20+this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*20-this.anim.eye,-72-this.anim.eye*2)
+            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*20+this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*20-this.anim.eye,-72+this.anim.eye*2)
+            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*20-this.anim.eye*2,-72,sin(this.spin.eye[1]+this.anim.direction)*20+this.anim.eye,-72-this.anim.eye*2)
+            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*20-this.anim.eye*2,-72,sin(this.spin.eye[1]+this.anim.direction)*20+this.anim.eye,-72+this.anim.eye*2)
             this.layer.stroke(48,4,7,this.fade)
             this.layer.strokeWeight(3-this.anim.eye*2)
-            this.layer.line(4+this.anim.eye*2+0.2-this.anim.eye*0.2,-72+0.2-this.anim.eye*0.2,4-this.anim.eye+0.2-this.anim.eye*0.2,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
-            this.layer.line(4+this.anim.eye*2+0.2-this.anim.eye*0.2,-72+0.2-this.anim.eye*0.2,4-this.anim.eye+0.2-this.anim.eye*0.2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
-            this.layer.line(12-this.anim.eye*2+0.2-this.anim.eye*0.2,-72+0.2-this.anim.eye*0.2,12+this.anim.eye+0.2-this.anim.eye*0.2,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
-            this.layer.line(12-this.anim.eye*2+0.2-this.anim.eye*0.2,-72+0.2-this.anim.eye*0.2,12+this.anim.eye+0.2-this.anim.eye*0.2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
+            this.layer.line(this.anim.directionPosition*8.2-4+this.anim.eye*2-this.anim.eye*0.2,-72+0.2-this.anim.eye*0.2,this.anim.directionPosition*8.2-4-this.anim.eye-this.anim.eye*0.2,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
+            this.layer.line(this.anim.directionPosition*8.2-4+this.anim.eye*2-this.anim.eye*0.2,-72+0.2-this.anim.eye*0.2,this.anim.directionPosition*8.2-4-this.anim.eye-this.anim.eye*0.2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
+            this.layer.line(this.anim.directionPosition*8.2+4-this.anim.eye*2-this.anim.eye*0.2,-72+0.2-this.anim.eye*0.2,this.anim.directionPosition*8.2+4+this.anim.eye-this.anim.eye*0.2,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
+            this.layer.line(this.anim.directionPosition*8.2+4-this.anim.eye*2-this.anim.eye*0.2,-72+0.2-this.anim.eye*0.2,this.anim.directionPosition*8.2+4+this.anim.eye-this.anim.eye*0.2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
             this.layer.noStroke()
             this.layer.fill(250,211,216,this.fade)
             this.layer.arc(0,-75,36,36,-180,0)
-            this.layer.triangle(18,-75,9,-75,18,-72)
+            /*this.layer.triangle(18,-75,9,-75,18,-72)
             this.layer.triangle(18,-75,15,-75,18,-69)
             this.layer.triangle(-18,-75,9,-75,-18,-69)
             this.layer.triangle(-18,-75,0,-75,-12,-63)
-            this.layer.triangle(-18,-75,6,-75,0,-69)
+            this.layer.triangle(-18,-75,6,-75,0,-69)*/
             this.layer.stroke(111,23,27,this.fade)
             this.layer.strokeWeight(0.5)
             this.layer.line(13,-58.5,9,-58.5)
-            this.layer.image(graphics.minor[2],-5-15*this.fade,-77.5-22.5*this.fade,30*this.fade,45*this.fade)
+            //this.layer.image(graphics.minor[2],-5-15*this.fade,-77.5-22.5*this.fade,30*this.fade,45*this.fade)
             if(this.kimono>0){
                 this.layer.image(graphics.minor[3],-3-15*this.anim.kimono*this.fade,-44-15*this.anim.kimono*this.fade,30*this.anim.kimono*this.fade,30*this.anim.kimono*this.fade)
             }
@@ -307,6 +308,7 @@ class player extends partisan{
         if(inputs.keys[0][1]||inputs.keys[1][1]){
             this.velocity.x+=this.movement.speed
         }
+        //this.anim.directionPosition=constrain(this.anim.directionPosition+this.velocity.x/30,-1,1)
         if((inputs.keys[0][2]||inputs.keys[1][2])&&this.timers[0]>0){
             this.timers[0]=0
             this.velocity.y=-this.movement.jump
