@@ -6,8 +6,9 @@ function draw(){
 		case 'level':
 			switch(stage.background){
 				case 0:
-					graphics.main.image(graphics.backgrounds[0],(-stage.focus.x/2)%1600,0)
-					graphics.main.image(graphics.backgrounds[0],(-stage.focus.x/2)%1600+1600,0)
+					graphics.main.background(50)
+					//graphics.main.image(graphics.backgrounds[0],(-stage.focus.x/2)%1600,0)
+					//graphics.main.image(graphics.backgrounds[0],(-stage.focus.x/2)%1600+1600,0)
 				break
 			}
 			graphics.main.translate(-stage.focus.x,-stage.focus.y)
