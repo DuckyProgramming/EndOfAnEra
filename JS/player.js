@@ -2,6 +2,7 @@ class player extends partisan{
     constructor(layer,x,y){
         super(layer,x,y,0,30,90)
         this.anim={eye:0,sandal:1,sleeve:1,kimono:1,decoration:1,direction:25}
+        this.hair=[{spin:[-90,20,0],height:6}]
         this.spin={eye:[-15,15]}
         this.movement={speed:0.4,jump:8}
 
@@ -268,28 +269,34 @@ class player extends partisan{
             }*/
             this.layer.fill(255,239,224,this.fade)
             this.layer.ellipse(0,-75,30,30)
-            this.layer.stroke(201,108,113,this.fade)
+            this.layer.stroke(/*201,108,113*/40,this.fade)
             this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
-            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*16+this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*16-this.anim.eye,-72-this.anim.eye*2)
-            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*16+this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*16-this.anim.eye,-72+this.anim.eye*2)
+            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2)
+            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2)
             this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
-            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*16-this.anim.eye*2,-72,sin(this.spin.eye[1]+this.anim.direction)*16+this.anim.eye,-72-this.anim.eye*2)
-            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*16-this.anim.eye*2,-72,sin(this.spin.eye[1]+this.anim.direction)*16+this.anim.eye,-72+this.anim.eye*2)
+            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2)
+            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2)
             this.layer.stroke(48,4,7,this.fade)
             this.layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
-            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(18-this.anim.eye*2)+this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(18-this.anim.eye*2)-this.anim.eye-this.anim.eye,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
-            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(18-this.anim.eye*2)+this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(18-this.anim.eye*2)-this.anim.eye-this.anim.eye,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
+            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(16+this.anim.eye)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(16+this.anim.eye)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
+            this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(16+this.anim.eye)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(16+this.anim.eye)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
             this.layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
-            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(18-this.anim.eye*2)-this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(18-this.anim.eye*2)+this.anim.eye-this.anim.eye,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
-            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(18-this.anim.eye*2)-this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(18-this.anim.eye*2)+this.anim.eye-this.anim.eye,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
-            /*this.layer.noStroke()
-            this.layer.fill(250,211,216,this.fade)
-            this.layer.arc(0,-75,36,36,-180,0)*/
-            /*this.layer.triangle(18,-75,9,-75,18,-72)
-            this.layer.triangle(18,-75,15,-75,18,-69)
-            this.layer.triangle(-18,-75,9,-75,-18,-69)
-            this.layer.triangle(-18,-75,0,-75,-12,-63)
-            this.layer.triangle(-18,-75,6,-75,0,-69)*/
+            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
+            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
+            this.layer.fill(/*250,211,216*/40,this.fade)
+            this.layer.stroke(/*250,211,216*/40,this.fade)
+            this.layer.strokeWeight(2)
+            this.layer.strokeJoin(ROUND)
+            this.layer.arc(0,-75,36,36,-180,0)
+            for(let g=0,lg=this.hair.length;g<lg;g++){
+                //this.layer.triangle(sin(this.hair[g].spin[0])*18,-75,sin(this.hair[g].spin[1])*18,-75,sin(this.hair[g].spin[2])*18,-75+this.hair[g].height)
+            }
+            //this.layer.triangle(18,-75,9,-75,18,-72)
+            //this.layer.triangle(18,-75,15,-75,18,-69)
+            //this.layer.triangle(-18,-75,9,-75,-18,-69)
+            //this.layer.triangle(-18,-75,0,-75,-12,-63)
+            //this.layer.triangle(-18,-75,6,-75,0,-69)
+            this.layer.strokeJoin(MITER)
             this.layer.stroke(111,23,27,this.fade)
             this.layer.strokeWeight(0.5)
             //this.layer.line(13,-58.5,9,-58.5)
