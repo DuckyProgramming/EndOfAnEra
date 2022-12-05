@@ -3,6 +3,7 @@ class partisan extends physical{
 		super(layer,x,y,type,width,height)
 		this.trigger={resistance:true,gravity:true}
 		this.timers=[0,0]
+		this.size=1
 	}
 	update(){
 		super.update()

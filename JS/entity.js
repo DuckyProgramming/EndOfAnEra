@@ -12,9 +12,9 @@ class entity{
     }
     update(){
         if(this.status==0&&this.fade<1){
-            this.fade=round(this.fade*10+1)/10
+            this.fade=round(this.fade*5+1)/5
         }else if(this.status==1&&this.fade>0){
-            this.fade=round(this.fade*10-1)/10
+            this.fade=round(this.fade*5-1)/5
         }
         this.position.x+=this.velocity.x
         this.position.y+=this.velocity.y
