@@ -2,7 +2,7 @@ class player extends partisan{
     constructor(layer,x,y){
         super(layer,x,y,0,30,90)
         this.anim={eye:0,sandal:1,sleeve:1,kimono:1,decoration:1,direction:25}
-        this.hair=[{spin:[-90,20,0],height:6}]
+        this.hair=[/*{spin:[-90,20,0],height:6},*/{spin:[-90,0,-40],height:12}]
         this.spin={eye:[-15,15]}
         this.movement={speed:0.4,jump:8}
 
@@ -270,7 +270,7 @@ class player extends partisan{
             this.layer.fill(255,239,224,this.fade)
             this.layer.ellipse(0,-75,30,30)
             this.layer.stroke(/*201,108,113*/40,this.fade)
-            this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
+            /*this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
             this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2)
             this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2)
             this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
@@ -282,20 +282,27 @@ class player extends partisan{
             this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(16+this.anim.eye)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(16+this.anim.eye)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
             this.layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
             this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
-            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
+            this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(16-this.anim.eye)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)*/
             this.layer.fill(/*250,211,216*/40,this.fade)
             this.layer.stroke(/*250,211,216*/40,this.fade)
             this.layer.strokeWeight(2)
             this.layer.strokeJoin(ROUND)
             this.layer.arc(0,-75,36,36,-180,0)
             for(let g=0,lg=this.hair.length;g<lg;g++){
-                //this.layer.triangle(sin(this.hair[g].spin[0])*18,-75,sin(this.hair[g].spin[1])*18,-75,sin(this.hair[g].spin[2])*18,-75+this.hair[g].height)
+                if(cos(this.hair[g].spin[1]+this.anim.direction)<0){
+                    if(cos(this.hair[g].spin[2]+this.anim.direction)<0){
+                    }else{
+                        this.layer.quad(sin(this.hair[g].spin[0]+this.anim.direction)*18,-75,18,-75,18,-75+this.hair[g].height*(90-this.hair[g].spin[2]-this.anim.direction)/(this.hair[g].spin[1]-this.hair[g].spin[2]),sin(this.hair[g].spin[2]+this.anim.direction)*18,-75+this.hair[g].height)
+                    }
+                }else if(cos(this.hair[g].spin[0]+this.anim.direction)<0){
+                }else{
+                    this.layer.triangle(sin(this.hair[g].spin[0]+this.anim.direction)*18,-75,sin(this.hair[g].spin[1]+this.anim.direction)*18,-75,sin(this.hair[g].spin[2]+this.anim.direction)*18,-75+this.hair[g].height)
+                }
             }
             //this.layer.triangle(18,-75,9,-75,18,-72)
             //this.layer.triangle(18,-75,15,-75,18,-69)
             //this.layer.triangle(-18,-75,9,-75,-18,-69)
             //this.layer.triangle(-18,-75,0,-75,-12,-63)
-            //this.layer.triangle(-18,-75,6,-75,0,-69)
             this.layer.strokeJoin(MITER)
             this.layer.stroke(111,23,27,this.fade)
             this.layer.strokeWeight(0.5)
@@ -312,12 +319,30 @@ class player extends partisan{
     update(){
         super.update()
         if(inputs.keys[0][0]||inputs.keys[1][0]){
-            this.velocity.x-=this.movement.speed
+            //this.velocity.x-=this.movement.speed
+            this.anim.direction-=3
         }
         if(inputs.keys[0][1]||inputs.keys[1][1]){
-            this.velocity.x+=this.movement.speed
+            //this.velocity.x+=this.movement.speed
+            this.anim.direction+=3
         }
-        this.anim.direction+=3
+        if(mouseIsPressed){
+            this.anim.direction+=3
+        }
+        if(this.anim.direction>180){
+            this.anim.direction-=360
+        }else if(this.anim.direction<-180){
+            this.anim.direction+=360
+        }
+        for(let g=0,lg=this.hair.length;g<lg;g++){
+            for(let h=0,lh=this.hair[g].spin.length;h<lh;h++){
+                if(this.anim.direction+this.hair[g].spin[h]>180){
+                    this.hair[g].spin[h]-=360
+                }else if(this.anim.direction+this.hair[g].spin[h]<-180){
+                    this.hair[g].spin[h]+=360
+                }
+            }
+        }
         //this.anim.directionPosition=constrain(this.anim.directionPosition+this.velocity.x/30,-1,1)
         this.anim.eye=sin(this.time*10)*0.5+0.5
         if((inputs.keys[0][2]||inputs.keys[1][2])&&this.timers[0]>0){
