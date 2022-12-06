@@ -1,19 +1,21 @@
 class player extends partisan{
     constructor(layer,x,y){
         super(layer,x,y,0,30,90)
-        this.offset={position:{x:0,y:45}}
-        this.anim={eye:0,sandal:{back:1,front:1},sleeve:1,kimono:1,decoration:1,direction:30}
-        this.hair=[{spin:[60,5,20],height:2},{spin:[-80,-10,-25],height:4},{spin:[-120,-40,-80],height:9},{spin:[-110,-25,-45],height:7},
+        this.offset={position:{x:0,y:145}}
+        this.anim={eye:0,sandal:{back:1,front:1},sleeve:{back:1,front:1},kimono:1,decoration:1,direction:36}
+        this.hair=[{spin:[5,60,20],height:2},{spin:[-80,-10,-25],height:4},{spin:[-120,-40,-80],height:9},{spin:[-110,-25,-45],height:7},
         {spin:[0,90,60],height:3},{spin:[25,105,55],height:6},{spin:[-180,-60,-140],height:19},{spin:[-180,-60,-115],height:13},
         {spin:[-15,5,-5],height:1},{spin:[150,-120,-180],height:21},{spin:[120,-120,-180],height:23},{spin:[160,-120,-160],height:18},
         {spin:[120,-160,155],height:21},{spin:[60,130,90],height:4},{spin:[75,180,110],height:11},{spin:[105,-140,130],height:16}]
-        this.spin={eye:[-15,15]}
+        this.spin={eye:[-18,18],flower:[-45],button:0}
         this.color={
             hair:{back:[243,154,163],front:[250,211,216]},
             skin:{head:[255,239,224]},
             eye:{back:[201,108,113],front:[48,4,7]}}
+        this.parts={eyeLevel:-72}
         this.movement={speed:0.4,jump:8}
-        this.trigger.display={hair:{back:true,front:true},eye:true,sandal:{back:true,front:true}}
+        this.trigger.display={hair:{back:true,front:true},eye:true,sandal:{back:true,front:true},sleeve:{back:false,front:false},necklace:{back:true,front:true},
+            skin:{legs:true,body:true,head:true}}
 
 
         this.size=4
@@ -26,11 +28,11 @@ class player extends partisan{
             if(this.anim.sandal.back>0&&this.trigger.display.sandal.back){
                 this.layer.translate(-7.9,-0.75)
                 this.layer.rotate(-atan2(-3.95,30))
-                this.layer.image(graphics.minor[0],-4*this.anim.sandal*this.fade,-4*this.anim.sandal*this.fade,8*this.anim.sandal*this.fade,8*this.anim.sandal*this.fade)
+                this.layer.image(graphics.minor[0],-4*this.anim.sandal.back*this.fade,-4*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade)
                 this.layer.rotate(atan2(-3.95,30))
                 this.layer.translate(15.8,0)
                 this.layer.rotate(atan2(-3.95,30))
-                this.layer.image(graphics.minor[0],-4*this.anim.sandal*this.fade,-4*this.anim.sandal*this.fade,8*this.anim.sandal*this.fade,8*this.anim.sandal*this.fade)
+                this.layer.image(graphics.minor[0],-4*this.anim.sandal.back*this.fade,-4*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade)
                 this.layer.rotate(-atan2(-3.95,30))
                 this.layer.translate(-7.9,0.75)
             }
@@ -58,9 +60,9 @@ class player extends partisan{
                 }
                 this.layer.strokeJoin(MITER)
             }
-            this.layer.noStroke()
-            /*if(this.anim.sleeve>0){
-                this.layer.fill(230,186,197,this.fade*this.anim.sleeve)
+            if(this.anim.sleeve.back>0&&this.trigger.display.sleeve.back){
+                this.layer.noStroke()
+                this.layer.fill(230,186,197,this.fade*this.anim.sleeve.back)
                 this.layer.translate(-3,-51)
                 this.layer.rotate(-atan2(-12,27))
                 this.layer.quad(3,0,-3,0,-3,24,12,30)
@@ -70,7 +72,7 @@ class player extends partisan{
                 this.layer.quad(3,0,-3,0,-12,30,3,24)
                 this.layer.rotate(atan2(12,27))
                 this.layer.translate(-6,0)
-                this.layer.fill(235,209,216,this.fade*this.anim.sleeve)
+                this.layer.fill(235,209,216,this.fade*this.anim.sleeve.back)
                 this.layer.rotate(-atan2(-12,27))
                 this.layer.quad(1,0,-1,0,-1,25,4,27)
                 this.layer.rotate(atan2(-12,27))
@@ -80,17 +82,24 @@ class player extends partisan{
                 this.layer.rotate(atan2(12,27))
                 this.layer.translate(-3,51)
             }
-            this.layer.stroke(207,90,101,this.fade*this.anim.kimono)
-            this.layer.strokeWeight(0.5)
-            this.layer.line(-3,-59,1,-54)
-            this.layer.line(3,-59,1,-54)
-            this.layer.arc(0,-59,6,3,-180,0)
-            this.layer.noStroke()
-            this.layer.fill(254,238,223,this.fade)
-            this.layer.ellipse(0,-46,12,30)
-            this.layer.fill(250,188,173,this.fade)
-            this.layer.ellipse(3,-42,0.5,2)
-            this.layer.fill(242,205,219,this.fade)
+            if(this.trigger.display.necklace.back){
+                this.layer.noFill()
+                this.layer.stroke(207,90,101,this.fade*this.anim.decoration)
+                this.layer.strokeWeight(0.5)
+                this.layer.line(-3,-59,1,-54)
+                this.layer.line(3,-59,1,-54)
+                this.layer.arc(0,-59,6,3,-180,0)
+            }
+            if(this.trigger.display.skin.body){
+                this.layer.noStroke()
+                this.layer.fill(254,238,223,this.fade)
+                this.layer.ellipse(0,-46,12,30)
+                if(cos(this.spin.button+this.anim.direction)>0){
+                    this.layer.fill(250,188,173,this.fade)
+                    this.layer.ellipse(sin(this.spin.button+this.anim.direction)*6,-42,1*cos(this.spin.button+this.anim.direction),2)
+                }
+            }
+            /*this.layer.fill(242,205,219,this.fade)
             this.layer.arc(0,-37.5,11,13,0,180)
             this.layer.stroke(255,235,217,this.fade)
             this.layer.strokeWeight(4)
@@ -149,10 +158,10 @@ class player extends partisan{
             }
             for(let g=0;g<6;g++){
                 this.layer.ellipse(-5+g*2,-48,1.5,2)
-            }
-            if(this.anim.sleeve>0){
+            }*/
+            if(this.anim.sleeve.front>0&&this.trigger.display.sleeve.front){
                 this.layer.noStroke()
-                this.layer.fill(249,218,225,this.fade*this.anim.sleeve)
+                this.layer.fill(249,218,225,this.fade*this.anim.sleeve.front)
                 this.layer.translate(-3,-51)
                 this.layer.rotate(-atan2(-12,27))
                 this.layer.quad(3,0,-3,0,-4,12,4,12)
@@ -162,7 +171,7 @@ class player extends partisan{
                 this.layer.quad(3,0,-3,0,-4,12,4,12)
                 this.layer.rotate(atan2(12,27))
                 this.layer.translate(-6,0)
-                this.layer.fill(228,184,195,this.fade*this.anim.sleeve)
+                this.layer.fill(228,184,195,this.fade*this.anim.sleeve.front)
                 this.layer.rotate(-atan2(-12,27))
                 this.layer.quad(1,0,-1,0,-4/3,12,4/3,12)
                 this.layer.rotate(atan2(-12,27))
@@ -172,18 +181,20 @@ class player extends partisan{
                 this.layer.rotate(atan2(12,27))
                 this.layer.translate(-3,51)
             }
-            this.layer.stroke(255,235,217,this.fade)
-            this.layer.strokeWeight(4)
-            this.layer.line(-3,-32,-8,0)
-            this.layer.line(3,-32,8,0)*/
+            if(this.trigger.display.skin.legs){
+                this.layer.stroke(255,235,217,this.fade)
+                this.layer.strokeWeight(4)
+                this.layer.line(-3,-32,-8,0)
+                this.layer.line(3,-32,8,0)
+            }
             if(this.anim.sandal.front>0&&this.trigger.display.sandal.front){
                 this.layer.translate(-7.9,-0.75)
                 this.layer.rotate(-atan2(-3.95,30))
-                this.layer.image(graphics.minor[1],-4*this.anim.sandal*this.fade,-4*this.anim.sandal*this.fade,8*this.anim.sandal*this.fade,8*this.anim.sandal*this.fade)
+                this.layer.image(graphics.minor[1],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
                 this.layer.rotate(atan2(-3.95,30))
                 this.layer.translate(15.8,0)
                 this.layer.rotate(atan2(-3.95,30))
-                this.layer.image(graphics.minor[1],-4*this.anim.sandal*this.fade,-4*this.anim.sandal*this.fade,8*this.anim.sandal*this.fade,8*this.anim.sandal*this.fade)
+                this.layer.image(graphics.minor[1],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
                 this.layer.rotate(-atan2(-3.95,30))
                 this.layer.translate(-7.9,0.75)
             }
@@ -199,12 +210,14 @@ class player extends partisan{
             this.layer.ellipse(-1,-53,4,2)
             this.layer.ellipse(3,-53,4,2)
             this.layer.line(1,-53,0,-50)
-            this.layer.line(1,-53,2,-50)
-            this.layer.stroke(207,90,101,this.fade*this.anim.decoration)
-            this.layer.strokeWeight(0.5)
-            this.layer.line(-3,-59,1,-54)
-            this.layer.line(3,-59,1,-54)
-            this.layer.noStroke()
+            this.layer.line(1,-53,2,-50)*/
+            if(this.trigger.display.necklace.front){
+                this.layer.stroke(207,90,101,this.fade*this.anim.decoration)
+                this.layer.strokeWeight(0.5)
+                this.layer.line(-3,-59,1,-54)
+                this.layer.line(3,-59,1,-54)
+            }
+            /*this.layer.noStroke()
             this.layer.fill(250,230,235,this.fade*this.anim.decoration)
             this.layer.beginShape()
             this.layer.vertex(-5,-55)
@@ -295,23 +308,26 @@ class player extends partisan{
                 this.layer.fill(206+g*38/3,107+g*59/3,113+g*61/3,this.fade)
                 this.layer.quad(13.5-(g%2)*2,-72+g*3,12-(g%2)*2,-66+g*3,10.5-(g%2)*2,-72+g*3,12-(g%2)*2,-78+g*3)
             }*/
-            this.layer.fill(this.color.skin.head[0],this.color.skin.head[1],this.color.skin.head[2],this.fade)
-            this.layer.ellipse(0,-75,30,30)
+            if(this.trigger.display.skin.head){
+                this.layer.fill(this.color.skin.head[0],this.color.skin.head[1],this.color.skin.head[2],this.fade)
+                this.layer.noStroke()
+                this.layer.ellipse(0,-75,30,30)
+            }
             if(this.trigger.display.eye){
                 this.layer.stroke(this.color.eye.back[0],this.color.eye.back[1],this.color.eye.back[2],this.fade)
                 this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
-                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2)
-                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2)
+                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2)
+                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2)
                 this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
-                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2)
-                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2)
+                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2)
+                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2)
                 this.layer.stroke(this.color.eye.front[0],this.color.eye.front[1],this.color.eye.front[2],this.fade)
                 this.layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
-                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
-                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
+                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2+0.2-this.anim.eye*0.2)
+                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2+0.2-this.anim.eye*0.2)
                 this.layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
-                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72-this.anim.eye*2+0.2-this.anim.eye*0.2)
-                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,-72+this.anim.eye*2+0.2-this.anim.eye*0.2)
+                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2+0.2-this.anim.eye*0.2)
+                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2+0.2-this.anim.eye*0.2)
             }
             if(this.trigger.display.hair.front){
                 this.layer.fill(this.color.hair.front[0],this.color.hair.front[1],this.color.hair.front[2],this.fade)
@@ -339,11 +355,13 @@ class player extends partisan{
                 }
                 this.layer.strokeJoin(MITER)
             }
-            this.layer.stroke(111,23,27,this.fade)
+            /*this.layer.stroke(111,23,27,this.fade)
             this.layer.strokeWeight(0.5)
-            //this.layer.line(13,-58.5,9,-58.5)
-            //this.layer.image(graphics.minor[2],-5-15*this.fade,-77.5-22.5*this.fade,30*this.fade,45*this.fade)
-            if(this.kimono>0){
+            this.layer.line(13,-58.5,9,-58.5)*/
+            if(constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1)>0){
+                this.layer.image(graphics.minor[2],sin(this.spin.flower[0]+this.anim.direction)*18.5-10*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),-77.5-15*this.fade,20*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),30*this.fade)
+            }
+            if(this.anim.kimono>0){
                 //this.layer.image(graphics.minor[3],-3-15*this.anim.kimono*this.fade,-44-15*this.anim.kimono*this.fade,30*this.anim.kimono*this.fade,30*this.anim.kimono*this.fade)
             }
             this.layer.scale(1/this.size)
@@ -353,10 +371,12 @@ class player extends partisan{
     update(){
         super.update()
         if(inputs.keys[0][0]||inputs.keys[1][0]){
-            this.velocity.x-=this.movement.speed
+            //this.velocity.x-=this.movement.speed
+            this.anim.direction-=3
         }
         if(inputs.keys[0][1]||inputs.keys[1][1]){
-            this.velocity.x+=this.movement.speed
+            //this.velocity.x+=this.movement.speed
+            this.anim.direction+=3
         }
         //this.anim.direction+=6
         if(this.anim.direction>180){
