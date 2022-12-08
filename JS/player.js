@@ -72,7 +72,7 @@ class player extends partisan{
         }
         for(let g=0;g</*24*/1;g++){
             //this.kimono.main.push({spin:[-175.5+g*15,-160.5+g*15,-168+g*15],y:[0,0,40]})
-            this.kimono.main.push({spin:[-68+g*60,52+g*60,-8+g*60],y:[0,10,20]})
+            this.kimono.main.push({spin:[-68+g*60,52+g*60,-8+g*60],y:[10,0,20]})
         }
         for(let g=0;g<12;g++){
             this.spin.under.top.top.push(g*30)
@@ -158,32 +158,32 @@ class player extends partisan{
             if(cos(parts[g].spin[1]+this.anim.direction)<=0&&cos(parts[g].spin[0]+this.anim.direction)>0){
                 if(cos(parts[g].spin[2]+this.anim.direction)<=0){
                     this.layer.triangle(sin(parts[g].spin[0]+this.anim.direction)*(width/2+parts[g].y[0]*slant),base+parts[g].y[0],
-                    width/2+(parts[g].y[0]*(1-abs(90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*abs(90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0])*slant),
-                    base+parts[g].y[0]*(1-abs(90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*abs(90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]),
+                    width/2+(parts[g].y[0]*(1-(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))*slant,
+                    base+parts[g].y[0]*(1-(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]),
                     width/2+(parts[g].y[2]*(1-(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))*slant,
                     base+parts[g].y[2]*(1-(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))
                 }else{
                     this.layer.quad(sin(parts[g].spin[2]+this.anim.direction)*(width/2+parts[g].y[2]*slant),base+parts[g].y[2],
                     sin(parts[g].spin[0]+this.anim.direction)*(width/2+parts[g].y[0]*slant),base+parts[g].y[0],
-                    width/2+(parts[g].y[0]*(1-(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0])*slant),
+                    width/2+(parts[g].y[0]*(1-(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))*slant,
                     base+parts[g].y[0]*(1-(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]),
                     width/2+(parts[g].y[2]*(1-(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))*slant,
                     base+parts[g].y[2]*(1-(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))
                 }
             }else if(cos(parts[g].spin[0]+this.anim.direction)<=0&&cos(parts[g].spin[1]+this.anim.direction)>0){
                 if(cos(parts[g].spin[2]+this.anim.direction)<=0){
-                    /*this.layer.triangle(sin(parts[g].spin[1]+this.anim.direction)*(width/2+parts[g].y[1]*slant),base+parts[g].y[1],
-                    -width/2-(parts[g].y[1]*(1-abs(-90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[1]))+parts[g].y[0]*abs(-90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1])*slant),
-                    base+parts[g].y[0]*(1-abs(-90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*abs(-90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]),
+                    this.layer.triangle(sin(parts[g].spin[1]+this.anim.direction)*(width/2+parts[g].y[1]*slant),base+parts[g].y[1],
+                    -width/2-(parts[g].y[1]*(1-(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))*slant,
+                    base+parts[g].y[1]*(1-(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]),
                     -width/2-(parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))*slant,
-                    base+parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))*/
+                    base+parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))
                 }else{
                     this.layer.quad(sin(parts[g].spin[2]+this.anim.direction)*(width/2+parts[g].y[2]*slant),base+parts[g].y[2],
                     sin(parts[g].spin[1]+this.anim.direction)*(width/2+parts[g].y[1]*slant),base+parts[g].y[1],
-                    /*-width/2-(parts[g].y[1]*(1-(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1])*slant),
+                    -width/2-(parts[g].y[1]*(1-(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))*slant,
                     base+parts[g].y[1]*(1-(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]),
                     -width/2-(parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))*slant,
-                    base+parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2])*/)
+                    base+parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))
                 }
             }else if(cos(parts[g].spin[0]+this.anim.direction)>0&&cos(parts[g].spin[1]+this.anim.direction)>0&&cos(parts[g].spin[2]+this.anim.direction)>0){
                 this.layer.triangle(sin(parts[g].spin[0]+this.anim.direction)*(width/2+parts[g].y[0]*slant),base+parts[g].y[0],sin(parts[g].spin[1]+this.anim.direction)*(width/2+parts[g].y[1]*slant),base+parts[g].y[1],sin(parts[g].spin[2]+this.anim.direction)*(width/2+parts[g].y[2]*slant),base+parts[g].y[2])
@@ -346,10 +346,10 @@ class player extends partisan{
                 this.layer.stroke(this.color.under.bow[0],this.color.under.bow[1],this.color.under.bow[2],this.fade*this.anim.decoration)
                 this.layer.strokeWeight(0.4)
                 if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[0]/2+this.anim.direction)>0){
-                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[0]+this.anim.direction)*2.875,-53,abs(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[0]+this.anim.direction)*5.5),1.6)
+                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[0]+this.anim.direction)*2.875,-53,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[0]+this.anim.direction)*5.5),1.6)
                 }
                 if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[1]/2+this.anim.direction)>0){
-                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[1]+this.anim.direction)*2.875,-53,abs(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[1]+this.anim.direction)*5.5),1.6)
+                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[1]+this.anim.direction)*2.875,-53,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[1]+this.anim.direction)*5.5),1.6)
                 }
                 if(cos(this.spin.underBow.center/2+this.spin.underBow.end[0]/2+this.anim.direction)>0){
                     this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,-53,sin(this.spin.underBow.end[0]+this.anim.direction)*6,-50.6)
@@ -542,10 +542,10 @@ class player extends partisan{
                 this.layer.stroke(this.color.kimono.bow[0],this.color.kimono.bow[1],this.color.kimono.bow[2],this.fade*this.anim.decoration)
                 this.layer.strokeWeight(0.25)
                 if(cos(this.spin.bow.center/2+this.spin.bow.loop[0]/2+this.anim.direction)>0){
-                    this.layer.ellipse(sin(this.spin.bow.center+this.anim.direction)*2.875+sin(this.spin.bow.loop[0]+this.anim.direction)*2.875,-53,abs(sin(this.spin.bow.center+this.anim.direction)*5.5-sin(this.spin.bow.loop[0]+this.anim.direction)*5.5),1)
+                    this.layer.ellipse(sin(this.spin.bow.center+this.anim.direction)*2.875+sin(this.spin.bow.loop[0]+this.anim.direction)*2.875,-53,(sin(this.spin.bow.center+this.anim.direction)*5.5-sin(this.spin.bow.loop[0]+this.anim.direction)*5.5),1)
                 }
                 if(cos(this.spin.bow.center/2+this.spin.bow.loop[1]/2+this.anim.direction)>0){
-                    this.layer.ellipse(sin(this.spin.bow.center+this.anim.direction)*2.875+sin(this.spin.bow.loop[1]+this.anim.direction)*2.875,-53,abs(sin(this.spin.bow.center+this.anim.direction)*5.5-sin(this.spin.bow.loop[1]+this.anim.direction)*5.5),1)
+                    this.layer.ellipse(sin(this.spin.bow.center+this.anim.direction)*2.875+sin(this.spin.bow.loop[1]+this.anim.direction)*2.875,-53,(sin(this.spin.bow.center+this.anim.direction)*5.5-sin(this.spin.bow.loop[1]+this.anim.direction)*5.5),1)
                 }
                 if(cos(this.spin.bow.center/2+this.spin.bow.end[0]/2+this.anim.direction)>0){
                     this.layer.line(sin(this.spin.bow.center+this.anim.direction)*5.75,-53,sin(this.spin.bow.end[0]+this.anim.direction)*6,-51.5)
