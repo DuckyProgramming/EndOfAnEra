@@ -31,7 +31,7 @@ class player extends partisan{
             eye:{back:[201,108,113],front:[48,4,7]},
             under:{outside:[242,205,219],fringe:[255,234,241],bow:[172,44,53]},
             kimono:{outside:[255,252,254],outsideBack:[244,220,232],fringe:[242,235,244],bow:[158,57,60],
-            main:{start:[0,0,0,250,230,235],end:[0,0,0,251,242,245]},mainBack:{start:[200,200,200,216,168,182],end:[200,200,200,249,218,226]}},
+            main:{start:[120,120,120,250,230,235],end:[160,160,160,251,242,245]},mainBack:{start:[160,160,160,216,168,182],end:[200,200,200,249,218,226]}},
             necklace:[207,90,101],
         }
 
@@ -49,7 +49,7 @@ class player extends partisan{
 
         this.trigger.display={
             hair:{back:false,front:false},eye:false,sandal:{back:false,front:false},sleeve:{back:false,front:false},necklace:{back:false,front:false},
-            skin:{legs:false,body:true,head:false,button:false},
+            skin:{legs:false,body:false,head:false,button:false},
             kimono:{main:{back:true,front:true},outside:{back:false,front:false},fringe:{back:false,front:false},bow:false},
             under:{top:false,bottom:false,bow:false},
             flower:false}
@@ -70,9 +70,15 @@ class player extends partisan{
             this.kimono.fringe.push({spin:[-186+g*12,-174+g*12,-180+g*12],height:-2})
             this.kimono.fringe.push({spin:[-186+g*12,-174+g*12,-180+g*12],height:2})
         }
-        for(let g=0;g</*24*/1;g++){
-            //this.kimono.main.push({spin:[-175.5+g*15,-160.5+g*15,-168+g*15],y:[0,0,40]})
-            this.kimono.main.push({spin:[-38+g*60,22+g*60,-8+g*60],y:[10,0,20]})
+        for(let g=0;g<16;g++){
+            this.kimono.main.push({spin:[-175.5+g*15,-160.5+g*15,-168+g*15],y:[0,0,12+g*2]})
+            this.kimono.main.push({spin:[-183+g*15,-175.5+g*15,-175.5+g*15],y:[18+g*2,0,8+g*2]})
+            this.kimono.main.push({spin:[-175.5+g*15,-175.5+g*15,-168+g*15],y:[8+g*2,0,20+g*2]})
+        }
+        for(let g=0;g<16;g++){
+            this.kimono.main.push({spin:[4.5+g*15,19.5+g*15,12+g*15],y:[0,0,42-g*2]})
+            this.kimono.main.push({spin:[-3+g*15,4.5+g*15,4.5+g*15],y:[48-g*2,0,38-g*2]})
+            this.kimono.main.push({spin:[4.5+g*15,4.5+g*15,12+g*15],y:[38-g*2,0,50-g*2]})
         }
         for(let g=0;g<12;g++){
             this.spin.under.top.top.push(g*30)
