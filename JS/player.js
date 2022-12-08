@@ -31,7 +31,7 @@ class player extends partisan{
             eye:{back:[201,108,113],front:[48,4,7]},
             under:{outside:[242,205,219],fringe:[255,234,241],bow:[172,44,53]},
             kimono:{outside:[255,252,254],outsideBack:[244,220,232],fringe:[242,235,244],bow:[158,57,60],
-            main:{start:[0,0,0,250,230,235],end:[0,0,0,251,242,245]}},
+            main:{start:[0,0,0,250,230,235],end:[0,0,0,251,242,245]},mainBack:{start:[200,200,200,216,168,182],end:[200,200,200,249,218,226]}},
             necklace:[207,90,101],
         }
 
@@ -72,7 +72,7 @@ class player extends partisan{
         }
         for(let g=0;g</*24*/1;g++){
             //this.kimono.main.push({spin:[-175.5+g*15,-160.5+g*15,-168+g*15],y:[0,0,40]})
-            this.kimono.main.push({spin:[-68+g*60,52+g*60,-8+g*60],y:[10,0,20]})
+            this.kimono.main.push({spin:[-38+g*60,22+g*60,-8+g*60],y:[10,0,20]})
         }
         for(let g=0;g<12;g++){
             this.spin.under.top.top.push(g*30)
@@ -149,6 +149,47 @@ class player extends partisan{
             }
         }
     }
+    displayTrianglesBackMerge(parts,base,width,weight,slant,color1,color2,fade){
+        this.layer.strokeWeight(weight)
+        this.layer.strokeJoin(ROUND)
+        for(let g=0,lg=parts.length;g<lg;g++){
+            this.layer.fill(color1[0]*g/lg+color2[0]*(1-g/lg),color1[1]*g/lg+color2[1]*(1-g/lg),color1[2]*g/lg+color2[2]*(1-g/lg),fade)
+            this.layer.stroke(color1[0]*g/lg+color2[0]*(1-g/lg),color1[1]*g/lg+color2[1]*(1-g/lg),color1[2]*g/lg+color2[2]*(1-g/lg),fade)
+            if(cos(parts[g].spin[1]+this.anim.direction)<=0&&cos(parts[g].spin[0]+this.anim.direction)>0){
+                if(cos(parts[g].spin[2]+this.anim.direction)>0){
+                    this.layer.triangle(sin(parts[g].spin[1]+this.anim.direction)*(width/2+parts[g].y[1]*slant),base+parts[g].y[1],
+                    width/2+(parts[g].y[1]*(1-abs(90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*abs(90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))*slant,
+                    base+parts[g].y[1]*(1-abs(90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*abs(90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]),
+                    width/2+(parts[g].y[2]*abs(1-(90-parts[g].spin[2]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*abs(90-parts[g].spin[2]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[2]))*slant,
+                    base+parts[g].y[2]*abs(1-(90-parts[g].spin[2]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*abs(90-parts[g].spin[2]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[2]))
+                }else{
+                    this.layer.quad(sin(parts[g].spin[2]+this.anim.direction)*(width/2+parts[g].y[2]*slant),base+parts[g].y[2],
+                    sin(parts[g].spin[1]+this.anim.direction)*(width/2+parts[g].y[1]*slant),base+parts[g].y[1],
+                    width/2+(parts[g].y[1]*abs(1-(90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*abs(90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))*slant,
+                    base+parts[g].y[1]*abs(1-(90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*abs(90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]),
+                    width/2+(parts[g].y[2]*(1-abs(90-parts[g].spin[2]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*abs(90-parts[g].spin[2]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[2]))*slant,
+                    base+parts[g].y[2]*(1-abs(90-parts[g].spin[2]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*abs(90-parts[g].spin[2]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[2]))
+                }
+            }else if(cos(parts[g].spin[0]+this.anim.direction)<=0&&cos(parts[g].spin[1]+this.anim.direction)>0){
+                if(cos(parts[g].spin[2]+this.anim.direction)>0){
+                    this.layer.triangle(sin(parts[g].spin[0]+this.anim.direction)*(width/2+parts[g].y[0]*slant),base+parts[g].y[0],
+                    -width/2-(parts[g].y[0]*(1-abs(-90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*abs(-90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))*slant,
+                    base+parts[g].y[0]*(1-abs(-90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*abs(-90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]),
+                    -width/2-(parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))*slant,
+                    base+parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))
+                }else{
+                    this.layer.quad(sin(parts[g].spin[2]+this.anim.direction)*(width/2+parts[g].y[2]*slant),base+parts[g].y[2],
+                    sin(parts[g].spin[0]+this.anim.direction)*(width/2+parts[g].y[0]*slant),base+parts[g].y[0],
+                    -width/2-(parts[g].y[0]*(1-abs(-90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*abs(-90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))*slant,
+                    base+parts[g].y[0]*(1-abs(-90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*abs(-90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]),
+                    -width/2-(parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))*slant,
+                    base+parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))
+                }
+            }else if(cos(parts[g].spin[0]+this.anim.direction)<=0&&cos(parts[g].spin[1]+this.anim.direction)<=0&&cos(parts[g].spin[2]+this.anim.direction)<=0){
+                this.layer.triangle(sin(parts[g].spin[0]+this.anim.direction)*(width/2+parts[g].y[0]*slant),base+parts[g].y[0],sin(parts[g].spin[1]+this.anim.direction)*(width/2+parts[g].y[1]*slant),base+parts[g].y[1],sin(parts[g].spin[2]+this.anim.direction)*(width/2+parts[g].y[2]*slant),base+parts[g].y[2])
+            }
+        }
+    }
     displayTrianglesFrontMerge(parts,base,width,weight,slant,color1,color2,fade){
         this.layer.strokeWeight(weight)
         this.layer.strokeJoin(ROUND)
@@ -158,8 +199,8 @@ class player extends partisan{
             if(cos(parts[g].spin[1]+this.anim.direction)<=0&&cos(parts[g].spin[0]+this.anim.direction)>0){
                 if(cos(parts[g].spin[2]+this.anim.direction)<=0){
                     this.layer.triangle(sin(parts[g].spin[0]+this.anim.direction)*(width/2+parts[g].y[0]*slant),base+parts[g].y[0],
-                    width/2+(parts[g].y[0]*(1-(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))*slant,
-                    base+parts[g].y[0]*(1-(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*(90-parts[g].spin[0]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[0]),
+                    width/2+(parts[g].y[0]*(1-abs(90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*abs(90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))*slant,
+                    base+parts[g].y[0]*(1-abs(90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]))+parts[g].y[1]*abs(90-parts[g].spin[0]-this.anim.direction)/abs(parts[g].spin[1]-parts[g].spin[0]),
                     width/2+(parts[g].y[2]*(1-(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))*slant,
                     base+parts[g].y[2]*(1-(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))+parts[g].y[0]*(90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[2]))
                 }else{
@@ -173,8 +214,8 @@ class player extends partisan{
             }else if(cos(parts[g].spin[0]+this.anim.direction)<=0&&cos(parts[g].spin[1]+this.anim.direction)>0){
                 if(cos(parts[g].spin[2]+this.anim.direction)<=0){
                     this.layer.triangle(sin(parts[g].spin[1]+this.anim.direction)*(width/2+parts[g].y[1]*slant),base+parts[g].y[1],
-                    -width/2-(parts[g].y[1]*(1-(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))*slant,
-                    base+parts[g].y[1]*(1-(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*(-90-parts[g].spin[1]-this.anim.direction)/(parts[g].spin[0]-parts[g].spin[1]),
+                    -width/2-(parts[g].y[1]*(1-abs(-90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*abs(-90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))*slant,
+                    base+parts[g].y[1]*(1-abs(-90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]))+parts[g].y[0]*abs(-90-parts[g].spin[1]-this.anim.direction)/abs(parts[g].spin[0]-parts[g].spin[1]),
                     -width/2-(parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))*slant,
                     base+parts[g].y[2]*(1-(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))+parts[g].y[1]*(-90-parts[g].spin[2]-this.anim.direction)/(parts[g].spin[1]-parts[g].spin[2]))
                 }else{
@@ -249,6 +290,53 @@ class player extends partisan{
                     }
                 }
             }
+            /*this.layer.stroke(255,235,217,this.fade)
+            this.layer.strokeWeight(4)
+            this.layer.line(-3,-54,-12,-24)
+            this.layer.line(3,-54,12,-24)
+            this.layer.strokeWeight(0.8)
+            this.layer.stroke(202,51,60,this.fade*this.anim.kimono)
+            this.layer.fill(209,80,84,this.fade*this.anim.kimono)
+            this.layer.strokeJoin(ROUND)
+            this.layer.triangle(0,-44,-10,-50,-10,-38)
+            this.layer.triangle(0,-44,10,-50,10,-38)*/
+            if(this.trigger.display.kimono.fringe.back){
+                this.displayTrianglesBack(this.kimono.fringe,-39,18,0.5,0.2,this.color.kimono.fringe,this.fade*this.anim.decoration)
+                this.layer.strokeJoin(MITER)
+            }
+            if(this.trigger.display.kimono.outside.back){
+                this.displayTrianglesBack(this.kimono.outside,-36,18,0.5,0.2,this.color.kimono.outsideBack,this.fade*this.anim.decoration)
+                this.layer.strokeJoin(MITER)
+            }
+            if(this.trigger.display.kimono.main.front){
+                this.displayTrianglesBackMerge(this.kimono.main,-55,20,0.5,0.16,this.color.kimono.mainBack.start,this.color.kimono.mainBack.end,this.fade*this.anim.kimono)
+                this.layer.strokeJoin(MITER)
+            }
+            /*this.layer.noStroke()
+            this.layer.beginShape()
+            this.layer.vertex(-5,-55)
+            this.layer.vertex(5,-55)
+            for(let g=0;g<11;g++){
+                this.layer.vertex(10-g*2,-26+(g%2)*3)
+            }
+            this.layer.endShape()
+            this.layer.beginShape()
+            this.layer.vertex(-5,-55)
+            this.layer.vertex(5,-55)
+            for(let g=0;g<11;g++){
+                this.layer.vertex(10-g*2,-24-(g%2)*3)
+            }
+            this.layer.endShape()
+            this.layer.fill(114,40,119,this.fade*this.anim.decoration)
+            for(let g=0;g<5;g++){
+                this.layer.ellipse(8-g*4,-25,0.25,1)
+                this.layer.ellipse(8.5-g*4,-25,0.125,0.5)
+                this.layer.ellipse(7.5-g*4,-25,0.125,0.5)
+            }
+            for(let g=0;g<4;g++){
+                this.layer.ellipse(6-g*4,-25.5,0.125,0.5)
+            }
+            this.layer.noStroke()*/
             if(this.trigger.display.skin.body){
                 this.layer.noStroke()
                 this.layer.fill(this.color.skin.body[0],this.color.skin.body[1],this.color.skin.body[2],this.fade)
@@ -280,49 +368,6 @@ class player extends partisan{
                     }
                 }
             }
-            /*this.layer.stroke(255,235,217,this.fade)
-            this.layer.strokeWeight(4)
-            this.layer.line(-3,-54,-12,-24)
-            this.layer.line(3,-54,12,-24)
-            this.layer.strokeWeight(0.8)
-            this.layer.stroke(202,51,60,this.fade*this.anim.kimono)
-            this.layer.fill(209,80,84,this.fade*this.anim.kimono)
-            this.layer.strokeJoin(ROUND)
-            this.layer.triangle(0,-44,-10,-50,-10,-38)
-            this.layer.triangle(0,-44,10,-50,10,-38)*/
-            if(this.trigger.display.kimono.fringe.back){
-                this.displayTrianglesBack(this.kimono.fringe,-39,18,0.5,0.2,this.color.kimono.fringe,this.fade*this.anim.decoration)
-                this.layer.strokeJoin(MITER)
-            }
-            if(this.trigger.display.kimono.outside.back){
-                this.displayTrianglesBack(this.kimono.outside,-36,18,0.5,0.2,this.color.kimono.outsideBack,this.fade*this.anim.decoration)
-                this.layer.strokeJoin(MITER)
-            }
-            /*this.layer.noStroke()
-            this.layer.beginShape()
-            this.layer.vertex(-5,-55)
-            this.layer.vertex(5,-55)
-            for(let g=0;g<11;g++){
-                this.layer.vertex(10-g*2,-26+(g%2)*3)
-            }
-            this.layer.endShape()
-            this.layer.beginShape()
-            this.layer.vertex(-5,-55)
-            this.layer.vertex(5,-55)
-            for(let g=0;g<11;g++){
-                this.layer.vertex(10-g*2,-24-(g%2)*3)
-            }
-            this.layer.endShape()
-            this.layer.fill(114,40,119,this.fade*this.anim.decoration)
-            for(let g=0;g<5;g++){
-                this.layer.ellipse(8-g*4,-25,0.25,1)
-                this.layer.ellipse(8.5-g*4,-25,0.125,0.5)
-                this.layer.ellipse(7.5-g*4,-25,0.125,0.5)
-            }
-            for(let g=0;g<4;g++){
-                this.layer.ellipse(6-g*4,-25.5,0.125,0.5)
-            }
-            this.layer.noStroke()*/
             if(this.trigger.display.under.top){
                 this.layer.noStroke()
                 this.layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade)
@@ -515,7 +560,7 @@ class player extends partisan{
                 this.layer.ellipse(-6.35+g*4,-27.5-g*2,0.125,0.5)
             }*/
             if(this.trigger.display.kimono.main.front){
-                this.displayTrianglesFrontMerge(this.kimono.main,-55,10,0.5,0.16,this.color.kimono.main.start,this.color.kimono.main.end,this.fade*this.anim.kimono)
+                this.displayTrianglesFrontMerge(this.kimono.main,-55,20,0.5,0.16,this.color.kimono.main.start,this.color.kimono.main.end,this.fade*this.anim.kimono)
                 this.layer.strokeJoin(MITER)
             }
             if(this.trigger.display.kimono.outside.front){
