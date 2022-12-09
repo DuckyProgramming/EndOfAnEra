@@ -99,9 +99,7 @@ class player extends partisan{
         }
         if(this.trigger.display.kimono.decoration){
             for(let g=0;g<3;g++){
-                this.kimono.decoration.push({spin:150+g*30,y:-18,width:0.75,height:1.5})
-                this.kimono.decoration.push({spin:144+g*30,y:-18,width:0.5,height:1})
-                this.kimono.decoration.push({spin:156+g*30,y:-18,width:0.5,height:1})
+                this.kimono.decoration.push({spin:150+g*30,rotate:0,y:-18,width:0.75,height:1.5})
             }
         }
         if(this.trigger.display.under.top||this.trigger.display.under.bottom){
@@ -659,7 +657,15 @@ class player extends partisan{
                 this.layer.fill(114,40,119,this.fade*this.anim.decoration)
                 for(let g=0,lg=this.kimono.decoration.length;g<lg;g++){
                     if(cos(this.kimono.decoration[g].spin+this.anim.direction)>0){
-                        this.layer.ellipse((14+this.kimono.decoration[g].y*0.16)*sin(this.kimono.decoration[g].spin+this.anim.direction),this.kimono.decoration[g].y,cos(this.kimono.decoration[g].spin+this.anim.direction)*this.kimono.decoration[g].width,this.kimono.decoration[g].height)
+                        this.layer.translate((14+this.kimono.decoration[g].y*0.16)*sin(this.kimono.decoration[g].spin+this.anim.direction),this.kimono.decoration[g].y)
+                        this.layer.rotate(this.kimono.decoration[g].rotate)
+                        this.layer.scale(cos(this.kimono.decoration[g].spin+this.anim.direction),1)
+                        this.layer.ellipse(0,0,this.kimono.decoration[g].width,this.kimono.decoration[g].height)
+                        this.layer.ellipse(-6,0,this.kimono.decoration[g].width*2/3,this.kimono.decoration[g].height*2/3)
+                        this.layer.ellipse(6,0,this.kimono.decoration[g].width*2/3,this.kimono.decoration[g].height*2/3)
+                        this.layer.scale(1/cos(this.kimono.decoration[g].spin+this.anim.direction),1)
+                        this.layer.rotate(-this.kimono.decoration[g].rotate)
+                        this.layer.translate(-(14+this.kimono.decoration[g].y*0.16)*sin(this.kimono.decoration[g].spin+this.anim.direction),-this.kimono.decoration[g].y)
                     }
                 }
             }
