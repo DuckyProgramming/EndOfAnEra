@@ -59,7 +59,7 @@ class player extends partisan{
         this.sprites=[]
 
         this.generateParts()
-        this.generateSprite(4)
+        this.generateSprite()
 
         this.size=3
 
@@ -98,17 +98,15 @@ class player extends partisan{
         this.spinSet=[this.hair,this.kimono.main,this.kimono.outside,this.kimono.fringe]
     }
     generateSprite(size){
-        this.fade=1
-        for(let g=0;g<360;g++){
+        /*for(let g=0;g<360;g++){
             this.sprites.push(createGraphics(60*size,120*size))
             setupLayer(this.sprites[g])
             this.sprites[g].translate(30*size,100*size)
             this.sprites[g].scale(size)
             this.anim.direction=g
-            this.regulateGeneration()
             this.generateImage(this.sprites[g])
             print('Generated Image '+(g+1))
-        }
+        }*/
         this.anim.direction=36
     }
     calculateParts(){
@@ -134,53 +132,53 @@ class player extends partisan{
             this.graphics.legs[g].sandal.back.y=this.parts.legs[g].sandal.back.y
         }
     }
-    displayTrianglesBack(layer,parts,base,width,weight,slant,color,fade){
+    displayTrianglesBack(layer,parts,direction,base,width,weight,slant,color,fade){
         layer.fill(color[0],color[1],color[2],fade)
         layer.stroke(color[0],color[1],color[2],fade)
         layer.strokeWeight(weight)
         layer.strokeJoin(ROUND)
         for(let part of parts){
-            if(cos(part.spin[1]+this.anim.direction)<=0&&cos(part.spin[0]+this.anim.direction)>0){
-                if(cos(part.spin[2]+this.anim.direction)>0){
-                    layer.triangle(sin(part.spin[1]+this.anim.direction)*width/2,base,width/2,base,width/2+part.height*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))*slant,base+part.height*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2])))
+            if(cos(part.spin[1]+direction)<=0&&cos(part.spin[0]+direction)>0){
+                if(cos(part.spin[2]+direction)>0){
+                    layer.triangle(sin(part.spin[1]+direction)*width/2,base,width/2,base,width/2+part.height*(1-(90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))*slant,base+part.height*(1-(90-part.spin[2]-direction)/(part.spin[1]-part.spin[2])))
                 }else{
-                    layer.quad(sin(part.spin[1]+this.anim.direction)*width/2,base,width/2,base,width/2+part.height*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))*slant,base+part.height*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2])),sin(part.spin[2]+this.anim.direction)*(width/2+part.height*slant),base+part.height)
+                    layer.quad(sin(part.spin[1]+direction)*width/2,base,width/2,base,width/2+part.height*(1-(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))*slant,base+part.height*(1-(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2])),sin(part.spin[2]+direction)*(width/2+part.height*slant),base+part.height)
                 }
-            }else if(cos(part.spin[0]+this.anim.direction)<=0&&cos(part.spin[1]+this.anim.direction)>0){
-                if(cos(part.spin[2]+this.anim.direction)>0){
-                    layer.triangle(sin(part.spin[0]+this.anim.direction)*width/2,base,-width/2,base,-width/2-part.height*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))*slant,base+part.height*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2])))
+            }else if(cos(part.spin[0]+direction)<=0&&cos(part.spin[1]+direction)>0){
+                if(cos(part.spin[2]+direction)>0){
+                    layer.triangle(sin(part.spin[0]+direction)*width/2,base,-width/2,base,-width/2-part.height*(1-(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))*slant,base+part.height*(1-(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2])))
                 }else{
-                    layer.quad(sin(part.spin[0]+this.anim.direction)*width/2,base,-width/2,base,-width/2-part.height*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))*slant,base+part.height*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2])),sin(part.spin[2]+this.anim.direction)*(width/2+part.height*slant),base+part.height)
+                    layer.quad(sin(part.spin[0]+direction)*width/2,base,-width/2,base,-width/2-part.height*(1-(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))*slant,base+part.height*(1-(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2])),sin(part.spin[2]+direction)*(width/2+part.height*slant),base+part.height)
                 }
-            }else if(cos(part.spin[0]+this.anim.direction)<=0&&cos(part.spin[1]+this.anim.direction)<=0&&cos(part.spin[2]+this.anim.direction)<=0){
-                layer.triangle(sin(part.spin[0]+this.anim.direction)*width/2,base,sin(part.spin[1]+this.anim.direction)*width/2,base,sin(part.spin[2]+this.anim.direction)*(width/2+part.height*slant),base+part.height)
+            }else if(cos(part.spin[0]+direction)<=0&&cos(part.spin[1]+direction)<=0&&cos(part.spin[2]+direction)<=0){
+                layer.triangle(sin(part.spin[0]+direction)*width/2,base,sin(part.spin[1]+direction)*width/2,base,sin(part.spin[2]+direction)*(width/2+part.height*slant),base+part.height)
             }
         }
     }
-    displayTrianglesFront(layer,parts,base,width,weight,slant,color,fade){
+    displayTrianglesFront(layer,parts,direction,base,width,weight,slant,color,fade){
         layer.fill(color[0],color[1],color[2],fade)
         layer.stroke(color[0],color[1],color[2],fade)
         layer.strokeWeight(weight)
         layer.strokeJoin(ROUND)
         for(let part of parts){
-            if(cos(part.spin[1]+this.anim.direction)<=0&&cos(part.spin[0]+this.anim.direction)>0){
-                if(cos(part.spin[2]+this.anim.direction)<=0){
-                    layer.triangle(sin(part.spin[0]+this.anim.direction)*width/2,base,width/2,base,width/2+part.height*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))*slant,base+part.height*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2])))
+            if(cos(part.spin[1]+direction)<=0&&cos(part.spin[0]+direction)>0){
+                if(cos(part.spin[2]+direction)<=0){
+                    layer.triangle(sin(part.spin[0]+direction)*width/2,base,width/2,base,width/2+part.height*(1-(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))*slant,base+part.height*(1-(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2])))
                 }else{
-                    layer.quad(sin(part.spin[0]+this.anim.direction)*width/2,base,width/2,base,width/2+part.height*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))*slant,base+part.height*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2])),sin(part.spin[2]+this.anim.direction)*(width/2+part.height*slant),base+part.height)
+                    layer.quad(sin(part.spin[0]+direction)*width/2,base,width/2,base,width/2+part.height*(1-(90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))*slant,base+part.height*(1-(90-part.spin[2]-direction)/(part.spin[1]-part.spin[2])),sin(part.spin[2]+direction)*(width/2+part.height*slant),base+part.height)
                 }
-            }else if(cos(part.spin[0]+this.anim.direction)<=0&&cos(part.spin[1]+this.anim.direction)>0){
-                if(cos(part.spin[2]+this.anim.direction)<=0){
-                    layer.triangle(sin(part.spin[1]+this.anim.direction)*width/2,base,-width/2,base,-width/2-part.height*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))*slant,base+part.height*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2])))
+            }else if(cos(part.spin[0]+direction)<=0&&cos(part.spin[1]+direction)>0){
+                if(cos(part.spin[2]+direction)<=0){
+                    layer.triangle(sin(part.spin[1]+direction)*width/2,base,-width/2,base,-width/2-part.height*(1-(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))*slant,base+part.height*(1-(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2])))
                 }else{
-                    layer.quad(sin(part.spin[1]+this.anim.direction)*width/2,base,-width/2,base,-width/2-part.height*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))*slant,base+part.height*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2])),sin(part.spin[2]+this.anim.direction)*(width/2+part.height*slant),base+part.height)
+                    layer.quad(sin(part.spin[1]+direction)*width/2,base,-width/2,base,-width/2-part.height*(1-(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))*slant,base+part.height*(1-(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2])),sin(part.spin[2]+direction)*(width/2+part.height*slant),base+part.height)
                 }
-            }else if(cos(part.spin[0]+this.anim.direction)>0&&cos(part.spin[1]+this.anim.direction)>0&&cos(part.spin[2]+this.anim.direction)>0){
-                layer.triangle(sin(part.spin[0]+this.anim.direction)*width/2,base,sin(part.spin[1]+this.anim.direction)*width/2,base,sin(part.spin[2]+this.anim.direction)*(width/2+part.height*slant),base+part.height)
+            }else if(cos(part.spin[0]+direction)>0&&cos(part.spin[1]+direction)>0&&cos(part.spin[2]+direction)>0){
+                layer.triangle(sin(part.spin[0]+direction)*width/2,base,sin(part.spin[1]+direction)*width/2,base,sin(part.spin[2]+direction)*(width/2+part.height*slant),base+part.height)
             }
         }
     }
-    displayTrianglesBackMerge(layer,parts,base,width,weight,slant,color1,color2,fade){
+    displayTrianglesBackMerge(layer,parts,direction,base,width,weight,slant,color1,color2,fade){
         layer.strokeWeight(weight)
         layer.strokeJoin(ROUND)
         let g=0
@@ -189,42 +187,42 @@ class player extends partisan{
             g++
             layer.fill(color1[0]*g/lg+color2[0]*(1-g/lg),color1[1]*g/lg+color2[1]*(1-g/lg),color1[2]*g/lg+color2[2]*(1-g/lg),fade)
             layer.stroke(color1[0]*g/lg+color2[0]*(1-g/lg),color1[1]*g/lg+color2[1]*(1-g/lg),color1[2]*g/lg+color2[2]*(1-g/lg),fade)
-            if(cos(part.spin[1]+this.anim.direction)<=0&&cos(part.spin[0]+this.anim.direction)>0){
-                if(cos(part.spin[2]+this.anim.direction)>0){
-                    layer.triangle(sin(part.spin[1]+this.anim.direction)*(width/2+part.y[1]*slant),base+part.y[1],
-                    width/2+(part.y[1]*(1-abs(90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]))*slant,
-                    base+part.y[1]*(1-abs(90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]),
-                    width/2+(part.y[2]*abs(1-(90-part.spin[2]-this.anim.direction)/abs(part.spin[1]-part.spin[2]))+part.y[1]*abs(90-part.spin[2]-this.anim.direction)/abs(part.spin[1]-part.spin[2]))*slant,
-                    base+part.y[2]*abs(1-(90-part.spin[2]-this.anim.direction)/abs(part.spin[1]-part.spin[2]))+part.y[1]*abs(90-part.spin[2]-this.anim.direction)/abs(part.spin[1]-part.spin[2]))
+            if(cos(part.spin[1]+direction)<=0&&cos(part.spin[0]+direction)>0){
+                if(cos(part.spin[2]+direction)>0){
+                    layer.triangle(sin(part.spin[1]+direction)*(width/2+part.y[1]*slant),base+part.y[1],
+                    width/2+(part.y[1]*(1-abs(90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]))*slant,
+                    base+part.y[1]*(1-abs(90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]),
+                    width/2+(part.y[2]*abs(1-(90-part.spin[2]-direction)/abs(part.spin[1]-part.spin[2]))+part.y[1]*abs(90-part.spin[2]-direction)/abs(part.spin[1]-part.spin[2]))*slant,
+                    base+part.y[2]*abs(1-(90-part.spin[2]-direction)/abs(part.spin[1]-part.spin[2]))+part.y[1]*abs(90-part.spin[2]-direction)/abs(part.spin[1]-part.spin[2]))
                 }else{
-                    layer.quad(sin(part.spin[2]+this.anim.direction)*(width/2+part.y[2]*slant),base+part.y[2],
-                    sin(part.spin[1]+this.anim.direction)*(width/2+part.y[1]*slant),base+part.y[1],
-                    width/2+(part.y[1]*(1-abs(90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]))*slant,
-                    base+part.y[1]*(1-abs(90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]),
-                    width/2+(part.y[2]*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))*slant,
-                    base+part.y[2]*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))
+                    layer.quad(sin(part.spin[2]+direction)*(width/2+part.y[2]*slant),base+part.y[2],
+                    sin(part.spin[1]+direction)*(width/2+part.y[1]*slant),base+part.y[1],
+                    width/2+(part.y[1]*(1-abs(90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]))*slant,
+                    base+part.y[1]*(1-abs(90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]),
+                    width/2+(part.y[2]*(1-(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))*slant,
+                    base+part.y[2]*(1-(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))
                 }
-            }else if(cos(part.spin[0]+this.anim.direction)<=0&&cos(part.spin[1]+this.anim.direction)>0){
-                if(cos(part.spin[2]+this.anim.direction)>0){
-                    layer.triangle(sin(part.spin[0]+this.anim.direction)*(width/2+part.y[0]*slant),base+part.y[0],
-                    -width/2-(part.y[0]*(1-abs(-90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(-90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]))*slant,
-                    base+part.y[0]*(1-abs(-90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(-90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]),
-                    -width/2-(part.y[2]*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))*slant,
-                    base+part.y[2]*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))
+            }else if(cos(part.spin[0]+direction)<=0&&cos(part.spin[1]+direction)>0){
+                if(cos(part.spin[2]+direction)>0){
+                    layer.triangle(sin(part.spin[0]+direction)*(width/2+part.y[0]*slant),base+part.y[0],
+                    -width/2-(part.y[0]*(1-abs(-90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(-90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]))*slant,
+                    base+part.y[0]*(1-abs(-90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(-90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]),
+                    -width/2-(part.y[2]*(1-(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))*slant,
+                    base+part.y[2]*(1-(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))
                 }else{
-                    layer.quad(sin(part.spin[2]+this.anim.direction)*(width/2+part.y[2]*slant),base+part.y[2],
-                    sin(part.spin[0]+this.anim.direction)*(width/2+part.y[0]*slant),base+part.y[0],
-                    -width/2-(part.y[0]*(1-abs(-90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(-90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]))*slant,
-                    base+part.y[0]*(1-abs(-90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(-90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]),
-                    -width/2-(part.y[2]*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))*slant,
-                    base+part.y[2]*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))
+                    layer.quad(sin(part.spin[2]+direction)*(width/2+part.y[2]*slant),base+part.y[2],
+                    sin(part.spin[0]+direction)*(width/2+part.y[0]*slant),base+part.y[0],
+                    -width/2-(part.y[0]*(1-abs(-90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(-90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]))*slant,
+                    base+part.y[0]*(1-abs(-90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(-90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]),
+                    -width/2-(part.y[2]*(1-(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))*slant,
+                    base+part.y[2]*(1-(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))
                 }
-            }else if(cos(part.spin[0]+this.anim.direction)<=0&&cos(part.spin[1]+this.anim.direction)<=0&&cos(part.spin[2]+this.anim.direction)<=0){
-                layer.triangle(sin(part.spin[0]+this.anim.direction)*(width/2+part.y[0]*slant),base+part.y[0],sin(part.spin[1]+this.anim.direction)*(width/2+part.y[1]*slant),base+part.y[1],sin(part.spin[2]+this.anim.direction)*(width/2+part.y[2]*slant),base+part.y[2])
+            }else if(cos(part.spin[0]+direction)<=0&&cos(part.spin[1]+direction)<=0&&cos(part.spin[2]+direction)<=0){
+                layer.triangle(sin(part.spin[0]+direction)*(width/2+part.y[0]*slant),base+part.y[0],sin(part.spin[1]+direction)*(width/2+part.y[1]*slant),base+part.y[1],sin(part.spin[2]+direction)*(width/2+part.y[2]*slant),base+part.y[2])
             }
         }
     }
-    displayTrianglesFrontMerge(layer,parts,base,width,weight,slant,color1,color2,fade){
+    displayTrianglesFrontMerge(layer,parts,direction,base,width,weight,slant,color1,color2,fade){
         layer.strokeWeight(weight)
         layer.strokeJoin(ROUND)
         let g=0
@@ -233,42 +231,423 @@ class player extends partisan{
             g++
             layer.fill(color1[0]*g/lg+color2[0]*(1-g/lg),color1[1]*g/lg+color2[1]*(1-g/lg),color1[2]*g/lg+color2[2]*(1-g/lg),fade)
             layer.stroke(color1[0]*g/lg+color2[0]*(1-g/lg),color1[1]*g/lg+color2[1]*(1-g/lg),color1[2]*g/lg+color2[2]*(1-g/lg),fade)
-            if(cos(part.spin[1]+this.anim.direction)<=0&&cos(part.spin[0]+this.anim.direction)>0){
-                if(cos(part.spin[2]+this.anim.direction)<=0){
-                    layer.triangle(sin(part.spin[0]+this.anim.direction)*(width/2+part.y[0]*slant),base+part.y[0],
-                    width/2+(part.y[0]*(1-abs(90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]))*slant,
-                    base+part.y[0]*(1-abs(90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(90-part.spin[0]-this.anim.direction)/abs(part.spin[1]-part.spin[0]),
-                    width/2+(part.y[2]*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))*slant,
-                    base+part.y[2]*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))
+            if(cos(part.spin[1]+direction)<=0&&cos(part.spin[0]+direction)>0){
+                if(cos(part.spin[2]+direction)<=0){
+                    layer.triangle(sin(part.spin[0]+direction)*(width/2+part.y[0]*slant),base+part.y[0],
+                    width/2+(part.y[0]*(1-abs(90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]))*slant,
+                    base+part.y[0]*(1-abs(90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]))+part.y[1]*abs(90-part.spin[0]-direction)/abs(part.spin[1]-part.spin[0]),
+                    width/2+(part.y[2]*(1-(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))*slant,
+                    base+part.y[2]*(1-(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))
                 }else{
-                    layer.quad(sin(part.spin[2]+this.anim.direction)*(width/2+part.y[2]*slant),base+part.y[2],
-                    sin(part.spin[0]+this.anim.direction)*(width/2+part.y[0]*slant),base+part.y[0],
-                    width/2+(part.y[0]*(1-(90-part.spin[0]-this.anim.direction)/(part.spin[1]-part.spin[0]))+part.y[1]*(90-part.spin[0]-this.anim.direction)/(part.spin[1]-part.spin[0]))*slant,
-                    base+part.y[0]*(1-(90-part.spin[0]-this.anim.direction)/(part.spin[1]-part.spin[0]))+part.y[1]*(90-part.spin[0]-this.anim.direction)/(part.spin[1]-part.spin[0]),
-                    width/2+(part.y[2]*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))*slant,
-                    base+part.y[2]*(1-(90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))
+                    layer.quad(sin(part.spin[2]+direction)*(width/2+part.y[2]*slant),base+part.y[2],
+                    sin(part.spin[0]+direction)*(width/2+part.y[0]*slant),base+part.y[0],
+                    width/2+(part.y[0]*(1-(90-part.spin[0]-direction)/(part.spin[1]-part.spin[0]))+part.y[1]*(90-part.spin[0]-direction)/(part.spin[1]-part.spin[0]))*slant,
+                    base+part.y[0]*(1-(90-part.spin[0]-direction)/(part.spin[1]-part.spin[0]))+part.y[1]*(90-part.spin[0]-direction)/(part.spin[1]-part.spin[0]),
+                    width/2+(part.y[2]*(1-(90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))*slant,
+                    base+part.y[2]*(1-(90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))
                 }
-            }else if(cos(part.spin[0]+this.anim.direction)<=0&&cos(part.spin[1]+this.anim.direction)>0){
-                if(cos(part.spin[2]+this.anim.direction)<=0){
-                    layer.triangle(sin(part.spin[1]+this.anim.direction)*(width/2+part.y[1]*slant),base+part.y[1],
-                    -width/2-(part.y[1]*(1-abs(-90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(-90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]))*slant,
-                    base+part.y[1]*(1-abs(-90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(-90-part.spin[1]-this.anim.direction)/abs(part.spin[0]-part.spin[1]),
-                    -width/2-(part.y[2]*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))*slant,
-                    base+part.y[2]*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(-90-part.spin[2]-this.anim.direction)/(part.spin[1]-part.spin[2]))
+            }else if(cos(part.spin[0]+direction)<=0&&cos(part.spin[1]+direction)>0){
+                if(cos(part.spin[2]+direction)<=0){
+                    layer.triangle(sin(part.spin[1]+direction)*(width/2+part.y[1]*slant),base+part.y[1],
+                    -width/2-(part.y[1]*(1-abs(-90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(-90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]))*slant,
+                    base+part.y[1]*(1-abs(-90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]))+part.y[0]*abs(-90-part.spin[1]-direction)/abs(part.spin[0]-part.spin[1]),
+                    -width/2-(part.y[2]*(1-(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))*slant,
+                    base+part.y[2]*(1-(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))+part.y[1]*(-90-part.spin[2]-direction)/(part.spin[1]-part.spin[2]))
                 }else{
-                    layer.quad(sin(part.spin[2]+this.anim.direction)*(width/2+part.y[2]*slant),base+part.y[2],
-                    sin(part.spin[1]+this.anim.direction)*(width/2+part.y[1]*slant),base+part.y[1],
-                    -width/2-(part.y[1]*(1-(-90-part.spin[1]-this.anim.direction)/(part.spin[0]-part.spin[1]))+part.y[0]*(-90-part.spin[1]-this.anim.direction)/(part.spin[0]-part.spin[1]))*slant,
-                    base+part.y[1]*(1-(-90-part.spin[1]-this.anim.direction)/(part.spin[0]-part.spin[1]))+part.y[0]*(-90-part.spin[1]-this.anim.direction)/(part.spin[0]-part.spin[1]),
-                    -width/2-(part.y[2]*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))*slant,
-                    base+part.y[2]*(1-(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(-90-part.spin[2]-this.anim.direction)/(part.spin[0]-part.spin[2]))
+                    layer.quad(sin(part.spin[2]+direction)*(width/2+part.y[2]*slant),base+part.y[2],
+                    sin(part.spin[1]+direction)*(width/2+part.y[1]*slant),base+part.y[1],
+                    -width/2-(part.y[1]*(1-(-90-part.spin[1]-direction)/(part.spin[0]-part.spin[1]))+part.y[0]*(-90-part.spin[1]-direction)/(part.spin[0]-part.spin[1]))*slant,
+                    base+part.y[1]*(1-(-90-part.spin[1]-direction)/(part.spin[0]-part.spin[1]))+part.y[0]*(-90-part.spin[1]-direction)/(part.spin[0]-part.spin[1]),
+                    -width/2-(part.y[2]*(1-(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))*slant,
+                    base+part.y[2]*(1-(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))+part.y[0]*(-90-part.spin[2]-direction)/(part.spin[0]-part.spin[2]))
                 }
-            }else if(cos(part.spin[0]+this.anim.direction)>0&&cos(part.spin[1]+this.anim.direction)>0&&cos(part.spin[2]+this.anim.direction)>0){
-                layer.triangle(sin(part.spin[0]+this.anim.direction)*(width/2+part.y[0]*slant),base+part.y[0],sin(part.spin[1]+this.anim.direction)*(width/2+part.y[1]*slant),base+part.y[1],sin(part.spin[2]+this.anim.direction)*(width/2+part.y[2]*slant),base+part.y[2])
+            }else if(cos(part.spin[0]+direction)>0&&cos(part.spin[1]+direction)>0&&cos(part.spin[2]+direction)>0){
+                layer.triangle(sin(part.spin[0]+direction)*(width/2+part.y[0]*slant),base+part.y[0],sin(part.spin[1]+direction)*(width/2+part.y[1]*slant),base+part.y[1],sin(part.spin[2]+direction)*(width/2+part.y[2]*slant),base+part.y[2])
             }
         }
     }
-    regulateGeneration(){
+    display(){
+        this.calculateParts()
+        this.layer.translate(this.position.x+this.offset.position.x,this.position.y+this.offset.position.y)
+        this.layer.scale(this.size)
+        if(this.fade>0&&this.size>0){
+            if(this.trigger.display.hair.back){
+                //this.displayTrianglesBack(this.layer,this.hair,-75,36,1,0.1,this.color.hair.back,this.fade)
+                //this.layer.strokeJoin(MITER)
+            }
+            /*if(this.anim.sleeve.back>0&&this.trigger.display.sleeve.back){
+                this.layer.noStroke()
+                this.layer.fill(230,186,197,this.fade*this.anim.sleeve.back)
+                this.layer.translate(-3,-51)
+                this.layer.rotate(-atan2(-12,27))
+                this.layer.quad(3,0,-3,0,-3,24,12,30)
+                this.layer.rotate(atan2(-12,27))
+                this.layer.translate(6,0)
+                this.layer.rotate(-atan2(12,27))
+                this.layer.quad(3,0,-3,0,-12,30,3,24)
+                this.layer.rotate(atan2(12,27))
+                this.layer.translate(-6,0)
+                this.layer.fill(235,209,216,this.fade*this.anim.sleeve.back)
+                this.layer.rotate(-atan2(-12,27))
+                this.layer.quad(1,0,-1,0,-1,25,4,27)
+                this.layer.rotate(atan2(-12,27))
+                this.layer.translate(6,0)
+                this.layer.rotate(-atan2(12,27))
+                this.layer.quad(1,0,-1,0,-4,27,1,25)
+                this.layer.rotate(atan2(12,27))
+                this.layer.translate(-3,51)
+            }*/
+            if(this.trigger.display.necklace.back){
+                this.layer.noFill()
+                this.layer.stroke(this.color.necklace[0],this.color.necklace[1],this.color.necklace[2],this.fade*this.anim.decoration)
+                this.layer.strokeWeight(0.5)
+                if(cos(this.spin.necklace[0]+this.anim.direction)<=0){
+                    this.layer.arc(0,-59,6,3,atan2(sin(90-this.spin.necklace[0]-this.anim.direction),cos(90-this.spin.necklace[0]-this.anim.direction)*2),0)
+                }
+                if(cos(this.spin.necklace[1]+this.anim.direction)<=0){
+                    this.layer.arc(0,-59,6,3,-180,atan2(sin(90-this.spin.necklace[1]-this.anim.direction),cos(90-this.spin.necklace[1]-this.anim.direction)*2))
+                }
+                if(cos(this.spin.necklace[0]+this.anim.direction)>0&&cos(this.spin.necklace[1]+this.anim.direction)>0){
+                    this.layer.arc(0,-59,6,3,-180,0)
+                }
+                if(!(this.spin.necklace[0]+this.anim.direction>-130&&this.spin.necklace[0]+this.anim.direction<65)){
+                    if(sin(this.spin.necklace[2]+this.anim.direction)*5.25<sin(this.spin.necklace[0]+this.anim.direction)*3){
+                        this.layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-180,-90)
+                    }else{
+                        this.layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-90,0)
+                    }
+                }
+                if(!(this.spin.necklace[1]+this.anim.direction<130&&this.spin.necklace[1]+this.anim.direction>-65)){
+                    if(sin(this.spin.necklace[2]+this.anim.direction)*5.25>sin(this.spin.necklace[1]+this.anim.direction)*3){
+                        this.layer.arc(sin(this.spin.necklace[1]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[1]+this.anim.direction)*6,10-cos(this.spin.necklace[1]+this.anim.direction)*3,-90,0)
+                    }else{
+                        this.layer.arc(sin(this.spin.necklace[1]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[1]+this.anim.direction)*6,10-cos(this.spin.necklace[1]+this.anim.direction)*3,-180,-90)
+                    }
+                }
+            }
+            /*this.layer.stroke(255,235,217,this.fade)
+            this.layer.strokeWeight(4)
+            this.layer.line(-3,-54,-12,-24)
+            this.layer.line(3,-54,12,-24)
+            this.layer.strokeWeight(0.8)
+            this.layer.stroke(202,51,60,this.fade*this.anim.kimono)
+            this.layer.fill(209,80,84,this.fade*this.anim.kimono)
+            this.layer.strokeJoin(ROUND)
+            this.layer.triangle(0,-44,-10,-50,-10,-38)
+            this.layer.triangle(0,-44,10,-50,10,-38)*/
+            if(this.trigger.display.kimono.fringe.back){
+                //this.displayTrianglesBack(this.layer,this.kimono.fringe,-39,18,0.5,0.2,this.color.kimono.fringe,this.fade*this.anim.decoration)
+                //this.layer.strokeJoin(MITER)
+            }
+            if(this.trigger.display.kimono.outside.back){
+                //this.displayTrianglesBack(this.layer,this.kimono.outside,-36,18,0.5,0.2,this.color.kimono.outsideBack,this.fade*this.anim.decoration)
+                //this.layer.strokeJoin(MITER)
+            }
+            if(this.trigger.display.kimono.main.front){
+                //this.displayTrianglesBackMerge(this.layer,this.kimono.main,-55,10,0.5,0.16,this.color.kimono.mainBack.start,this.color.kimono.mainBack.end,this.fade*this.anim.kimono)
+                //this.layer.strokeJoin(MITER)
+            }
+            /*this.layer.noStroke()
+            this.layer.fill(114,40,119,this.fade*this.anim.decoration)
+            for(let g=0;g<5;g++){
+                this.layer.ellipse(8-g*4,-25,0.25,1)
+                this.layer.ellipse(8.5-g*4,-25,0.125,0.5)
+                this.layer.ellipse(7.5-g*4,-25,0.125,0.5)
+            }
+            for(let g=0;g<4;g++){
+                this.layer.ellipse(6-g*4,-25.5,0.125,0.5)
+            }
+            this.layer.noStroke()*/
+            if(this.trigger.display.skin.body){
+                this.layer.noStroke()
+                this.layer.fill(this.color.skin.body[0],this.color.skin.body[1],this.color.skin.body[2],this.fade)
+                this.layer.ellipse(0,-46,12,30)
+            }
+            if(this.trigger.display.skin.button){
+                if(cos(this.spin.button+this.anim.direction)>0){
+                    this.layer.fill(this.color.skin.button[0],this.color.skin.button[1],this.color.skin.button[2],this.fade)
+                    this.layer.ellipse(sin(this.spin.button+this.anim.direction)*5.9,-42,1*cos(this.spin.button+this.anim.direction),2)
+                }
+            }
+            if(this.trigger.display.under.bottom){
+                this.layer.noStroke()
+                this.layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade)
+                this.layer.beginShape()
+                this.layer.vertex(-5.25,-38)
+                this.layer.bezierVertex(-5,-36,-3,-32,0,-31)
+                this.layer.bezierVertex(3,-32,5,-36,5.25,-38)
+                this.layer.endShape()
+                this.layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
+                for(let g=0,lg=this.spin.under.top.top.length;g<lg;g++){
+                    if(cos(this.spin.under.top.top[g]+this.anim.direction)>0){
+                        this.layer.ellipse(5*sin(this.spin.under.top.top[g]+this.anim.direction),-37.5,cos(this.spin.under.top.top[g]+this.anim.direction),2.5)
+                    }
+                }
+                for(let g=0,lg=this.spin.under.top.bottom.length;g<lg;g++){
+                    if(cos(this.spin.under.top.bottom[g]+this.anim.direction)>0){
+                        this.layer.ellipse(5*sin(this.spin.under.top.bottom[g]+this.anim.direction),-36.5,cos(this.spin.under.top.bottom[g]+this.anim.direction),2.5)
+                    }
+                }
+            }
+            if(this.trigger.display.under.top){
+                this.layer.noStroke()
+                this.layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade)
+                this.layer.quad(-5.5,-54,5.5,-54,6.25,-47,-6.25,-47)
+                this.layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
+                for(let g=0,lg=this.spin.under.top.top.length;g<lg;g++){
+                    if(cos(this.spin.under.top.top[g]+this.anim.direction)>0){
+                        this.layer.ellipse(5.5*sin(this.spin.under.top.top[g]+this.anim.direction),-53.5,cos(this.spin.under.top.top[g]+this.anim.direction),2.5)
+                        this.layer.ellipse(6.15*sin(this.spin.under.top.top[g]+this.anim.direction),-48.5,cos(this.spin.under.top.top[g]+this.anim.direction),2.5)
+                    }
+                }
+                for(let g=0,lg=this.spin.under.top.bottom.length;g<lg;g++){
+                    if(cos(this.spin.under.top.bottom[g]+this.anim.direction)>0){
+                        this.layer.ellipse(5.5*sin(this.spin.under.top.bottom[g]+this.anim.direction),-52.5,cos(this.spin.under.top.bottom[g]+this.anim.direction),2.5)
+                        this.layer.ellipse(6.15*sin(this.spin.under.top.bottom[g]+this.anim.direction),-47.5,cos(this.spin.under.top.bottom[g]+this.anim.direction),2.5)
+                    }
+                }
+            }
+            if(this.trigger.display.under.bow){
+                this.layer.noFill()
+                this.layer.stroke(this.color.under.bow[0],this.color.under.bow[1],this.color.under.bow[2],this.fade*this.anim.decoration)
+                this.layer.strokeWeight(0.4)
+                if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[0]/2+this.anim.direction)>0){
+                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[0]+this.anim.direction)*2.875,-53,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[0]+this.anim.direction)*5.5),1.6)
+                }
+                if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[1]/2+this.anim.direction)>0){
+                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[1]+this.anim.direction)*2.875,-53,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[1]+this.anim.direction)*5.5),1.6)
+                }
+                if(cos(this.spin.underBow.center/2+this.spin.underBow.end[0]/2+this.anim.direction)>0){
+                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,-53,sin(this.spin.underBow.end[0]+this.anim.direction)*6,-50.6)
+                }
+                if(cos(this.spin.underBow.center/2+this.spin.underBow.end[1]/2+this.anim.direction)>0){
+                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,-53,sin(this.spin.underBow.end[1]+this.anim.direction)*6,-50.6)
+                }
+            }
+            /*if(this.anim.sleeve.front>0&&this.trigger.display.sleeve.front){
+                this.layer.noStroke()
+                this.layer.fill(249,218,225,this.fade*this.anim.sleeve.front)
+                this.layer.translate(-3,-51)
+                this.layer.rotate(-atan2(-12,27))
+                this.layer.quad(3,0,-3,0,-4,12,4,12)
+                this.layer.rotate(atan2(-12,27))
+                this.layer.translate(6,0)
+                this.layer.rotate(-atan2(12,27))
+                this.layer.quad(3,0,-3,0,-4,12,4,12)
+                this.layer.rotate(atan2(12,27))
+                this.layer.translate(-6,0)
+                this.layer.fill(228,184,195,this.fade*this.anim.sleeve.front)
+                this.layer.rotate(-atan2(-12,27))
+                this.layer.quad(1,0,-1,0,-4/3,12,4/3,12)
+                this.layer.rotate(atan2(-12,27))
+                this.layer.translate(6,0)
+                this.layer.rotate(-atan2(12,27))
+                this.layer.quad(1,0,-1,0,-4/3,12,4/3,12)
+                this.layer.rotate(atan2(12,27))
+                this.layer.translate(-3,51)
+            }*/
+            for(let g=0;g<2;g++){
+                for(let h=0;h<2;h++){
+                    if((g==0&&h==0||g==1&&h==1)&&cos(this.spin.legs[0].bottom+this.anim.direction)<=cos(this.spin.legs[1].bottom+this.anim.direction)||(g==0&&h==1||g==1&&h==0)&&cos(this.spin.legs[0].bottom+this.anim.direction)>cos(this.spin.legs[1].bottom+this.anim.direction)){
+                        if(this.anim.sandal.back>0&&this.trigger.display.sandal.back){
+                            this.layer.translate(this.graphics.legs[h].sandal.back.x,this.graphics.legs[h].sandal.back.y+1.5)
+                            this.layer.scale(1,0.5)
+                            this.layer.rotate(-this.anim.direction+this.spin.sandal[h])
+                            this.layer.image(graphics.minor[0],-4*this.anim.sandal.back*this.fade,-4*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade)
+                            this.layer.rotate(this.anim.direction-this.spin.sandal[h])
+                            this.layer.scale(1,2)
+                            this.layer.translate(-this.graphics.legs[h].sandal.back.x,-this.graphics.legs[h].sandal.back.y-1.5)
+                        }
+                        if(this.anim.sandal.front>0&&this.trigger.display.sandal.front){
+                            this.layer.translate(this.graphics.legs[h].sandal.front.x,this.graphics.legs[h].sandal.front.y+1.5)
+                            this.layer.scale(1.2,0.6)
+                            this.layer.rotate(-this.anim.direction+this.spin.sandal[h])
+                            for(let i=0;i<16;i++){
+                                if(cos(this.anim.direction+(65-floor(i/2)*5)*((i%2)*2-1)-this.spin.sandal[h])<=0.1){
+                                    this.layer.image(graphics.minor[i+1],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
+                                }
+                            }
+                            for(let i=0;i<16;i++){
+                                if(cos(this.anim.direction+(65-floor(i/2)*5)*((i%2)*2-1)-this.spin.sandal[h])<=0.1){
+                                    this.layer.image(graphics.minor[i+17],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
+                                }
+                            }
+                            this.layer.rotate(this.anim.direction-this.spin.sandal[h])
+                            this.layer.scale(5/6,5/3)
+                            this.layer.translate(-this.graphics.legs[h].sandal.front.x,-this.graphics.legs[h].sandal.front.y-1.5)
+                        }
+                        if(this.trigger.display.skin.legs){
+                            this.layer.stroke(this.color.skin.legs[0],this.color.skin.legs[1],this.color.skin.legs[2],this.fade)
+                            this.layer.strokeWeight(4)
+                            this.layer.line(this.graphics.legs[h].top.x,this.graphics.legs[h].top.y,this.graphics.legs[h].middle.x,this.parts.legs[h].middle.y)
+                            this.layer.line(this.graphics.legs[h].middle.x,this.graphics.legs[h].middle.y,this.graphics.legs[h].bottom.x,this.parts.legs[h].bottom.y)
+                        }
+                        if(this.anim.sandal.front>0&&this.trigger.display.sandal.front){
+                            this.layer.translate(this.graphics.legs[h].sandal.front.x,this.graphics.legs[h].sandal.front.y+1.5)
+                            this.layer.scale(1.2,0.6)
+                            this.layer.rotate(-this.anim.direction+this.spin.sandal[h])
+                            for(let i=0;i<16;i++){
+                                if(cos(this.anim.direction+(65-floor(i/2)*5)*((i%2)*2-1)-this.spin.sandal[h])>0.1){
+                                    this.layer.image(graphics.minor[i+1],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
+                                }
+                            }
+                            for(let i=0;i<16;i++){
+                                if(cos(this.anim.direction+(65-floor(i/2)*5)*((i%2)*2-1)-this.spin.sandal[h])>0.1){
+                                    this.layer.image(graphics.minor[i+17],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
+                                }
+                            }
+                            this.layer.rotate(this.anim.direction-this.spin.sandal[h])
+                            this.layer.scale(5/6,5/3)
+                            this.layer.translate(-this.graphics.legs[h].sandal.front.x,-this.graphics.legs[h].sandal.front.y-1.5)
+                        }
+                    }
+                }
+            }
+            if(this.trigger.display.necklace.front){
+                this.layer.noFill()
+                this.layer.stroke(this.color.necklace[0],this.color.necklace[1],this.color.necklace[2],this.fade*this.anim.decoration)
+                this.layer.strokeWeight(0.5)
+                if(cos(this.spin.necklace[0]+this.anim.direction)>0){
+                    this.layer.arc(0,-59,6,3,atan2(sin(90-this.spin.necklace[0]-this.anim.direction),cos(90-this.spin.necklace[0]-this.anim.direction)*2),180)
+                }
+                if(cos(this.spin.necklace[1]+this.anim.direction)>0){
+                    this.layer.arc(0,-59,6,3,0,atan2(sin(90-this.spin.necklace[1]-this.anim.direction),cos(90-this.spin.necklace[1]-this.anim.direction)*2))
+                }
+                if(cos(this.spin.necklace[0]+this.anim.direction)<=0&&cos(this.spin.necklace[1]+this.anim.direction)<=0){
+                    this.layer.arc(0,-59,6,3,0,180)
+                }
+                if(this.spin.necklace[0]+this.anim.direction>-130&&this.spin.necklace[0]+this.anim.direction<65){
+                    if(sin(this.spin.necklace[2]+this.anim.direction)*5.25<sin(this.spin.necklace[0]+this.anim.direction)*3){
+                        this.layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-180,-90)
+                    }else{
+                        this.layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-90,0)
+                    }
+                }
+                if(this.spin.necklace[1]+this.anim.direction<130&&this.spin.necklace[1]+this.anim.direction>-65){
+                    if(sin(this.spin.necklace[2]+this.anim.direction)*5.25>sin(this.spin.necklace[1]+this.anim.direction)*3){
+                        this.layer.arc(sin(this.spin.necklace[1]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[1]+this.anim.direction)*6,10-cos(this.spin.necklace[1]+this.anim.direction)*3,-90,0)
+                    }else{
+                        this.layer.arc(sin(this.spin.necklace[1]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[1]+this.anim.direction)*6,10-cos(this.spin.necklace[1]+this.anim.direction)*3,-180,-90)
+                    }
+                }
+            }
+            /*this.layer.noStroke()
+            this.layer.fill(114,40,119,this.fade*this.anim.decoration)
+            for(let g=0;g<5;g++){
+                this.layer.ellipse(8.4-g*4,-26-g*2,0.25,1)
+                this.layer.ellipse(8.9-g*4,-25.8-g*2,0.125,0.5)
+                this.layer.ellipse(7.9-g*4,-26.2-g*2,0.125,0.5)
+            }
+            for(let g=0;g<4;g++){
+                this.layer.ellipse(6.35-g*4,-27.5-g*2,0.125,0.5)
+            }
+            this.layer.fill(114,40,119,this.fade*this.anim.decoration)
+            for(let g=0;g<5;g++){
+                this.layer.ellipse(-8.4+g*4,-26-g*2,0.25,1)
+                this.layer.ellipse(-8.9+g*4,-25.8-g*2,0.125,0.5)
+                this.layer.ellipse(-7.9+g*4,-26.2-g*2,0.125,0.5)
+            }
+            for(let g=0;g<4;g++){
+                this.layer.ellipse(-6.35+g*4,-27.5-g*2,0.125,0.5)
+            }*/
+            if(this.trigger.display.kimono.main.front){
+                //this.displayTrianglesFrontMerge(this.layer,this.kimono.main,-55,10,0.5,0.16,this.color.kimono.main.start,this.color.kimono.main.end,this.fade*this.anim.kimono)
+                //this.layer.strokeJoin(MITER)
+            }
+            if(this.trigger.display.kimono.outside.front){
+                //this.displayTrianglesFront(this.layer,this.kimono.outside,-36,18,0.5,0.2,this.color.kimono.outside,this.fade*this.anim.decoration)
+                //this.layer.quad(-5,-55,5,-55,9,-36,-9,-36)
+                //this.layer.strokeJoin(MITER)
+            }
+            if(this.trigger.display.kimono.fringe.front){
+                //this.displayTrianglesFront(this.layer,this.kimono.fringe,-39,18,0.5,0.2,this.color.kimono.fringe,this.fade*this.anim.decoration)
+                //this.layer.strokeJoin(MITER)
+            }
+            /*this.layer.strokeJoin(ROUND)
+            this.layer.strokeWeight(0.8)
+            this.layer.stroke(202,51,60,this.fade*this.anim.kimono)
+            this.layer.fill(209,80,84,this.fade*this.anim.kimono)
+            this.layer.quad(1,-49,1,-45,5.5,-53,4.5,-56)
+            this.layer.quad(1,-49,1,-45,-5.5,-53,-4.5,-56)
+            this.layer.quad(-7.8,-46,7.8,-46,8.2,-44,-8.2,-44)
+            this.layer.quad(-8.2,-44,8.2,-44,8.4,-42,-8.4,-42)
+            this.layer.rect(5,-40.5,2,3)
+            this.layer.strokeJoin(MITER)*///Rework needed
+            if(this.trigger.display.kimono.bow){
+                this.layer.noFill()
+                this.layer.stroke(this.color.kimono.bow[0],this.color.kimono.bow[1],this.color.kimono.bow[2],this.fade*this.anim.decoration)
+                this.layer.strokeWeight(0.25)
+                if(cos(this.spin.bow.center/2+this.spin.bow.loop[0]/2+this.anim.direction)>0){
+                    this.layer.ellipse(sin(this.spin.bow.center+this.anim.direction)*2.875+sin(this.spin.bow.loop[0]+this.anim.direction)*2.875,-53,(sin(this.spin.bow.center+this.anim.direction)*5.5-sin(this.spin.bow.loop[0]+this.anim.direction)*5.5),1)
+                }
+                if(cos(this.spin.bow.center/2+this.spin.bow.loop[1]/2+this.anim.direction)>0){
+                    this.layer.ellipse(sin(this.spin.bow.center+this.anim.direction)*2.875+sin(this.spin.bow.loop[1]+this.anim.direction)*2.875,-53,(sin(this.spin.bow.center+this.anim.direction)*5.5-sin(this.spin.bow.loop[1]+this.anim.direction)*5.5),1)
+                }
+                if(cos(this.spin.bow.center/2+this.spin.bow.end[0]/2+this.anim.direction)>0){
+                    this.layer.line(sin(this.spin.bow.center+this.anim.direction)*5.75,-53,sin(this.spin.bow.end[0]+this.anim.direction)*6,-51.5)
+                }
+                if(cos(this.spin.bow.center/2+this.spin.bow.end[1]/2+this.anim.direction)>0){
+                    this.layer.line(sin(this.spin.bow.center+this.anim.direction)*5.75,-53,sin(this.spin.bow.end[1]+this.anim.direction)*6,-51.5)
+                }
+            }
+            /*this.layer.noStroke()
+            for(let g=1;g<6;g++){
+                this.layer.fill(206+g*38/3,107+g*59/3,113+g*61/3,this.fade)
+                this.layer.quad(13.5-(g%2)*2,-72+g*3,12-(g%2)*2,-66+g*3,10.5-(g%2)*2,-72+g*3,12-(g%2)*2,-78+g*3)
+            }*/
+            if(this.trigger.display.skin.head){
+                this.layer.fill(this.color.skin.head[0],this.color.skin.head[1],this.color.skin.head[2],this.fade)
+                this.layer.noStroke()
+                this.layer.ellipse(0,-75,30,30)
+            }
+            if(this.trigger.display.eye){
+                this.layer.stroke(this.color.eye.back[0],this.color.eye.back[1],this.color.eye.back[2],this.fade)
+                this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
+                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2)
+                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2)
+                this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
+                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2)
+                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2)
+                this.layer.stroke(this.color.eye.front[0],this.color.eye.front[1],this.color.eye.front[2],this.fade)
+                this.layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
+                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2+0.2-this.anim.eye*0.2)
+                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2+0.2-this.anim.eye*0.2)
+                this.layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
+                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2+0.2-this.anim.eye*0.2)
+                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2+0.2-this.anim.eye*0.2)
+            }
+            if(this.trigger.display.hair.front){
+                //this.displayTrianglesFront(this.layer,this.hair,-75,36,1,0.1,this.color.hair.front,this.fade)
+                //this.layer.arc(0,-75,36,36,-180,0)
+                //this.layer.line(-18,-75,18,-75)
+                //this.layer.strokeJoin(MITER)
+            }
+            /*this.layer.stroke(111,23,27,this.fade)
+            this.layer.strokeWeight(0.5)
+            this.layer.line(13,-58.5,9,-58.5)*/
+            if(this.trigger.display.flower){
+                if(constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1)>0){
+                    this.layer.image(graphics.minor[33],sin(this.spin.flower[0]+this.anim.direction)*18.5-10*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),-77.5-15*this.fade,20*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),30*this.fade)
+                }
+            }
+            if(this.anim.kimono>0){
+                //this.layer.image(graphics.minor[34],-3-15*this.anim.kimono*this.fade,-44-15*this.anim.kimono*this.fade,30*this.anim.kimono*this.fade,30*this.anim.kimono*this.fade)
+            }
+        }
+        this.layer.scale(1/this.size)
+        this.layer.translate(-this.position.x-this.offset.position.x,-this.position.y-this.offset.position.y)
+    }
+    update(){
+        super.update()
+        if(inputs.keys[0][0]||inputs.keys[1][0]){
+            //this.velocity.x-=this.movement.speed
+            this.anim.direction-=3
+        }
+        if(inputs.keys[0][1]||inputs.keys[1][1]){
+            //this.velocity.x+=this.movement.speed
+            this.anim.direction+=3
+        }
+        //this.anim.direction+=6
         if(this.anim.direction>180){
             this.anim.direction-=360
         }else if(this.anim.direction<-180){
@@ -293,392 +672,6 @@ class player extends partisan{
                 }
             }
         }
-    }
-    generateImage(layer){
-        this.calculateParts()
-        if(this.fade>0&&this.size>0){
-            if(this.trigger.display.hair.back){
-                this.displayTrianglesBack(layer,this.hair,-75,36,1,0.1,this.color.hair.back,this.fade)
-                layer.strokeJoin(MITER)
-            }
-            /*if(this.anim.sleeve.back>0&&this.trigger.display.sleeve.back){
-                layer.noStroke()
-                layer.fill(230,186,197,this.fade*this.anim.sleeve.back)
-                layer.translate(-3,-51)
-                layer.rotate(-atan2(-12,27))
-                layer.quad(3,0,-3,0,-3,24,12,30)
-                layer.rotate(atan2(-12,27))
-                layer.translate(6,0)
-                layer.rotate(-atan2(12,27))
-                layer.quad(3,0,-3,0,-12,30,3,24)
-                layer.rotate(atan2(12,27))
-                layer.translate(-6,0)
-                layer.fill(235,209,216,this.fade*this.anim.sleeve.back)
-                layer.rotate(-atan2(-12,27))
-                layer.quad(1,0,-1,0,-1,25,4,27)
-                layer.rotate(atan2(-12,27))
-                layer.translate(6,0)
-                layer.rotate(-atan2(12,27))
-                layer.quad(1,0,-1,0,-4,27,1,25)
-                layer.rotate(atan2(12,27))
-                layer.translate(-3,51)
-            }*/
-            if(this.trigger.display.necklace.back){
-                layer.noFill()
-                layer.stroke(this.color.necklace[0],this.color.necklace[1],this.color.necklace[2],this.fade*this.anim.decoration)
-                layer.strokeWeight(0.5)
-                if(cos(this.spin.necklace[0]+this.anim.direction)<=0){
-                    layer.arc(0,-59,6,3,atan2(sin(90-this.spin.necklace[0]-this.anim.direction),cos(90-this.spin.necklace[0]-this.anim.direction)*2),0)
-                }
-                if(cos(this.spin.necklace[1]+this.anim.direction)<=0){
-                    layer.arc(0,-59,6,3,-180,atan2(sin(90-this.spin.necklace[1]-this.anim.direction),cos(90-this.spin.necklace[1]-this.anim.direction)*2))
-                }
-                if(cos(this.spin.necklace[0]+this.anim.direction)>0&&cos(this.spin.necklace[1]+this.anim.direction)>0){
-                    layer.arc(0,-59,6,3,-180,0)
-                }
-                if(!(this.spin.necklace[0]+this.anim.direction>-130&&this.spin.necklace[0]+this.anim.direction<65)){
-                    if(sin(this.spin.necklace[2]+this.anim.direction)*5.25<sin(this.spin.necklace[0]+this.anim.direction)*3){
-                        layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-180,-90)
-                    }else{
-                        layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-90,0)
-                    }
-                }
-                if(!(this.spin.necklace[1]+this.anim.direction<130&&this.spin.necklace[1]+this.anim.direction>-65)){
-                    if(sin(this.spin.necklace[2]+this.anim.direction)*5.25>sin(this.spin.necklace[1]+this.anim.direction)*3){
-                        layer.arc(sin(this.spin.necklace[1]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[1]+this.anim.direction)*6,10-cos(this.spin.necklace[1]+this.anim.direction)*3,-90,0)
-                    }else{
-                        layer.arc(sin(this.spin.necklace[1]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[1]+this.anim.direction)*6,10-cos(this.spin.necklace[1]+this.anim.direction)*3,-180,-90)
-                    }
-                }
-            }
-            /*layer.stroke(255,235,217,this.fade)
-            layer.strokeWeight(4)
-            layer.line(-3,-54,-12,-24)
-            layer.line(3,-54,12,-24)
-            layer.strokeWeight(0.8)
-            layer.stroke(202,51,60,this.fade*this.anim.kimono)
-            layer.fill(209,80,84,this.fade*this.anim.kimono)
-            layer.strokeJoin(ROUND)
-            layer.triangle(0,-44,-10,-50,-10,-38)
-            layer.triangle(0,-44,10,-50,10,-38)*/
-            if(this.trigger.display.kimono.fringe.back){
-                this.displayTrianglesBack(layer,this.kimono.fringe,-39,18,0.5,0.2,this.color.kimono.fringe,this.fade*this.anim.decoration)
-                layer.strokeJoin(MITER)
-            }
-            if(this.trigger.display.kimono.outside.back){
-                this.displayTrianglesBack(layer,this.kimono.outside,-36,18,0.5,0.2,this.color.kimono.outsideBack,this.fade*this.anim.decoration)
-                layer.strokeJoin(MITER)
-            }
-            if(this.trigger.display.kimono.main.front){
-                this.displayTrianglesBackMerge(layer,this.kimono.main,-55,10,0.5,0.16,this.color.kimono.mainBack.start,this.color.kimono.mainBack.end,this.fade*this.anim.kimono)
-                layer.strokeJoin(MITER)
-            }
-            /*layer.noStroke()
-            layer.fill(114,40,119,this.fade*this.anim.decoration)
-            for(let g=0;g<5;g++){
-                layer.ellipse(8-g*4,-25,0.25,1)
-                layer.ellipse(8.5-g*4,-25,0.125,0.5)
-                layer.ellipse(7.5-g*4,-25,0.125,0.5)
-            }
-            for(let g=0;g<4;g++){
-                layer.ellipse(6-g*4,-25.5,0.125,0.5)
-            }
-            layer.noStroke()*/
-            if(this.trigger.display.skin.body){
-                layer.noStroke()
-                layer.fill(this.color.skin.body[0],this.color.skin.body[1],this.color.skin.body[2],this.fade)
-                layer.ellipse(0,-46,12,30)
-            }
-            if(this.trigger.display.skin.button){
-                if(cos(this.spin.button+this.anim.direction)>0){
-                    layer.fill(this.color.skin.button[0],this.color.skin.button[1],this.color.skin.button[2],this.fade)
-                    layer.ellipse(sin(this.spin.button+this.anim.direction)*5.9,-42,1*cos(this.spin.button+this.anim.direction),2)
-                }
-            }
-            if(this.trigger.display.under.bottom){
-                layer.noStroke()
-                layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade)
-                layer.beginShape()
-                layer.vertex(-5.25,-38)
-                layer.bezierVertex(-5,-36,-3,-32,0,-31)
-                layer.bezierVertex(3,-32,5,-36,5.25,-38)
-                layer.endShape()
-                layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
-                for(let g=0,lg=this.spin.under.top.top.length;g<lg;g++){
-                    if(cos(this.spin.under.top.top[g]+this.anim.direction)>0){
-                        layer.ellipse(5*sin(this.spin.under.top.top[g]+this.anim.direction),-37.5,cos(this.spin.under.top.top[g]+this.anim.direction),2.5)
-                    }
-                }
-                for(let g=0,lg=this.spin.under.top.bottom.length;g<lg;g++){
-                    if(cos(this.spin.under.top.bottom[g]+this.anim.direction)>0){
-                        layer.ellipse(5*sin(this.spin.under.top.bottom[g]+this.anim.direction),-36.5,cos(this.spin.under.top.bottom[g]+this.anim.direction),2.5)
-                    }
-                }
-            }
-            if(this.trigger.display.under.top){
-                layer.noStroke()
-                layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade)
-                layer.quad(-5.5,-54,5.5,-54,6.25,-47,-6.25,-47)
-                layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
-                for(let g=0,lg=this.spin.under.top.top.length;g<lg;g++){
-                    if(cos(this.spin.under.top.top[g]+this.anim.direction)>0){
-                        layer.ellipse(5.5*sin(this.spin.under.top.top[g]+this.anim.direction),-53.5,cos(this.spin.under.top.top[g]+this.anim.direction),2.5)
-                        layer.ellipse(6.15*sin(this.spin.under.top.top[g]+this.anim.direction),-48.5,cos(this.spin.under.top.top[g]+this.anim.direction),2.5)
-                    }
-                }
-                for(let g=0,lg=this.spin.under.top.bottom.length;g<lg;g++){
-                    if(cos(this.spin.under.top.bottom[g]+this.anim.direction)>0){
-                        layer.ellipse(5.5*sin(this.spin.under.top.bottom[g]+this.anim.direction),-52.5,cos(this.spin.under.top.bottom[g]+this.anim.direction),2.5)
-                        layer.ellipse(6.15*sin(this.spin.under.top.bottom[g]+this.anim.direction),-47.5,cos(this.spin.under.top.bottom[g]+this.anim.direction),2.5)
-                    }
-                }
-            }
-            if(this.trigger.display.under.bow){
-                layer.noFill()
-                layer.stroke(this.color.under.bow[0],this.color.under.bow[1],this.color.under.bow[2],this.fade*this.anim.decoration)
-                layer.strokeWeight(0.4)
-                if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[0]/2+this.anim.direction)>0){
-                    layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[0]+this.anim.direction)*2.875,-53,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[0]+this.anim.direction)*5.5),1.6)
-                }
-                if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[1]/2+this.anim.direction)>0){
-                    layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[1]+this.anim.direction)*2.875,-53,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[1]+this.anim.direction)*5.5),1.6)
-                }
-                if(cos(this.spin.underBow.center/2+this.spin.underBow.end[0]/2+this.anim.direction)>0){
-                    layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,-53,sin(this.spin.underBow.end[0]+this.anim.direction)*6,-50.6)
-                }
-                if(cos(this.spin.underBow.center/2+this.spin.underBow.end[1]/2+this.anim.direction)>0){
-                    layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,-53,sin(this.spin.underBow.end[1]+this.anim.direction)*6,-50.6)
-                }
-            }
-            /*if(this.anim.sleeve.front>0&&this.trigger.display.sleeve.front){
-                layer.noStroke()
-                layer.fill(249,218,225,this.fade*this.anim.sleeve.front)
-                layer.translate(-3,-51)
-                layer.rotate(-atan2(-12,27))
-                layer.quad(3,0,-3,0,-4,12,4,12)
-                layer.rotate(atan2(-12,27))
-                layer.translate(6,0)
-                layer.rotate(-atan2(12,27))
-                layer.quad(3,0,-3,0,-4,12,4,12)
-                layer.rotate(atan2(12,27))
-                layer.translate(-6,0)
-                layer.fill(228,184,195,this.fade*this.anim.sleeve.front)
-                layer.rotate(-atan2(-12,27))
-                layer.quad(1,0,-1,0,-4/3,12,4/3,12)
-                layer.rotate(atan2(-12,27))
-                layer.translate(6,0)
-                layer.rotate(-atan2(12,27))
-                layer.quad(1,0,-1,0,-4/3,12,4/3,12)
-                layer.rotate(atan2(12,27))
-                layer.translate(-3,51)
-            }*/
-            for(let g=0;g<2;g++){
-                for(let h=0;h<2;h++){
-                    if((g==0&&h==0||g==1&&h==1)&&cos(this.spin.legs[0].bottom+this.anim.direction)<=cos(this.spin.legs[1].bottom+this.anim.direction)||(g==0&&h==1||g==1&&h==0)&&cos(this.spin.legs[0].bottom+this.anim.direction)>cos(this.spin.legs[1].bottom+this.anim.direction)){
-                        if(this.anim.sandal.back>0&&this.trigger.display.sandal.back){
-                            layer.translate(this.graphics.legs[h].sandal.back.x,this.graphics.legs[h].sandal.back.y+1.5)
-                            layer.scale(1,0.5)
-                            layer.rotate(-this.anim.direction+this.spin.sandal[h])
-                            layer.image(graphics.minor[0],-4*this.anim.sandal.back*this.fade,-4*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade)
-                            layer.rotate(this.anim.direction-this.spin.sandal[h])
-                            layer.scale(1,2)
-                            layer.translate(-this.graphics.legs[h].sandal.back.x,-this.graphics.legs[h].sandal.back.y-1.5)
-                        }
-                        if(this.anim.sandal.front>0&&this.trigger.display.sandal.front){
-                            layer.translate(this.graphics.legs[h].sandal.front.x,this.graphics.legs[h].sandal.front.y+1.5)
-                            layer.scale(1.2,0.6)
-                            layer.rotate(-this.anim.direction+this.spin.sandal[h])
-                            for(let i=0;i<16;i++){
-                                if(cos(this.anim.direction+(65-floor(i/2)*5)*((i%2)*2-1)-this.spin.sandal[h])<=0.1){
-                                    layer.image(graphics.minor[i+1],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
-                                }
-                            }
-                            for(let i=0;i<16;i++){
-                                if(cos(this.anim.direction+(65-floor(i/2)*5)*((i%2)*2-1)-this.spin.sandal[h])<=0.1){
-                                    layer.image(graphics.minor[i+17],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
-                                }
-                            }
-                            layer.rotate(this.anim.direction-this.spin.sandal[h])
-                            layer.scale(5/6,5/3)
-                            layer.translate(-this.graphics.legs[h].sandal.front.x,-this.graphics.legs[h].sandal.front.y-1.5)
-                        }
-                        if(this.trigger.display.skin.legs){
-                            layer.stroke(this.color.skin.legs[0],this.color.skin.legs[1],this.color.skin.legs[2],this.fade)
-                            layer.strokeWeight(4)
-                            layer.line(this.graphics.legs[h].top.x,this.graphics.legs[h].top.y,this.graphics.legs[h].middle.x,this.parts.legs[h].middle.y)
-                            layer.line(this.graphics.legs[h].middle.x,this.graphics.legs[h].middle.y,this.graphics.legs[h].bottom.x,this.parts.legs[h].bottom.y)
-                        }
-                        if(this.anim.sandal.front>0&&this.trigger.display.sandal.front){
-                            layer.translate(this.graphics.legs[h].sandal.front.x,this.graphics.legs[h].sandal.front.y+1.5)
-                            layer.scale(1.2,0.6)
-                            layer.rotate(-this.anim.direction+this.spin.sandal[h])
-                            for(let i=0;i<16;i++){
-                                if(cos(this.anim.direction+(65-floor(i/2)*5)*((i%2)*2-1)-this.spin.sandal[h])>0.1){
-                                    layer.image(graphics.minor[i+1],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
-                                }
-                            }
-                            for(let i=0;i<16;i++){
-                                if(cos(this.anim.direction+(65-floor(i/2)*5)*((i%2)*2-1)-this.spin.sandal[h])>0.1){
-                                    layer.image(graphics.minor[i+17],-4*this.anim.sandal.front*this.fade,-4*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade,8*this.anim.sandal.front*this.fade)
-                                }
-                            }
-                            layer.rotate(this.anim.direction-this.spin.sandal[h])
-                            layer.scale(5/6,5/3)
-                            layer.translate(-this.graphics.legs[h].sandal.front.x,-this.graphics.legs[h].sandal.front.y-1.5)
-                        }
-                    }
-                }
-            }
-            if(this.trigger.display.necklace.front){
-                layer.noFill()
-                layer.stroke(this.color.necklace[0],this.color.necklace[1],this.color.necklace[2],this.fade*this.anim.decoration)
-                layer.strokeWeight(0.5)
-                if(cos(this.spin.necklace[0]+this.anim.direction)>0){
-                    layer.arc(0,-59,6,3,atan2(sin(90-this.spin.necklace[0]-this.anim.direction),cos(90-this.spin.necklace[0]-this.anim.direction)*2),180)
-                }
-                if(cos(this.spin.necklace[1]+this.anim.direction)>0){
-                    layer.arc(0,-59,6,3,0,atan2(sin(90-this.spin.necklace[1]-this.anim.direction),cos(90-this.spin.necklace[1]-this.anim.direction)*2))
-                }
-                if(cos(this.spin.necklace[0]+this.anim.direction)<=0&&cos(this.spin.necklace[1]+this.anim.direction)<=0){
-                    layer.arc(0,-59,6,3,0,180)
-                }
-                if(this.spin.necklace[0]+this.anim.direction>-130&&this.spin.necklace[0]+this.anim.direction<65){
-                    if(sin(this.spin.necklace[2]+this.anim.direction)*5.25<sin(this.spin.necklace[0]+this.anim.direction)*3){
-                        layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-180,-90)
-                    }else{
-                        layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-90,0)
-                    }
-                }
-                if(this.spin.necklace[1]+this.anim.direction<130&&this.spin.necklace[1]+this.anim.direction>-65){
-                    if(sin(this.spin.necklace[2]+this.anim.direction)*5.25>sin(this.spin.necklace[1]+this.anim.direction)*3){
-                        layer.arc(sin(this.spin.necklace[1]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[1]+this.anim.direction)*6,10-cos(this.spin.necklace[1]+this.anim.direction)*3,-90,0)
-                    }else{
-                        layer.arc(sin(this.spin.necklace[1]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[1]+this.anim.direction)*6,10-cos(this.spin.necklace[1]+this.anim.direction)*3,-180,-90)
-                    }
-                }
-            }
-            /*layer.noStroke()
-            layer.fill(114,40,119,this.fade*this.anim.decoration)
-            for(let g=0;g<5;g++){
-                layer.ellipse(8.4-g*4,-26-g*2,0.25,1)
-                layer.ellipse(8.9-g*4,-25.8-g*2,0.125,0.5)
-                layer.ellipse(7.9-g*4,-26.2-g*2,0.125,0.5)
-            }
-            for(let g=0;g<4;g++){
-                layer.ellipse(6.35-g*4,-27.5-g*2,0.125,0.5)
-            }
-            layer.fill(114,40,119,this.fade*this.anim.decoration)
-            for(let g=0;g<5;g++){
-                layer.ellipse(-8.4+g*4,-26-g*2,0.25,1)
-                layer.ellipse(-8.9+g*4,-25.8-g*2,0.125,0.5)
-                layer.ellipse(-7.9+g*4,-26.2-g*2,0.125,0.5)
-            }
-            for(let g=0;g<4;g++){
-                layer.ellipse(-6.35+g*4,-27.5-g*2,0.125,0.5)
-            }*/
-            if(this.trigger.display.kimono.main.front){
-                this.displayTrianglesFrontMerge(layer,this.kimono.main,-55,10,0.5,0.16,this.color.kimono.main.start,this.color.kimono.main.end,this.fade*this.anim.kimono)
-                layer.strokeJoin(MITER)
-            }
-            if(this.trigger.display.kimono.outside.front){
-                this.displayTrianglesFront(layer,this.kimono.outside,-36,18,0.5,0.2,this.color.kimono.outside,this.fade*this.anim.decoration)
-                layer.quad(-5,-55,5,-55,9,-36,-9,-36)
-                layer.strokeJoin(MITER)
-            }
-            if(this.trigger.display.kimono.fringe.front){
-                this.displayTrianglesFront(layer,this.kimono.fringe,-39,18,0.5,0.2,this.color.kimono.fringe,this.fade*this.anim.decoration)
-                layer.strokeJoin(MITER)
-            }
-            /*layer.strokeJoin(ROUND)
-            layer.strokeWeight(0.8)
-            layer.stroke(202,51,60,this.fade*this.anim.kimono)
-            layer.fill(209,80,84,this.fade*this.anim.kimono)
-            layer.quad(1,-49,1,-45,5.5,-53,4.5,-56)
-            layer.quad(1,-49,1,-45,-5.5,-53,-4.5,-56)
-            layer.quad(-7.8,-46,7.8,-46,8.2,-44,-8.2,-44)
-            layer.quad(-8.2,-44,8.2,-44,8.4,-42,-8.4,-42)
-            layer.rect(5,-40.5,2,3)
-            layer.strokeJoin(MITER)*///Rework needed
-            if(this.trigger.display.kimono.bow){
-                layer.noFill()
-                layer.stroke(this.color.kimono.bow[0],this.color.kimono.bow[1],this.color.kimono.bow[2],this.fade*this.anim.decoration)
-                layer.strokeWeight(0.25)
-                if(cos(this.spin.bow.center/2+this.spin.bow.loop[0]/2+this.anim.direction)>0){
-                    layer.ellipse(sin(this.spin.bow.center+this.anim.direction)*2.875+sin(this.spin.bow.loop[0]+this.anim.direction)*2.875,-53,(sin(this.spin.bow.center+this.anim.direction)*5.5-sin(this.spin.bow.loop[0]+this.anim.direction)*5.5),1)
-                }
-                if(cos(this.spin.bow.center/2+this.spin.bow.loop[1]/2+this.anim.direction)>0){
-                    layer.ellipse(sin(this.spin.bow.center+this.anim.direction)*2.875+sin(this.spin.bow.loop[1]+this.anim.direction)*2.875,-53,(sin(this.spin.bow.center+this.anim.direction)*5.5-sin(this.spin.bow.loop[1]+this.anim.direction)*5.5),1)
-                }
-                if(cos(this.spin.bow.center/2+this.spin.bow.end[0]/2+this.anim.direction)>0){
-                    layer.line(sin(this.spin.bow.center+this.anim.direction)*5.75,-53,sin(this.spin.bow.end[0]+this.anim.direction)*6,-51.5)
-                }
-                if(cos(this.spin.bow.center/2+this.spin.bow.end[1]/2+this.anim.direction)>0){
-                    layer.line(sin(this.spin.bow.center+this.anim.direction)*5.75,-53,sin(this.spin.bow.end[1]+this.anim.direction)*6,-51.5)
-                }
-            }
-            /*layer.noStroke()
-            for(let g=1;g<6;g++){
-                layer.fill(206+g*38/3,107+g*59/3,113+g*61/3,this.fade)
-                layer.quad(13.5-(g%2)*2,-72+g*3,12-(g%2)*2,-66+g*3,10.5-(g%2)*2,-72+g*3,12-(g%2)*2,-78+g*3)
-            }*/
-            if(this.trigger.display.skin.head){
-                layer.fill(this.color.skin.head[0],this.color.skin.head[1],this.color.skin.head[2],this.fade)
-                layer.noStroke()
-                layer.ellipse(0,-75,30,30)
-            }
-            if(this.trigger.display.eye){
-                layer.stroke(this.color.eye.back[0],this.color.eye.back[1],this.color.eye.back[2],this.fade)
-                layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
-                layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2)
-                layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2)
-                layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
-                layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2)
-                layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2)
-                layer.stroke(this.color.eye.front[0],this.color.eye.front[1],this.color.eye.front[2],this.fade)
-                layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
-                layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2+0.2-this.anim.eye*0.2)
-                layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2+0.2-this.anim.eye*0.2)
-                layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
-                layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2+0.2-this.anim.eye*0.2)
-                layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2+0.2-this.anim.eye*0.2)
-            }
-            if(this.trigger.display.hair.front){
-                this.displayTrianglesFront(layer,this.hair,-75,36,1,0.1,this.color.hair.front,this.fade)
-                layer.arc(0,-75,36,36,-180,0)
-                layer.line(-18,-75,18,-75)
-                layer.strokeJoin(MITER)
-            }
-            /*layer.stroke(111,23,27,this.fade)
-            layer.strokeWeight(0.5)
-            layer.line(13,-58.5,9,-58.5)*/
-            if(this.trigger.display.flower){
-                if(constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1)>0){
-                    layer.image(graphics.minor[33],sin(this.spin.flower[0]+this.anim.direction)*18.5-10*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),-77.5-15*this.fade,20*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),30*this.fade)
-                }
-            }
-            if(this.anim.kimono>0){
-                //layer.image(graphics.minor[34],-3-15*this.anim.kimono*this.fade,-44-15*this.anim.kimono*this.fade,30*this.anim.kimono*this.fade,30*this.anim.kimono*this.fade)
-            }
-        }
-    }
-    display(){
-        this.layer.translate(this.position.x+this.offset.position.x,this.position.y+this.offset.position.y)
-        this.layer.scale(this.size)
-        this.layer.image(this.sprites[(this.anim.direction%360+3600)%360],-30,-100,60,120)
-        this.layer.scale(1/this.size)
-        this.layer.translate(-this.position.x-this.offset.position.x,-this.position.y-this.offset.position.y)
-    }
-    update(){
-        super.update()
-        if(inputs.keys[0][0]||inputs.keys[1][0]){
-            //this.velocity.x-=this.movement.speed
-            this.anim.direction-=3
-        }
-        if(inputs.keys[0][1]||inputs.keys[1][1]){
-            //this.velocity.x+=this.movement.speed
-            this.anim.direction+=3
-        }
-        //this.anim.direction+=6
         //this.anim.directionPosition=constrain(this.anim.directionPosition+this.velocity.x/30,-1,1)
         //this.anim.eye=sin(this.time*10)*0.5+0.5
         if((inputs.keys[0][2]||inputs.keys[1][2])&&this.timers[0]>0){
