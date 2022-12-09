@@ -1,6 +1,7 @@
 function draw(){
 	clear()
 	background(125)
+	graphics.main.clear()
 	graphics.main.push()
 	switch(stage.scene){
 		case 'level':
