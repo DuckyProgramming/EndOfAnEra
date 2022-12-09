@@ -16,7 +16,7 @@ class player extends partisan{
             {spin:[120,-160,155],height:21},{spin:[60,130,90],height:4},{spin:[75,180,110],height:11},{spin:[105,-140,130],height:16}
         ]
 
-        this.kimono={main:[],outside:[],fringe:[]}
+        this.kimono={main:[],outside:[],fringe:[],decoration:[]}
 
         this.spin={
             legs:[{top:-60,bottom:240},{top:60,bottom:120}],
@@ -95,6 +95,13 @@ class player extends partisan{
             for(let g=0;g<30;g++){
                 this.kimono.fringe.push({spin:[-186+g*12,-174+g*12,-180+g*12],height:-2})
                 this.kimono.fringe.push({spin:[-186+g*12,-174+g*12,-180+g*12],height:2})
+            }
+        }
+        if(this.trigger.display.kimono.decoration){
+            for(let g=0;g<3;g++){
+                this.kimono.decoration.push({spin:150+g*30,y:-18,width:0.75,height:1.5})
+                this.kimono.decoration.push({spin:144+g*30,y:-18,width:0.5,height:1})
+                this.kimono.decoration.push({spin:156+g*30,y:-18,width:0.5,height:1})
             }
         }
         if(this.trigger.display.under.top||this.trigger.display.under.bottom){
@@ -650,6 +657,11 @@ class player extends partisan{
             if(this.trigger.display.kimono.decoration){
                 this.layer.noStroke()
                 this.layer.fill(114,40,119,this.fade*this.anim.decoration)
+                for(let g=0,lg=this.kimono.decoration.length;g<lg;g++){
+                    if(cos(this.kimono.decoration[g].spin+this.anim.direction)>0){
+                        this.layer.ellipse((14+this.kimono.decoration[g].y*0.16)*sin(this.kimono.decoration[g].spin+this.anim.direction),this.kimono.decoration[g].y,cos(this.kimono.decoration[g].spin+this.anim.direction)*this.kimono.decoration[g].width,this.kimono.decoration[g].height)
+                    }
+                }
             }
             if(this.trigger.display.kimono.outside.front){
                 this.layer.image(this.sprites.kimono.outside.front[this.sprites.spin],-15*this.fade,-60,30,40)
