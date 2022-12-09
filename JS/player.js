@@ -56,10 +56,10 @@ class player extends partisan{
 
         this.movement={speed:0.4,jump:8}
 
-        this.sprites=[]
+        this.sprites={hair:{back:[],front:[]}}
 
         this.generateParts()
-        this.generateSprite()
+        this.generateSprites()
 
         this.size=3
 
@@ -70,9 +70,9 @@ class player extends partisan{
             this.kimono.outside.push({spin:[-177+g*24,-159+g*24,-168+g*24],height:3})
             this.kimono.outside.push({spin:[-187+g*24,-173+g*24,-180+g*24],height:1.5})
         }
-        for(let g=0;g<15;g++){
-            this.kimono.fringe.push({spin:[-186+g*24,-174+g*24,-180+g*24],height:-2})
-            this.kimono.fringe.push({spin:[-186+g*24,-174+g*24,-180+g*24],height:2})
+        for(let g=0;g<30;g++){
+            this.kimono.fringe.push({spin:[-186+g*12,-174+g*12,-180+g*12],height:-2})
+            this.kimono.fringe.push({spin:[-186+g*12,-174+g*12,-180+g*12],height:2})
         }
         for(let g=0;g<8;g++){
             this.kimono.main.push({spin:[-135+g*30,-105+g*30,-120+g*30],y:[0,0,16+g*3]})
@@ -97,17 +97,39 @@ class player extends partisan{
         }
         this.spinSet=[this.hair,this.kimono.main,this.kimono.outside,this.kimono.fringe]
     }
-    generateSprite(size){
-        /*for(let g=0;g<360;g++){
-            this.sprites.push(createGraphics(60*size,120*size))
-            setupLayer(this.sprites[g])
-            this.sprites[g].translate(30*size,100*size)
-            this.sprites[g].scale(size)
-            this.anim.direction=g
-            this.generateImage(this.sprites[g])
-            print('Generated Image '+(g+1))
-        }*/
-        this.anim.direction=36
+    generateSprites(){
+        for(let g=0;g<360;g++){
+            this.sprites.hair.front.push(createGraphics(200,300))
+            setupLayer(this.sprites.hair.front[g])
+            this.sprites.hair.front[g].translate(100,100)
+            this.sprites.hair.front[g].scale(5)
+            this.generateSprite(this.sprites.hair.front[g],0,g)
+            print('Generated HF-'+(g+1))
+        }
+        for(let g=0;g<360;g++){
+            this.sprites.hair.back.push(createGraphics(200,300))
+            setupLayer(this.sprites.hair.back[g])
+            this.sprites.hair.back[g].translate(100,100)
+            this.sprites.hair.back[g].scale(5)
+            this.generateSprite(this.sprites.hair.back[g],0,g)
+            print('Generated HB-'+(g+1))
+        }
+    }
+    generateSprite(layer,type,direction){
+        switch(type){
+            case 0:
+                this.controlSpin(this.hair,direction,0)
+                this.displayTrianglesFront(layer,this.hair,direction,0,36,1,0.1,this.color.hair.front,1)
+                layer.arc(0,0,36,36,-180,0)
+                layer.line(-18,0,18,0)
+                layer.strokeJoin(MITER)
+            break
+            case 1:
+                this.controlSpin(this.hair,direction,0)
+                this.displayTrianglesBack(layer,this.hair,direction,0,36,1,0.1,this.color.hair.back,1)
+                layer.strokeJoin(MITER)
+            break
+        }
     }
     calculateParts(){
         for(let g=0;g<2;g++){
@@ -272,8 +294,7 @@ class player extends partisan{
         this.layer.scale(this.size)
         if(this.fade>0&&this.size>0){
             if(this.trigger.display.hair.back){
-                //this.displayTrianglesBack(this.layer,this.hair,-75,36,1,0.1,this.color.hair.back,this.fade)
-                //this.layer.strokeJoin(MITER)
+                this.layer.image(this.sprites.hair.back[((this.anim.direction%360)+360)%360],-20,-95,40,60)
             }
             /*if(this.anim.sleeve.back>0&&this.trigger.display.sleeve.back){
                 this.layer.noStroke()
@@ -617,10 +638,7 @@ class player extends partisan{
                 this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2+0.2-this.anim.eye*0.2)
             }
             if(this.trigger.display.hair.front){
-                //this.displayTrianglesFront(this.layer,this.hair,-75,36,1,0.1,this.color.hair.front,this.fade)
-                //this.layer.arc(0,-75,36,36,-180,0)
-                //this.layer.line(-18,-75,18,-75)
-                //this.layer.strokeJoin(MITER)
+                this.layer.image(this.sprites.hair.front[((this.anim.direction%360)+360)%360],-20,-95,40,60)
             }
             /*this.layer.stroke(111,23,27,this.fade)
             this.layer.strokeWeight(0.5)
@@ -637,6 +655,25 @@ class player extends partisan{
         this.layer.scale(1/this.size)
         this.layer.translate(-this.position.x-this.offset.position.x,-this.position.y-this.offset.position.y)
     }
+    controlSpin(set,direction,spec){
+        for(let g=0,lg=set.length;g<lg;g++){
+            if(set[g].spin[0]>set[g].spin[1]&&spec==1){
+                set[g].spin[1]=set[g].spin[0]+set[g].spin[1]
+                set[g].spin[0]=set[g].spin[1]-set[g].spin[0]
+                set[g].spin[1]=set[g].spin[1]-set[g].spin[0]
+                set[g].y[1]=set[g].y[0]+set[g].y[1]
+                set[g].y[0]=set[g].y[1]-set[g].y[0]
+                set[g].y[1]=set[g].y[1]-set[g].y[0]
+            }
+            for(let h=0,lh=set[g].spin.length;h<lh;h++){
+                if(direction+set[g].spin[h]>180){
+                    set[g].spin[h]-=360
+                }else if(direction+set[g].spin[h]<-180){
+                    set[g].spin[h]+=360
+                }
+            }
+        }
+    }
     update(){
         super.update()
         if(inputs.keys[0][0]||inputs.keys[1][0]){
@@ -652,25 +689,6 @@ class player extends partisan{
             this.anim.direction-=360
         }else if(this.anim.direction<-180){
             this.anim.direction+=360
-        }
-        for(let g=0,lg=this.spinSet.length;g<lg;g++){
-            for(let h=0,lh=this.spinSet[g].length;h<lh;h++){
-                if(this.spinSet[g][h].spin[0]>this.spinSet[g][h].spin[1]&&g==1){
-                    this.spinSet[g][h].spin[1]=this.spinSet[g][h].spin[0]+this.spinSet[g][h].spin[1]
-                    this.spinSet[g][h].spin[0]=this.spinSet[g][h].spin[1]-this.spinSet[g][h].spin[0]
-                    this.spinSet[g][h].spin[1]=this.spinSet[g][h].spin[1]-this.spinSet[g][h].spin[0]
-                    this.spinSet[g][h].y[1]=this.spinSet[g][h].y[0]+this.spinSet[g][h].y[1]
-                    this.spinSet[g][h].y[0]=this.spinSet[g][h].y[1]-this.spinSet[g][h].y[0]
-                    this.spinSet[g][h].y[1]=this.spinSet[g][h].y[1]-this.spinSet[g][h].y[0]
-                }
-                for(let i=0,li=this.spinSet[g][h].spin.length;i<li;i++){
-                    if(this.anim.direction+this.spinSet[g][h].spin[i]>180){
-                        this.spinSet[g][h].spin[i]-=360
-                    }else if(this.anim.direction+this.spinSet[g][h].spin[i]<-180){
-                        this.spinSet[g][h].spin[i]+=360
-                    }
-                }
-            }
         }
         //this.anim.directionPosition=constrain(this.anim.directionPosition+this.velocity.x/30,-1,1)
         //this.anim.eye=sin(this.time*10)*0.5+0.5
