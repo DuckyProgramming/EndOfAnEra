@@ -34,11 +34,12 @@ function regPoly(layer,x,y,sides,radius,direction){
 	layer.endShape(CLOSE)
 }
 function sign(value){
-	if(value>=0){
-		return 1
-	}else{
-		return -1
-	}
+	if(value>=0){return 1}
+	else{return -1}
+}
+function toggle(bool){
+	if(bool){return false}
+	else{return true}
 }
 function pointInsideBox(point,box){
 	if(point.position.x>box.position.x-box.width/2&&point.position.x<box.position.x+box.width/2&&point.position.y>box.position.y-box.height/2&&point.position.y<box.position.y+box.height/2){

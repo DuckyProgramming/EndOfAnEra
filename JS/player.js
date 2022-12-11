@@ -20,7 +20,7 @@ class player extends partisan{
         this.kimono={main:[],outside:[],fringe:[],decoration:{large:[],small:[]}}
 
         this.spin={
-            legs:[{top:-60,bottom:240},{top:60,bottom:120}],
+            legs:[{top:-60,bottom:-120},{top:60,bottom:120}],
             bow:{center:0,end:[-5,5],loop:[-20,20]},
             under:{top:[],bottom:[]},
             underBow:{center:0,end:[-8,8],loop:[-32,32]},
@@ -36,8 +36,9 @@ class player extends partisan{
             necklace:[207,90,101],
         }
 
-        this.parts={eyeLevel:-72,
+        this.parts={eyeLevel:-72,flowerLevel:-77.5,
             under:{top:-50.5,bottom:-31},
+            kimono:{flowerLevel:-44},
             legs:[
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}}
@@ -45,15 +46,15 @@ class player extends partisan{
 
         this.graphics={
             legs:[
-                {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
-                {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}}
+                {top:{x:0,y:0},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
+                {top:{x:0,y:0},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}}
             ]}
 
         this.trigger.display={
             hair:{back:true,front:true},eye:true,sandal:{back:true,front:true},sleeve:{back:false,front:false},necklace:{back:true,front:true},
             skin:{legs:true,body:true,head:true,button:true},
             kimono:{main:{back:false,front:false},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
-            under:{top:true,bottom:true,bow:true},
+            under:{top:false,bottom:false,bow:false},
             flower:true}
 
         this.sprites={detail:3,spin:0,spinDetail:0,hair:{back:[],front:[]},kimono:{main:{back:[],front:[]},outside:{back:[],front:[]},fringe:{back:[],front:[]}}}
@@ -63,7 +64,7 @@ class player extends partisan{
 
         this.movement={speed:0.4,jump:8}
 
-        this.size=3
+        this.size=1
 
         this.trigger.gravity=false
     }
@@ -514,11 +515,11 @@ class player extends partisan{
                     if((g==0&&h==0||g==1&&h==1)&&cos(this.spin.legs[0].bottom+this.anim.direction)<=cos(this.spin.legs[1].bottom+this.anim.direction)||(g==0&&h==1||g==1&&h==0)&&cos(this.spin.legs[0].bottom+this.anim.direction)>cos(this.spin.legs[1].bottom+this.anim.direction)){
                         if(this.anim.sandal.back>0&&this.trigger.display.sandal.back){
                             this.layer.translate(this.graphics.legs[h].sandal.back.x,this.graphics.legs[h].sandal.back.y+1.5)
-                            this.layer.scale(1,0.5)
+                            this.layer.scale(1.2,0.6)
                             this.layer.rotate(-this.anim.direction+this.spin.sandal[h])
                             this.layer.image(graphics.minor[0],-4*this.anim.sandal.back*this.fade,-4*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade,8*this.anim.sandal.back*this.fade)
                             this.layer.rotate(this.anim.direction-this.spin.sandal[h])
-                            this.layer.scale(1,2)
+                            this.layer.scale(5/6,5/3)
                             this.layer.translate(-this.graphics.legs[h].sandal.back.x,-this.graphics.legs[h].sandal.back.y-1.5)
                         }
                         if(this.anim.sandal.front>0&&this.trigger.display.sandal.front){
@@ -747,12 +748,12 @@ class player extends partisan{
             this.layer.line(13,-58.5,9,-58.5)*/
             if(this.trigger.display.flower){
                 if(constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1)>0){
-                    this.layer.image(graphics.minor[33],sin(this.spin.flower[0]+this.anim.direction)*18.5-10*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),-77.5-15*this.fade,20*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),30*this.fade)
+                    this.layer.image(graphics.minor[33],sin(this.spin.flower[0]+this.anim.direction)*18.5-10*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),this.parts.flowerLevel-15*this.fade,20*this.fade*constrain((pow(cos(this.spin.flower[0]+this.anim.direction),1.5)*2-0.2),0,1),30*this.fade)
                 }
             }
             if(this.trigger.display.kimono.flower&&this.anim.kimono>0){
                 if(constrain((pow(cos(this.spin.flower[1]+this.anim.direction),1.5)*2-0.2),0,1)>0){
-                    this.layer.image(graphics.minor[34],sin(this.spin.flower[1]+this.anim.direction)*8-15*this.fade*this.anim.kimono*constrain((pow(cos(this.spin.flower[1]+this.anim.direction),1.5)*2-0.2),0,1),-44-15*this.fade*this.anim.kimono,30*this.fade*this.anim.kimono*constrain((pow(cos(this.spin.flower[1]+this.anim.direction),1.5)*2-0.2),0,1),30*this.fade*this.anim.kimono)
+                    this.layer.image(graphics.minor[34],sin(this.spin.flower[1]+this.anim.direction)*8-15*this.fade*this.anim.kimono*constrain((pow(cos(this.spin.flower[1]+this.anim.direction),1.5)*2-0.2),0,1),this.parts.kimono.flowerLevel-15*this.fade*this.anim.kimono,30*this.fade*this.anim.kimono*constrain((pow(cos(this.spin.flower[1]+this.anim.direction),1.5)*2-0.2),0,1),30*this.fade*this.anim.kimono)
                 }
             }
         }

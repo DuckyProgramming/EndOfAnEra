@@ -27,7 +27,7 @@ function setupGraphics(){
 		setupLayer(graphics.minor[a])
 	}
 	graphics.minor[0].noStroke()
-	graphics.minor[0].fill(145,116,98)
+	graphics.minor[0].fill(151,119,103)
 	graphics.minor[0].ellipse(80,80,120,120)
 	graphics.minor[0].fill(122,94,90)
 	graphics.minor[0].rect(80,80,120,6)
