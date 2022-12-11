@@ -27,9 +27,9 @@ function setupGraphics(){
 		setupLayer(graphics.minor[a])
 	}
 	graphics.minor[0].noStroke()
-	graphics.minor[0].fill(224,181,156)
+	graphics.minor[0].fill(145,116,98)
 	graphics.minor[0].ellipse(80,80,120,120)
-	graphics.minor[0].fill(204,139,122)
+	graphics.minor[0].fill(122,94,90)
 	graphics.minor[0].rect(80,80,120,6)
 	graphics.minor[0].quad(24,55,136,55,137,61,23,61)
 	graphics.minor[0].quad(24,105,136,105,137,99,23,99)

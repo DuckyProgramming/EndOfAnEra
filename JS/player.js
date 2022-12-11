@@ -4,6 +4,7 @@ class player extends partisan{
         this.offset={position:{x:0,y:145}}
 
         this.anim={eye:0,sandal:{back:1,front:1},sleeve:{back:1,front:1},kimono:1,decoration:1,direction:36,
+        under:{top:1,bottom:1},
         legs:[
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}},
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}}
@@ -36,6 +37,7 @@ class player extends partisan{
         }
 
         this.parts={eyeLevel:-72,
+            under:{top:-50.5,bottom:-31},
             legs:[
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}}
@@ -50,7 +52,7 @@ class player extends partisan{
         this.trigger.display={
             hair:{back:true,front:true},eye:true,sandal:{back:true,front:true},sleeve:{back:false,front:false},necklace:{back:true,front:true},
             skin:{legs:true,body:true,head:true,button:true},
-            kimono:{main:{back:true,front:true},outside:{back:true,front:true},fringe:{back:true,front:true},decoration:{large:true,small:true},bow:true,flower:true},
+            kimono:{main:{back:false,front:false},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
             under:{top:true,bottom:true,bow:true},
             flower:true}
 
@@ -474,17 +476,6 @@ class player extends partisan{
             if(this.trigger.display.kimono.main.back){
                 this.layer.image(this.sprites.kimono.main.back[this.sprites.spinDetail],-15*this.fade,-75,30,66)
             }
-            /*this.layer.noStroke()
-            this.layer.fill(114,40,119,this.fade*this.anim.decoration)
-            for(let g=0;g<5;g++){
-                this.layer.ellipse(8-g*4,-25,0.25,1)
-                this.layer.ellipse(8.5-g*4,-25,0.125,0.5)
-                this.layer.ellipse(7.5-g*4,-25,0.125,0.5)
-            }
-            for(let g=0;g<4;g++){
-                this.layer.ellipse(6-g*4,-25.5,0.125,0.5)
-            }
-            this.layer.noStroke()*/
             if(this.trigger.display.skin.body){
                 this.layer.noStroke()
                 this.layer.fill(this.color.skin.body[0],this.color.skin.body[1],this.color.skin.body[2],this.fade)
@@ -494,61 +485,6 @@ class player extends partisan{
                 if(cos(this.spin.button+this.anim.direction)>0){
                     this.layer.fill(this.color.skin.button[0],this.color.skin.button[1],this.color.skin.button[2],this.fade)
                     this.layer.ellipse(sin(this.spin.button+this.anim.direction)*5.9,-42,1*cos(this.spin.button+this.anim.direction),2)
-                }
-            }
-            if(this.trigger.display.under.bottom){
-                this.layer.noStroke()
-                this.layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade)
-                this.layer.beginShape()
-                this.layer.vertex(-5.25,-38)
-                this.layer.bezierVertex(-5,-36,-3,-32,0,-31)
-                this.layer.bezierVertex(3,-32,5,-36,5.25,-38)
-                this.layer.endShape()
-                this.layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
-                for(let g=0,lg=this.spin.under.top.length;g<lg;g++){
-                    if(cos(this.spin.under.top[g]+this.anim.direction)>0){
-                        this.layer.ellipse(5*sin(this.spin.under.top[g]+this.anim.direction),-37.5,cos(this.spin.under.top[g]+this.anim.direction),2.5)
-                    }
-                }
-                for(let g=0,lg=this.spin.under.bottom.length;g<lg;g++){
-                    if(cos(this.spin.under.bottom[g]+this.anim.direction)>0){
-                        this.layer.ellipse(5*sin(this.spin.under.bottom[g]+this.anim.direction),-36.5,cos(this.spin.under.bottom[g]+this.anim.direction),2.5)
-                    }
-                }
-            }
-            if(this.trigger.display.under.top){
-                this.layer.noStroke()
-                this.layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade)
-                this.layer.quad(-5.5,-54,5.5,-54,6.25,-47,-6.25,-47)
-                this.layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
-                for(let g=0,lg=this.spin.under.top.length;g<lg;g++){
-                    if(cos(this.spin.under.top[g]+this.anim.direction)>0){
-                        this.layer.ellipse(5.5*sin(this.spin.under.top[g]+this.anim.direction),-53.5,cos(this.spin.under.top[g]+this.anim.direction),2.5)
-                        this.layer.ellipse(6.15*sin(this.spin.under.top[g]+this.anim.direction),-48.5,cos(this.spin.under.top[g]+this.anim.direction),2.5)
-                    }
-                }
-                for(let g=0,lg=this.spin.under.bottom.length;g<lg;g++){
-                    if(cos(this.spin.under.bottom[g]+this.anim.direction)>0){
-                        this.layer.ellipse(5.5*sin(this.spin.under.bottom[g]+this.anim.direction),-52.5,cos(this.spin.under.bottom[g]+this.anim.direction),2.5)
-                        this.layer.ellipse(6.15*sin(this.spin.under.bottom[g]+this.anim.direction),-47.5,cos(this.spin.under.bottom[g]+this.anim.direction),2.5)
-                    }
-                }
-            }
-            if(this.trigger.display.under.bow){
-                this.layer.noFill()
-                this.layer.stroke(this.color.under.bow[0],this.color.under.bow[1],this.color.under.bow[2],this.fade*this.anim.decoration)
-                this.layer.strokeWeight(0.4)
-                if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[0]/2+this.anim.direction)>0){
-                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[0]+this.anim.direction)*2.875,-53,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[0]+this.anim.direction)*5.5),1.6)
-                }
-                if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[1]/2+this.anim.direction)>0){
-                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[1]+this.anim.direction)*2.875,-53,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[1]+this.anim.direction)*5.5),1.6)
-                }
-                if(cos(this.spin.underBow.center/2+this.spin.underBow.end[0]/2+this.anim.direction)>0){
-                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,-53,sin(this.spin.underBow.end[0]+this.anim.direction)*6,-50.6)
-                }
-                if(cos(this.spin.underBow.center/2+this.spin.underBow.end[1]/2+this.anim.direction)>0){
-                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,-53,sin(this.spin.underBow.end[1]+this.anim.direction)*6,-50.6)
                 }
             }
             /*if(this.anim.sleeve.front>0&&this.trigger.display.sleeve.front){
@@ -630,6 +566,61 @@ class player extends partisan{
                     }
                 }
             }
+            if(this.trigger.display.under.bottom){
+                this.layer.noStroke()
+                this.layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade)
+                this.layer.beginShape()
+                this.layer.vertex(-5.25,this.parts.under.bottom-7*this.anim.under.bottom)
+                this.layer.bezierVertex(-5,this.parts.under.bottom-5*this.anim.under.bottom,-3,this.parts.under.bottom-1*this.anim.under.bottom,0,this.parts.under.bottom)
+                this.layer.bezierVertex(3,this.parts.under.bottom-1*this.anim.under.bottom,5,this.parts.under.bottom-5*this.anim.under.bottom,5.25,this.parts.under.bottom-7*this.anim.under.bottom)
+                this.layer.endShape()
+                this.layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
+                for(let g=0,lg=this.spin.under.top.length;g<lg;g++){
+                    if(cos(this.spin.under.top[g]+this.anim.direction)>0){
+                        this.layer.ellipse(5*sin(this.spin.under.top[g]+this.anim.direction),this.parts.under.bottom-6.5*this.anim.under.bottom,cos(this.spin.under.top[g]+this.anim.direction),2.5*this.anim.under.bottom)
+                    }
+                }
+                for(let g=0,lg=this.spin.under.bottom.length;g<lg;g++){
+                    if(cos(this.spin.under.bottom[g]+this.anim.direction)>0){
+                        this.layer.ellipse(5*sin(this.spin.under.bottom[g]+this.anim.direction),this.parts.under.bottom-5.5*this.anim.under.bottom,cos(this.spin.under.bottom[g]+this.anim.direction),2.5*this.anim.under.bottom)
+                    }
+                }
+            }
+            if(this.trigger.display.under.top){
+                this.layer.noStroke()
+                this.layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade)
+                this.layer.quad(-5.5,this.parts.under.top-3.5*this.anim.under.top,5.5,this.parts.under.top-3.5*this.anim.under.top,6.25,this.parts.under.top+3.5*this.anim.under.top,-6.25,this.parts.under.top+3.5*this.anim.under.top)
+                this.layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
+                for(let g=0,lg=this.spin.under.top.length;g<lg;g++){
+                    if(cos(this.spin.under.top[g]+this.anim.direction)>0){
+                        this.layer.ellipse(5.5*sin(this.spin.under.top[g]+this.anim.direction),this.parts.under.top-3*this.anim.under.top,cos(this.spin.under.top[g]+this.anim.direction),2.5*this.anim.under.top)
+                        this.layer.ellipse(6.15*sin(this.spin.under.top[g]+this.anim.direction),this.parts.under.top+2*this.anim.under.top,cos(this.spin.under.top[g]+this.anim.direction),2.5*this.anim.under.top)
+                    }
+                }
+                for(let g=0,lg=this.spin.under.bottom.length;g<lg;g++){
+                    if(cos(this.spin.under.bottom[g]+this.anim.direction)>0){
+                        this.layer.ellipse(5.5*sin(this.spin.under.bottom[g]+this.anim.direction),this.parts.under.top-2*this.anim.under.top,cos(this.spin.under.bottom[g]+this.anim.direction),2.5*this.anim.under.top)
+                        this.layer.ellipse(6.15*sin(this.spin.under.bottom[g]+this.anim.direction),this.parts.under.top+3*this.anim.under.top,cos(this.spin.under.bottom[g]+this.anim.direction),2.5*this.anim.under.top)
+                    }
+                }
+            }
+            if(this.trigger.display.under.bow){
+                this.layer.noFill()
+                this.layer.stroke(this.color.under.bow[0],this.color.under.bow[1],this.color.under.bow[2],this.fade*this.anim.decoration)
+                this.layer.strokeWeight(0.4)
+                if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[0]/2+this.anim.direction)>0){
+                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[0]+this.anim.direction)*2.875,this.parts.under.top-1.5*this.anim.under.top,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[0]+this.anim.direction)*5.5),1.6*this.anim.under.top)
+                }
+                if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[1]/2+this.anim.direction)>0){
+                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[1]+this.anim.direction)*2.875,this.parts.under.top-1.5*this.anim.under.top,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[1]+this.anim.direction)*5.5),1.6*this.anim.under.top)
+                }
+                if(cos(this.spin.underBow.center/2+this.spin.underBow.end[0]/2+this.anim.direction)>0){
+                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,this.parts.under.top-1.5*this.anim.under.top,sin(this.spin.underBow.end[0]+this.anim.direction)*6,this.parts.under.top+0.9*this.anim.under.top)
+                }
+                if(cos(this.spin.underBow.center/2+this.spin.underBow.end[1]/2+this.anim.direction)>0){
+                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,this.parts.under.top-1.5*this.anim.under.top,sin(this.spin.underBow.end[1]+this.anim.direction)*6,this.parts.under.top+0.9*this.anim.under.top)
+                }
+            }
             if(this.trigger.display.necklace.front){
                 this.layer.noFill()
                 this.layer.stroke(this.color.necklace[0],this.color.necklace[1],this.color.necklace[2],this.fade*this.anim.decoration)
@@ -658,25 +649,6 @@ class player extends partisan{
                     }
                 }
             }
-            /*this.layer.noStroke()
-            this.layer.fill(114,40,119,this.fade*this.anim.decoration)
-            for(let g=0;g<5;g++){
-                this.layer.ellipse(8.4-g*4,-26-g*2,0.25,1)
-                this.layer.ellipse(8.9-g*4,-25.8-g*2,0.125,0.5)
-                this.layer.ellipse(7.9-g*4,-26.2-g*2,0.125,0.5)
-            }
-            for(let g=0;g<4;g++){
-                this.layer.ellipse(6.35-g*4,-27.5-g*2,0.125,0.5)
-            }
-            this.layer.fill(114,40,119,this.fade*this.anim.decoration)
-            for(let g=0;g<5;g++){
-                this.layer.ellipse(-8.4+g*4,-26-g*2,0.25,1)
-                this.layer.ellipse(-8.9+g*4,-25.8-g*2,0.125,0.5)
-                this.layer.ellipse(-7.9+g*4,-26.2-g*2,0.125,0.5)
-            }
-            for(let g=0;g<4;g++){
-                this.layer.ellipse(-6.35+g*4,-27.5-g*2,0.125,0.5)
-            }*/
             if(this.trigger.display.kimono.main.front){
                 this.layer.image(this.sprites.kimono.main.front[this.sprites.spinDetail],-15*this.fade,-75,30,66)
             }
