@@ -14,31 +14,43 @@ class editor{
             },{
                 name:'Body/Main',fold:[],
                 toggle:{type:[2],name:['Display']},
-                slide:{type:[1],limit:[[0,1]],name:['Fade']}
+                slide:{type:[1,4,5,6],limit:[[0,1],[0,255],[0,255],[0,255]],name:['Fade','Color/Red','Color/Green','Color/Blue']}
             },{
                 name:'Body/Necklace',fold:[],
                 toggle:{type:[3,4],name:['Front/Display','Back/Display']},
-                slide:{type:[],limit:[],name:[]}
+                slide:{type:[2,3,7,8,9],limit:[[0,1],[0,1],[0,255],[0,255],[0,255]],name:['Front/Fade','Back/Fade','Color/Red','Color/Green','Color/Blue']}
             },{
                 name:'Body/Attach',fold:[],
                 toggle:{type:[5],name:['Button/Display']},
+                slide:{type:[10,11,12,13],limit:[[0,1],[0,255],[0,255],[0,255]],name:['Button/Fade','Button/Color/Red','Button/Color/Green','Button/Color/Blue']}
+            },{
+                name:'Legs/',fold:[6,9],
+                toggle:{type:[],name:[]},
                 slide:{type:[],limit:[],name:[]}
             },{
-                name:'Legs/',fold:[6,7,8],
+                name:'Legs/Main/',fold:[7,8],
                 toggle:{type:[1],name:['Display']},
                 slide:{type:[],limit:[],name:[]}
             },{
-                name:'Legs/Length/',fold:[],
+                name:'Legs/Main/Length/',fold:[],
                 toggle:{type:[],name:[]},
+                slide:{type:[14,15,16,17],limit:[[0,30],[0,30],[0,30],[0,30]],name:['Left/Top','Left/Bottom','Right/Top','Right/Bottom']}
+            },{
+                name:'Legs/Main/Anim/',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[22,23,24,25,26,27,28,29],limit:[[0,90],[0,90],[0,90],[0,90],[-180,180],[-180,180],[-180,180],[-180,180]],name:['Right/Angle/Top','Right/Angle/Bottom','Left/Angle/Top','Left/Angle/Bottom','Right/Spin/Top','Right/Spin/Bottom','Left/Spin/Top','Left/Spin/Bottom']}
+            },{
+                name:'Legs/Sandal/',fold:[10,11],
+                toggle:{type:[6,7,8,9],name:['Right/Top/Display','Right/Bottom/Display','Left/Top/Display','Left/Bottom/Display']},
                 slide:{type:[],limit:[],name:[]}
             },{
-                name:'Legs/Anim/',fold:[],
+                name:'Legs/Sandal/Length/',fold:[],
                 toggle:{type:[],name:[]},
-                slide:{type:[],limit:[],name:[]}
+                slide:{type:[18,19,20,21],limit:[[0,30],[0,30],[0,30],[0,30]],name:['Right/Top','Right/Bottom','Left/Top','Left/Bottom']}
             },{
-                name:'Legs/Sandal/',fold:[],
+                name:'Legs/Sandal/Anim/',fold:[],
                 toggle:{type:[],name:[]},
-                slide:{type:[],limit:[],name:[]}
+                slide:{type:[30,31,32,33,34,35],limit:[[0,1],[0,1],[0,1],[0,1],[-180,180],[-180,180]],name:['Right/Top/Fade','Right/Bottom/Fade','Left/Top/Fade','Left/Bottom/Fade','Right/Spin','Left/Spin']}
             },
         ]
         this.tabs={list:[],select:0}
@@ -47,11 +59,79 @@ class editor{
     findSlide(type){
         switch(type){
             case 1: return entities.players[0].fades.skin.body
+            case 2: return entities.players[0].fades.necklace.front
+            case 3: return entities.players[0].fades.necklace.back
+            case 4: return entities.players[0].color.skin.body[0]
+            case 5: return entities.players[0].color.skin.body[1]
+            case 6: return entities.players[0].color.skin.body[2]
+            case 7: return entities.players[0].color.necklace[0]
+            case 8: return entities.players[0].color.necklace[1]
+            case 9: return entities.players[0].color.necklace[2]
+            case 10: return entities.players[0].fades.skin.button
+            case 11: return entities.players[0].color.skin.button[0]
+            case 12: return entities.players[0].color.skin.button[1]
+            case 13: return entities.players[0].color.skin.button[2]
+            case 14: return entities.players[0].anim.legs[0].length.top
+            case 15: return entities.players[0].anim.legs[0].length.bottom
+            case 16: return entities.players[0].anim.legs[1].length.top
+            case 17: return entities.players[0].anim.legs[1].length.bottom
+            case 18: return entities.players[0].anim.legs[0].length.sandal.front
+            case 19: return entities.players[0].anim.legs[0].length.sandal.back
+            case 20: return entities.players[0].anim.legs[1].length.sandal.front
+            case 21: return entities.players[0].anim.legs[1].length.sandal.back
+            case 22: return entities.players[0].anim.legs[0].top
+            case 23: return entities.players[0].anim.legs[0].bottom
+            case 24: return entities.players[0].anim.legs[1].top
+            case 25: return entities.players[0].anim.legs[1].bottom
+            case 26: return entities.players[0].spin.legs[0].top
+            case 27: return entities.players[0].spin.legs[0].bottom
+            case 28: return entities.players[0].spin.legs[1].top
+            case 29: return entities.players[0].spin.legs[1].bottom
+            case 30: return entities.players[0].fades.sandal.front[0]
+            case 31: return entities.players[0].fades.sandal.back[0]
+            case 32: return entities.players[0].fades.sandal.front[1]
+            case 33: return entities.players[0].fades.sandal.back[1]
+            case 34: return entities.players[0].spin.sandal[0]
+            case 35: return entities.players[0].spin.sandal[1]
         }
     }
     slide(type,value){
         switch(type){
             case 1: entities.players[0].fades.skin.body=value; break
+            case 2: entities.players[0].fades.necklace.front=value; break
+            case 3: entities.players[0].fades.necklace.back=value; break
+            case 4: entities.players[0].color.skin.body[0]=value; break
+            case 5: entities.players[0].color.skin.body[1]=value; break
+            case 6: entities.players[0].color.skin.body[2]=value; break
+            case 7: entities.players[0].color.necklace[0]=value; break
+            case 8: entities.players[0].color.necklace[1]=value; break
+            case 9: entities.players[0].color.necklace[2]=value; break
+            case 10: entities.players[0].fades.skin.button=value; break
+            case 11: entities.players[0].color.skin.button[0]=value; break
+            case 12: entities.players[0].color.skin.button[1]=value; break
+            case 13: entities.players[0].color.skin.button[2]=value; break
+            case 14: entities.players[0].anim.legs[0].length.top=value; break
+            case 15: entities.players[0].anim.legs[0].length.bottom=value; break
+            case 16: entities.players[0].anim.legs[1].length.top=value; break
+            case 17: entities.players[0].anim.legs[1].length.bottom=value; break
+            case 18: entities.players[0].anim.legs[0].length.sandal.front=value; break
+            case 19: entities.players[0].anim.legs[0].length.sandal.back=value; break
+            case 20: entities.players[0].anim.legs[1].length.sandal.front=value; break
+            case 21: entities.players[0].anim.legs[1].length.sandal.back=value; break
+            case 22: entities.players[0].anim.legs[0].top=value; break
+            case 23: entities.players[0].anim.legs[0].bottom=value; break
+            case 24: entities.players[0].anim.legs[1].top=value; break
+            case 25: entities.players[0].anim.legs[1].bottom=value; break
+            case 26: entities.players[0].spin.legs[0].top=value; break
+            case 27: entities.players[0].spin.legs[0].bottom=value; break
+            case 28: entities.players[0].spin.legs[1].top=value; break
+            case 29: entities.players[0].spin.legs[1].bottom=value; break
+            case 30: entities.players[0].fades.sandal.front[0]=value; break
+            case 31: entities.players[0].fades.sandal.back[0]=value; break
+            case 32: entities.players[0].fades.sandal.front[1]=value; break
+            case 33: entities.players[0].fades.sandal.back[1]=value; break
+            case 34: entities.players[0].spin.sandal[0]=value; break
+            case 35: entities.players[0].spin.sandal[1]=value; break
         }
     }
     findToggle(type){
@@ -61,6 +141,10 @@ class editor{
             case 3: return entities.players[0].trigger.display.necklace.front
             case 4: return entities.players[0].trigger.display.necklace.back
             case 5: return entities.players[0].trigger.display.skin.button
+            case 6: return entities.players[0].trigger.display.sandal.front[0]
+            case 7: return entities.players[0].trigger.display.sandal.back[0]
+            case 8: return entities.players[0].trigger.display.sandal.front[1]
+            case 9: return entities.players[0].trigger.display.sandal.back[1]
         }
     }
     toggle(type){
@@ -70,32 +154,36 @@ class editor{
             case 3: entities.players[0].trigger.display.necklace.front=toggle(entities.players[0].trigger.display.necklace.front); break
             case 4: entities.players[0].trigger.display.necklace.back=toggle(entities.players[0].trigger.display.necklace.back); break
             case 5: entities.players[0].trigger.display.skin.button=toggle(entities.players[0].trigger.display.skin.button); break
+            case 6: entities.players[0].trigger.display.sandal.front[0]=toggle(entities.players[0].trigger.display.sandal.front[0]); break
+            case 7: entities.players[0].trigger.display.sandal.back[0]=toggle(entities.players[0].trigger.display.sandal.back[0]); break
+            case 8: entities.players[0].trigger.display.sandal.front[1]=toggle(entities.players[0].trigger.display.sandal.front[1]); break
+            case 9: entities.players[0].trigger.display.sandal.back[1]=toggle(entities.players[0].trigger.display.sandal.back[1]); break
         }
     }
     display(){
         this.layer.noStroke()
         this.layer.fill(160,this.fade)
-        this.layer.rect(145,107.5,120,205,5)
+        this.layer.rect(155,107.5,140,205,5)
         this.layer.rect(40,107.5,70,205,5)
-        this.layer.rect(105,407.5,200,375,5)
+        this.layer.rect(115,407.5,220,375,5)
         this.layer.fill(120,this.fade)
         for(let g=0,lg=this.groups.name.length;g<lg;g++){
             this.layer.rect(40,20+g*25,60,20,5)
         }
         for(let g=0,lg=this.tabs.list.length;g<lg;g++){
-            this.layer.rect(145,20+g*25,110,20,5)
+            this.layer.rect(155,20+g*25,130,20,5)
         }
         if(this.tabs.select<this.tabs.list.length){
             this.calc.int=0
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].fold.length;g<lg;g++){
-                this.layer.rect(65,235+this.calc.int,110,20,5)
+                this.layer.rect(80,235+this.calc.int,140,20,5)
                 this.calc.int+=25
             }
             if(this.tabData[this.tabs.list[this.tabs.select]].fold.length>0){
                 this.calc.int+=25
             }
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length;g<lg;g++){
-                this.layer.rect(65,235+this.calc.int,110,20,5)
+                this.layer.rect(80,235+this.calc.int,140,20,5)
                 this.calc.int+=25
             }
             if(this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length>0){
@@ -103,8 +191,8 @@ class editor{
             }
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].slide.type.length;g<lg;g++){
                 this.layer.ellipse(15,240+this.calc.int,10,10)
-                this.layer.ellipse(115,240+this.calc.int,10,10)
-                this.layer.rect(65,240+this.calc.int,100,5,5)
+                this.layer.ellipse(175,240+this.calc.int,10,10)
+                this.layer.rect(95,240+this.calc.int,160,5,5)
                 this.calc.int+=25
             }
         }
@@ -114,24 +202,24 @@ class editor{
             this.layer.text(this.groups.name[g],40,20+g*25)
         }
         for(let g=0,lg=this.tabs.list.length;g<lg;g++){
-            this.layer.text(this.tabData[this.tabs.list[g]].name,140,20+g*25)
-            this.layer.text('X',190,20+g*25)
+            this.layer.text(this.tabData[this.tabs.list[g]].name,150,20+g*25)
+            this.layer.text('X',210,20+g*25)
         }
         if(this.tabs.select<this.tabs.list.length){
             this.calc.int=0
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].fold.length;g<lg;g++){
-                this.layer.text(this.tabData[this.tabData[this.tabs.list[this.tabs.select]].fold[g]].name,65,235+this.calc.int)
+                this.layer.text(this.tabData[this.tabData[this.tabs.list[this.tabs.select]].fold[g]].name,80,235+this.calc.int)
                 this.calc.int+=25
             }
             if(this.tabData[this.tabs.list[this.tabs.select]].fold.length){
                 this.calc.int+=25
             }
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length;g<lg;g++){
-                this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].toggle.name[g],55,235+this.calc.int)
+                this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].toggle.name[g],70,235+this.calc.int)
                 if(this.findToggle(this.tabData[this.tabs.list[this.tabs.select]].toggle.type[g])){
-                    this.layer.text('On',105,235+this.calc.int)
+                    this.layer.text('On',135,235+this.calc.int)
                 }else{
-                    this.layer.text('Off',105,235+this.calc.int)
+                    this.layer.text('Off',135,235+this.calc.int)
                 }
                 this.calc.int+=25
             }
@@ -139,10 +227,10 @@ class editor{
                 this.calc.int+=25
             }
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].slide.type.length;g<lg;g++){
-                this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].slide.name[g],65,230+this.calc.int)
+                this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].slide.name[g]+' '+round(this.findSlide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g])*100)/100,95,230+this.calc.int)
                 this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0],15,230+this.calc.int)
-                this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1],115,230+this.calc.int)
-                this.layer.ellipse(15+((this.findSlide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g])-this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])/(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1]-this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0]))*100,240+this.calc.int,8,8)
+                this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1],175,230+this.calc.int)
+                this.layer.ellipse(15+((this.findSlide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g])-this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])/(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1]-this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0]))*160,240+this.calc.int,8,8)
                 this.calc.int+=25
             }
         }
@@ -157,22 +245,21 @@ class editor{
             }
         }
         for(let g=0,lg=this.tabs.list.length;g<lg;g++){
-            if(pointInsideBox({position:inputs.rel},{position:{x:135,y:20+g*25},width:90,height:20})){
+            if(pointInsideBox({position:inputs.rel},{position:{x:145,y:20+g*25},width:110,height:20})){
                 this.tabs.select=g
             }
-            if(pointInsideBox({position:inputs.rel},{position:{x:190,y:20+g*25},width:20,height:20})){
+            if(pointInsideBox({position:inputs.rel},{position:{x:210,y:20+g*25},width:20,height:20})){
                 this.tabs.list.splice(g,1)
-                g--
-                lg--
                 while(this.tabs.select>=this.tabs.list.length&&this.tabData.select>0){
                     this.tabs.select--
                 }
+                break
             }
         }
         if(this.tabs.select<this.tabs.list.length){
             this.calc.int=0
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].fold.length;g<lg;g++){
-                if(pointInsideBox({position:inputs.rel},{position:{x:65,y:235+this.calc.int},width:110,height:20})){
+                if(pointInsideBox({position:inputs.rel},{position:{x:80,y:235+this.calc.int},width:140,height:20})){
                     this.tabs.list[this.tabs.select]=this.tabData[this.tabs.list[this.tabs.select]].fold[g]
                 }
                 this.calc.int+=25
@@ -181,7 +268,7 @@ class editor{
                 this.calc.int+=25
             }
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length;g<lg;g++){
-                if(pointInsideBox({position:inputs.rel},{position:{x:55,y:235+this.calc.int},width:90,height:20})){
+                if(pointInsideBox({position:inputs.rel},{position:{x:70,y:235+this.calc.int},width:120,height:20})){
                     this.toggle(this.tabData[this.tabs.list[this.tabs.select]].toggle.type[g])
                 }
                 this.calc.int+=25
@@ -192,10 +279,10 @@ class editor{
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].slide.type.length;g<lg;g++){
                 if(pointInsideBox({position:inputs.rel},{position:{x:10,y:240+this.calc.int},width:10,height:10})){
                     this.slide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g],this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])
-                }else if(pointInsideBox({position:inputs.rel},{position:{x:120,y:240+this.calc.int},width:10,height:10})){
+                }else if(pointInsideBox({position:inputs.rel},{position:{x:180,y:240+this.calc.int},width:10,height:10})){
                     this.slide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g],this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1])
-                }else if(pointInsideBox({position:inputs.rel},{position:{x:65,y:240+this.calc.int},width:100,height:10})){
-                    this.slide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g],(inputs.rel.x-15)/100*(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1]-this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])+this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])
+                }else if(pointInsideBox({position:inputs.rel},{position:{x:95,y:240+this.calc.int},width:160,height:10})){
+                    this.slide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g],(inputs.rel.x-15)/160*(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1]-this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])+this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])
                 }
                 this.calc.int+=25
             }
