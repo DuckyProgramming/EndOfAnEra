@@ -3,15 +3,18 @@ class editor{
         this.layer=layer
         this.groups={name:['Body','Legs'],location:[1,5]}
         this.tabData=[
-            {name:'',fold:[],toggle:{type:[],name:[]},slide:{type:[],limit:[],name:[]}},
             {
+                name:'',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[],limit:[],name:[]}
+            },{
                 name:'Body/',fold:[2,3,4],
                 toggle:{type:[],name:[]},
                 slide:{type:[],limit:[],name:[]}
             },{
                 name:'Body/Main',fold:[],
                 toggle:{type:[2],name:['Display']},
-                slide:{type:[],limit:[],name:[]}
+                slide:{type:[1],limit:[[0,1]],name:['Fade']}
             },{
                 name:'Body/Necklace',fold:[],
                 toggle:{type:[3,4],name:['Front/Display','Back/Display']},
@@ -85,6 +88,15 @@ class editor{
                 this.layer.rect(65,235+this.calc.int,110,20,5)
                 this.calc.int+=25
             }
+            if(this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length>0){
+                this.calc.int+=25
+            }
+            for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].slide.type.length;g<lg;g++){
+                this.layer.rect(15,240+this.calc.int,10,10,5)
+                this.layer.rect(115,240+this.calc.int,10,10,5)
+                this.layer.rect(65,240+this.calc.int,100,5,5)
+                this.calc.int+=25
+            }
         }
         this.layer.fill(0,this.fade)
         this.layer.textSize(12)
@@ -111,6 +123,9 @@ class editor{
                 }else{
                     this.layer.text('Off',100,235+this.calc.int)
                 }
+                this.calc.int+=25
+            }
+            if(this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length>0){
                 this.calc.int+=25
             }
         }
@@ -140,7 +155,7 @@ class editor{
         if(this.tabs.select<this.tabs.list.length){
             this.calc.int=0
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].fold.length;g<lg;g++){
-                if(pointInsideBox({position:inputs.rel},{position:{x:55,y:235+this.calc.int},width:90,height:20})){
+                if(pointInsideBox({position:inputs.rel},{position:{x:65,y:235+this.calc.int},width:110,height:20})){
                     this.tabs.list[this.tabs.select]=this.tabData[this.tabs.list[this.tabs.select]].fold[g]
                 }
                 this.calc.int+=25
@@ -152,6 +167,9 @@ class editor{
                 if(pointInsideBox({position:inputs.rel},{position:{x:55,y:235+this.calc.int},width:90,height:20})){
                     this.toggle(this.tabData[this.tabs.list[this.tabs.select]].toggle.type[g])
                 }
+                this.calc.int+=25
+            }
+            if(this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length>0){
                 this.calc.int+=25
             }
         }

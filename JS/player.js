@@ -53,14 +53,14 @@ class player extends partisan{
         this.fades={flower:1,eye:1,
             necklace:{back:1,front:1},
             skin:{legs:1,body:1,head:1,button:1},
-            kimono:{decoration:{large:{x:1.2,y:0.5},small:{x:1.2,y:0.5}},main:{back:{x:1.2,y:0.5},front:{x:1.2,y:0.5}},outside:{back:1,front:1},fringe:{back:1,front:1},bow:1,flower:1},
+            kimono:{decoration:{large:{x:1,y:1},small:{x:1,y:1}},main:{back:{x:1,y:1},front:{x:1,y:1}},outside:{back:1,front:1},fringe:{back:1,front:1},bow:1,flower:1},
             under:{top:1,bottom:1,bow:1},
         }
 
         this.trigger.display={flower:true,
             hair:{back:true,front:true},eye:true,sandal:{back:true,front:true},sleeve:{back:false,front:false},necklace:{back:true,front:true},
             skin:{legs:true,body:true,head:true,button:true},
-            kimono:{main:{back:true,front:true},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:true,small:true},bow:false,flower:false},
+            kimono:{main:{back:false,front:false},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
             under:{top:false,bottom:false,bow:false},
         }
 
@@ -68,37 +68,17 @@ class player extends partisan{
 
         this.generated={parts:[false,false,false,false,false,false],sprites:[false,false,false,false]}
 
-        if(this.trigger.display.kimono.main.back||this.trigger.display.kimono.main.front){
-            this.generateParts(0)
-        }
-        if(this.trigger.display.kimono.outside.back||this.trigger.display.kimono.outside.front){
-            this.generateParts(1)
-        }
-        if(this.trigger.display.kimono.fringe.back||this.trigger.display.kimono.fringe.front){
-            this.generateParts(2)
-        }
-        if(this.trigger.display.kimono.decoration.large){
-            this.generateParts(3)
-        }
-        if(this.trigger.display.kimono.decoration.small){
-            this.generateParts(4)
-        }
-        if(this.trigger.display.under.top||this.trigger.display.under.bottom){
-            this.generateParts(5)
-        }
+        if(this.trigger.display.kimono.main.back||this.trigger.display.kimono.main.front){this.generateParts(0)}
+        if(this.trigger.display.kimono.outside.back||this.trigger.display.kimono.outside.front){this.generateParts(1)}
+        if(this.trigger.display.kimono.fringe.back||this.trigger.display.kimono.fringe.front){this.generateParts(2)}
+        if(this.trigger.display.kimono.decoration.large){this.generateParts(3)}
+        if(this.trigger.display.kimono.decoration.small){this.generateParts(4)}
+        if(this.trigger.display.under.top||this.trigger.display.under.bottom){this.generateParts(5)}
 
-        if(this.trigger.display.hair.back||this.trigger.display.hair.front){
-            this.generateSprites(0)
-        }
-        if(this.trigger.display.kimono.main.back||this.trigger.display.kimono.main.front){
-            this.generateSprites(1)
-        }
-        if(this.trigger.display.kimono.outside.back||this.trigger.display.kimono.outside.front){
-            this.generateSprites(2)
-        }
-        if(this.trigger.display.kimono.fringe.back||this.trigger.display.kimono.fringe.front){
-            this.generateSprites(3)
-        }
+        if(this.trigger.display.hair.back||this.trigger.display.hair.front){this.generateSprites(0)}
+        if(this.trigger.display.kimono.main.back||this.trigger.display.kimono.main.front){this.generateSprites(1)}
+        if(this.trigger.display.kimono.outside.back||this.trigger.display.kimono.outside.front){this.generateSprites(2)}
+        if(this.trigger.display.kimono.fringe.back||this.trigger.display.kimono.fringe.front){this.generateSprites(3)}
 
         this.movement={speed:0.4,jump:8}
 
@@ -151,25 +131,25 @@ class player extends partisan{
             break
             case 3:
                 for(let g=0;g<2;g++){
-                    this.kimono.decoration.large.push({spin:90-g*47.5,rotate:24,y:-21-g*5,width:0.75,height:1.5})
+                    this.kimono.decoration.large.push({spin:90-g*47.5,rotate:24,y:50-g*5,width:0.75,height:1.5})
                 }
-                this.kimono.decoration.large.push({spin:134,rotate:12,y:-17,width:0.75,height:1.5})
-                this.kimono.decoration.large.push({spin:180,rotate:0,y:-16,width:0.75,height:1.5})
-                this.kimono.decoration.large.push({spin:226,rotate:-12,y:-17,width:0.75,height:1.5})
+                this.kimono.decoration.large.push({spin:134,rotate:12,y:54,width:0.75,height:1.5})
+                this.kimono.decoration.large.push({spin:180,rotate:0,y:55,width:0.75,height:1.5})
+                this.kimono.decoration.large.push({spin:226,rotate:-12,y:54,width:0.75,height:1.5})
                 for(let g=0;g<7;g++){
-                    this.kimono.decoration.large.push({spin:270+g*47.5,rotate:-24,y:-21-g*5,width:0.75,height:1.5})
+                    this.kimono.decoration.large.push({spin:270+g*47.5,rotate:-24,y:50-g*5,width:0.75,height:1.5})
                 }
             break
             case 4:
                 for(let g=0;g<2;g++){
-                    this.kimono.decoration.small.push({spin:66-g*47.5,rotate:24,y:-24-g*5,width:0.5,height:1})
+                    this.kimono.decoration.small.push({spin:66-g*47.5,rotate:24,y:47-g*5,width:0.5,height:1})
                 }
-                this.kimono.decoration.small.push({spin:112,rotate:21,y:-19,width:0.5,height:1})
-                this.kimono.decoration.small.push({spin:156,rotate:6,y:-16.5,width:0.5,height:1})
-                this.kimono.decoration.small.push({spin:204,rotate:-6,y:-16.5,width:0.5,height:1})
-                this.kimono.decoration.small.push({spin:248,rotate:-21,y:-19,width:0.5,height:1})
+                this.kimono.decoration.small.push({spin:112,rotate:21,y:52,width:0.5,height:1})
+                this.kimono.decoration.small.push({spin:156,rotate:6,y:54.5,width:0.5,height:1})
+                this.kimono.decoration.small.push({spin:204,rotate:-6,y:54.5,width:0.5,height:1})
+                this.kimono.decoration.small.push({spin:248,rotate:-21,y:52,width:0.5,height:1})
                 for(let g=0;g<7;g++){
-                    this.kimono.decoration.small.push({spin:294+g*47.5,rotate:-24,y:-24-g*5,width:0.5,height:1})
+                    this.kimono.decoration.small.push({spin:294+g*47.5,rotate:-24,y:47-g*5,width:0.5,height:1})
                 }
             break
             case 5:
@@ -701,26 +681,26 @@ class player extends partisan{
                 this.layer.fill(114,40,119,this.fade)
                 for(let g=0,lg=this.kimono.decoration.small.length;g<lg;g++){
                     if(cos(this.kimono.decoration.small[g].spin+this.anim.direction)>0){
-                        this.layer.translate((14+this.kimono.decoration.small[g].y*0.16)*sin(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.small.x,-60-15*this.fades.kimono.decoration.small.y+this.kimono.decoration.small[g].y)
+                        this.layer.translate((2.64+this.kimono.decoration.small[g].y*0.16)*sin(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.small.x,-60-11*this.fades.kimono.decoration.small.y+this.kimono.decoration.small[g].y*this.fades.kimono.decoration.small.y)
                         this.layer.rotate(this.kimono.decoration.small[g].rotate)
-                        this.layer.ellipse(0,0,this.kimono.decoration.small[g].width*cos(this.kimono.decoration.small[g].spin+this.anim.direction),this.kimono.decoration.small[g].height)
+                        this.layer.ellipse(0,0,this.kimono.decoration.small[g].width*cos(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.small.x,this.kimono.decoration.small[g].height*this.fades.kimono.decoration.small.y)
                         this.layer.rotate(-this.kimono.decoration.small[g].rotate)
-                        this.layer.translate(-(14+this.kimono.decoration.small[g].y*0.16)*sin(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.small.x,60+15*this.fades.kimono.decoration.small.y-this.kimono.decoration.small[g].y)
+                        this.layer.translate(-(2.64+this.kimono.decoration.small[g].y*0.16)*sin(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.small.x,60+11*this.fades.kimono.decoration.small.y-this.kimono.decoration.small[g].y*this.fades.kimono.decoration.small.y)
                     }
                 }
             }
             if(this.trigger.display.kimono.decoration.large){
                 this.layer.noStroke()
-                this.layer.fill(114,40,119,this.fade*this.fades.kimono.decoration.large)
+                this.layer.fill(114,40,119,this.fade)
                 for(let g=0,lg=this.kimono.decoration.large.length;g<lg;g++){
                     if(cos(this.kimono.decoration.large[g].spin+this.anim.direction)>0){
-                        this.layer.translate((14+this.kimono.decoration.large[g].y*0.16)*sin(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,-60-15*this.fades.kimono.decoration.large.y+this.kimono.decoration.large[g].y)
+                        this.layer.translate((2.64+this.kimono.decoration.large[g].y*0.16)*sin(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,-60-11*this.fades.kimono.decoration.large.y+this.kimono.decoration.large[g].y*this.fades.kimono.decoration.large.y)
                         this.layer.rotate(this.kimono.decoration.large[g].rotate)
-                        this.layer.ellipse(0,0,this.kimono.decoration.large[g].width*cos(this.kimono.decoration.large[g].spin+this.anim.direction),this.kimono.decoration.large[g].height)
-                        this.layer.ellipse(-this.kimono.decoration.large[g].width*4/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction),0,this.kimono.decoration.large[g].width*2/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction),this.kimono.decoration.large[g].height*2/3)
-                        this.layer.ellipse(this.kimono.decoration.large[g].width*4/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction),0,this.kimono.decoration.large[g].width*2/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction),this.kimono.decoration.large[g].height*2/3)
+                        this.layer.ellipse(0,0,this.kimono.decoration.large[g].width*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,this.kimono.decoration.large[g].height*this.fades.kimono.decoration.large.y)
+                        this.layer.ellipse(-this.kimono.decoration.large[g].width*4/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,0,this.kimono.decoration.large[g].width*2/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,this.kimono.decoration.large[g].height*2/3*this.fades.kimono.decoration.large.y)
+                        this.layer.ellipse(this.kimono.decoration.large[g].width*4/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,0,this.kimono.decoration.large[g].width*2/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,this.kimono.decoration.large[g].height*2/3*this.fades.kimono.decoration.large.y)
                         this.layer.rotate(-this.kimono.decoration.large[g].rotate)
-                        this.layer.translate(-(14+this.kimono.decoration.large[g].y*0.16)*sin(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,60+15*this.fades.kimono.decoration.large.y-this.kimono.decoration.large[g].y)
+                        this.layer.translate(-(2.64+this.kimono.decoration.large[g].y*0.16)*sin(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,60+11*this.fades.kimono.decoration.large.y-this.kimono.decoration.large[g].y*this.fades.kimono.decoration.large.y)
                     }
                 }
             }
