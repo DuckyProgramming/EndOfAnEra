@@ -44,6 +44,16 @@ class editor{
         this.tabs={list:[],select:0}
         this.calc={int:0}
     }
+    findSlide(type){
+        switch(type){
+            case 1: return entities.players[0].fades.skin.body
+        }
+    }
+    slide(type,value){
+        switch(type){
+            case 1: entities.players[0].fades.skin.body=value; break
+        }
+    }
     findToggle(type){
         switch(type){
             case 1: return entities.players[0].trigger.display.skin.legs
@@ -92,8 +102,8 @@ class editor{
                 this.calc.int+=25
             }
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].slide.type.length;g<lg;g++){
-                this.layer.rect(15,240+this.calc.int,10,10,5)
-                this.layer.rect(115,240+this.calc.int,10,10,5)
+                this.layer.ellipse(15,240+this.calc.int,10,10)
+                this.layer.ellipse(115,240+this.calc.int,10,10)
                 this.layer.rect(65,240+this.calc.int,100,5,5)
                 this.calc.int+=25
             }
@@ -119,13 +129,20 @@ class editor{
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length;g<lg;g++){
                 this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].toggle.name[g],55,235+this.calc.int)
                 if(this.findToggle(this.tabData[this.tabs.list[this.tabs.select]].toggle.type[g])){
-                    this.layer.text('On',100,235+this.calc.int)
+                    this.layer.text('On',105,235+this.calc.int)
                 }else{
-                    this.layer.text('Off',100,235+this.calc.int)
+                    this.layer.text('Off',105,235+this.calc.int)
                 }
                 this.calc.int+=25
             }
             if(this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length>0){
+                this.calc.int+=25
+            }
+            for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].slide.type.length;g<lg;g++){
+                this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].slide.name[g],65,230+this.calc.int)
+                this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0],15,230+this.calc.int)
+                this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1],115,230+this.calc.int)
+                this.layer.ellipse(15+((this.findSlide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g])-this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])/(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1]-this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0]))*100,240+this.calc.int,8,8)
                 this.calc.int+=25
             }
         }
@@ -170,6 +187,16 @@ class editor{
                 this.calc.int+=25
             }
             if(this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length>0){
+                this.calc.int+=25
+            }
+            for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].slide.type.length;g<lg;g++){
+                if(pointInsideBox({position:inputs.rel},{position:{x:10,y:240+this.calc.int},width:10,height:10})){
+                    this.slide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g],this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])
+                }else if(pointInsideBox({position:inputs.rel},{position:{x:120,y:240+this.calc.int},width:10,height:10})){
+                    this.slide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g],this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1])
+                }else if(pointInsideBox({position:inputs.rel},{position:{x:65,y:240+this.calc.int},width:100,height:10})){
+                    this.slide(this.tabData[this.tabs.list[this.tabs.select]].slide.type[g],(inputs.rel.x-15)/100*(this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][1]-this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])+this.tabData[this.tabs.list[this.tabs.select]].slide.limit[g][0])
+                }
                 this.calc.int+=25
             }
         }
