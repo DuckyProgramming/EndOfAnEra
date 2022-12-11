@@ -10,15 +10,15 @@ class editor{
                 slide:{type:[],limit:[],name:[]}
             },{
                 name:'Body/Main',fold:[],
-                toggle:{type:[],name:[]},
+                toggle:{type:[2],name:['Display']},
                 slide:{type:[],limit:[],name:[]}
             },{
-                name:'Body/Head',fold:[],
-                toggle:{type:[],name:[]},
+                name:'Body/Necklace',fold:[],
+                toggle:{type:[3,4],name:['Front/Display','Back/Display']},
                 slide:{type:[],limit:[],name:[]}
             },{
                 name:'Body/Attach',fold:[],
-                toggle:{type:[],name:[]},
+                toggle:{type:[5],name:['Button/Display']},
                 slide:{type:[],limit:[],name:[]}
             },{
                 name:'Legs/',fold:[6,7,8],
@@ -44,11 +44,19 @@ class editor{
     findToggle(type){
         switch(type){
             case 1: return entities.players[0].trigger.display.skin.legs
+            case 2: return entities.players[0].trigger.display.skin.body
+            case 3: return entities.players[0].trigger.display.necklace.front
+            case 4: return entities.players[0].trigger.display.necklace.back
+            case 5: return entities.players[0].trigger.display.skin.button
         }
     }
     toggle(type){
         switch(type){
             case 1: entities.players[0].trigger.display.skin.legs=toggle(entities.players[0].trigger.display.skin.legs); break
+            case 2: entities.players[0].trigger.display.skin.body=toggle(entities.players[0].trigger.display.skin.body); break
+            case 3: entities.players[0].trigger.display.necklace.front=toggle(entities.players[0].trigger.display.necklace.front); break
+            case 4: entities.players[0].trigger.display.necklace.back=toggle(entities.players[0].trigger.display.necklace.back); break
+            case 5: entities.players[0].trigger.display.skin.button=toggle(entities.players[0].trigger.display.skin.button); break
         }
     }
     display(){
@@ -70,7 +78,9 @@ class editor{
                 this.layer.rect(65,235+this.calc.int,110,20,5)
                 this.calc.int+=25
             }
-            this.calc.int+=25
+            if(this.tabData[this.tabs.list[this.tabs.select]].fold.length>0){
+                this.calc.int+=25
+            }
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length;g<lg;g++){
                 this.layer.rect(65,235+this.calc.int,110,20,5)
                 this.calc.int+=25
@@ -91,7 +101,9 @@ class editor{
                 this.layer.text(this.tabData[this.tabData[this.tabs.list[this.tabs.select]].fold[g]].name,65,235+this.calc.int)
                 this.calc.int+=25
             }
-            this.calc.int+=25
+            if(this.tabData[this.tabs.list[this.tabs.select]].fold.length){
+                this.calc.int+=25
+            }
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length;g<lg;g++){
                 this.layer.text(this.tabData[this.tabs.list[this.tabs.select]].toggle.name[g],55,235+this.calc.int)
                 if(this.findToggle(this.tabData[this.tabs.list[this.tabs.select]].toggle.type[g])){
@@ -113,6 +125,9 @@ class editor{
             }
         }
         for(let g=0,lg=this.tabs.list.length;g<lg;g++){
+            if(pointInsideBox({position:inputs.rel},{position:{x:135,y:20+g*25},width:90,height:20})){
+                this.tabs.select=g
+            }
             if(pointInsideBox({position:inputs.rel},{position:{x:190,y:20+g*25},width:20,height:20})){
                 this.tabs.list.splice(g,1)
                 g--
@@ -130,7 +145,9 @@ class editor{
                 }
                 this.calc.int+=25
             }
-            this.calc.int+=25
+            if(this.tabData[this.tabs.list[this.tabs.select]].fold.length>0){
+                this.calc.int+=25
+            }
             for(let g=0,lg=this.tabData[this.tabs.list[this.tabs.select]].toggle.type.length;g<lg;g++){
                 if(pointInsideBox({position:inputs.rel},{position:{x:55,y:235+this.calc.int},width:90,height:20})){
                     this.toggle(this.tabData[this.tabs.list[this.tabs.select]].toggle.type[g])
