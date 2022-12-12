@@ -4,7 +4,7 @@ class player extends partisan{
         this.offset={position:{x:0,y:145}}
 
         this.anim={eye:[0,0],direction:36,
-        under:{top:1,bottom:1},
+        under:{top:{x:1,y:1},bottom:{x:1,y:1},bow:{x:1,y:1}},
         legs:[
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}},
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}}
@@ -37,7 +37,7 @@ class player extends partisan{
         }
 
         this.parts={eyeLevel:-72,flowerLevel:-77.5,
-            under:{top:-50.5,bottom:-31},
+            under:{top:-50.5,bottom:-31,bow:-1.5},
             kimono:{flowerLevel:-44},
             legs:[
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
@@ -600,37 +600,37 @@ class player extends partisan{
                 this.layer.noStroke()
                 this.layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade*this.fades.under.bottom)
                 this.layer.beginShape()
-                this.layer.vertex(-5.25,this.parts.under.bottom-7*this.anim.under.bottom)
-                this.layer.bezierVertex(-5,this.parts.under.bottom-5*this.anim.under.bottom,-3,this.parts.under.bottom-1*this.anim.under.bottom,0,this.parts.under.bottom)
-                this.layer.bezierVertex(3,this.parts.under.bottom-1*this.anim.under.bottom,5,this.parts.under.bottom-5*this.anim.under.bottom,5.25,this.parts.under.bottom-7*this.anim.under.bottom)
+                this.layer.vertex(-5.25*this.anim.under.bottom.x,this.parts.under.bottom-7*this.anim.under.bottom.y)
+                this.layer.bezierVertex(-5*this.anim.under.bottom.x,this.parts.under.bottom-5*this.anim.under.bottom.y,-3*this.anim.under.bottom.x,this.parts.under.bottom-1*this.anim.under.bottom.y,0,this.parts.under.bottom)
+                this.layer.bezierVertex(3*this.anim.under.bottom.x,this.parts.under.bottom-1*this.anim.under.bottom.y,5*this.anim.under.bottom.x,this.parts.under.bottom-5*this.anim.under.bottom.y,5.25*this.anim.under.bottom.x,this.parts.under.bottom-7*this.anim.under.bottom.y)
                 this.layer.endShape()
                 this.layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
                 for(let g=0,lg=this.spin.under.top.length;g<lg;g++){
                     if(cos(this.spin.under.top[g]+this.anim.direction)>0){
-                        this.layer.ellipse(5*sin(this.spin.under.top[g]+this.anim.direction),this.parts.under.bottom-6.5*this.anim.under.bottom,cos(this.spin.under.top[g]+this.anim.direction),2.5*this.anim.under.bottom)
+                        this.layer.ellipse(5*sin(this.spin.under.top[g]+this.anim.direction)*this.anim.under.bottom.x,this.parts.under.bottom-6.5*this.anim.under.bottom.y,cos(this.spin.under.top[g]+this.anim.direction)*this.anim.under.bottom.x,2.5*this.anim.under.bottom.y)
                     }
                 }
                 for(let g=0,lg=this.spin.under.bottom.length;g<lg;g++){
                     if(cos(this.spin.under.bottom[g]+this.anim.direction)>0){
-                        this.layer.ellipse(5*sin(this.spin.under.bottom[g]+this.anim.direction),this.parts.under.bottom-5.5*this.anim.under.bottom,cos(this.spin.under.bottom[g]+this.anim.direction),2.5*this.anim.under.bottom)
+                        this.layer.ellipse(5*sin(this.spin.under.bottom[g]+this.anim.direction)*this.anim.under.bottom.x,this.parts.under.bottom-5.5*this.anim.under.bottom.y,cos(this.spin.under.bottom[g]+this.anim.direction)*this.anim.under.bottom.x,2.5*this.anim.under.bottom.y)
                     }
                 }
             }
             if(this.trigger.display.under.top){
                 this.layer.noStroke()
                 this.layer.fill(this.color.under.outside[0],this.color.under.outside[1],this.color.under.outside[2],this.fade*this.fades.under.top)
-                this.layer.quad(-5.5,this.parts.under.top-3.5*this.anim.under.top,5.5,this.parts.under.top-3.5*this.anim.under.top,6.25,this.parts.under.top+3.5*this.anim.under.top,-6.25,this.parts.under.top+3.5*this.anim.under.top)
+                this.layer.quad(-5.5*this.anim.under.top.x,this.parts.under.top-3.5*this.anim.under.top.y,5.5*this.anim.under.top.x,this.parts.under.top-3.5*this.anim.under.top.y,6.25*this.anim.under.top.x,this.parts.under.top+3.5*this.anim.under.top.y,-6.25*this.anim.under.top.x,this.parts.under.top+3.5*this.anim.under.top.y)
                 this.layer.fill(this.color.under.fringe[0],this.color.under.fringe[1],this.color.under.fringe[2],this.fade)
                 for(let g=0,lg=this.spin.under.top.length;g<lg;g++){
                     if(cos(this.spin.under.top[g]+this.anim.direction)>0){
-                        this.layer.ellipse(5.5*sin(this.spin.under.top[g]+this.anim.direction),this.parts.under.top-3*this.anim.under.top,cos(this.spin.under.top[g]+this.anim.direction),2.5*this.anim.under.top)
-                        this.layer.ellipse(6.15*sin(this.spin.under.top[g]+this.anim.direction),this.parts.under.top+2*this.anim.under.top,cos(this.spin.under.top[g]+this.anim.direction),2.5*this.anim.under.top)
+                        this.layer.ellipse(5.5*sin(this.spin.under.top[g]+this.anim.direction)*this.anim.under.top.x,this.parts.under.top-3*this.anim.under.top.y,cos(this.spin.under.top[g]+this.anim.direction)*this.anim.under.top.x,2.5*this.anim.under.top.y)
+                        this.layer.ellipse(6.15*sin(this.spin.under.top[g]+this.anim.direction)*this.anim.under.top.x,this.parts.under.top+2*this.anim.under.top.y,cos(this.spin.under.top[g]+this.anim.direction)*this.anim.under.top.x,2.5*this.anim.under.top.y)
                     }
                 }
                 for(let g=0,lg=this.spin.under.bottom.length;g<lg;g++){
                     if(cos(this.spin.under.bottom[g]+this.anim.direction)>0){
-                        this.layer.ellipse(5.5*sin(this.spin.under.bottom[g]+this.anim.direction),this.parts.under.top-2*this.anim.under.top,cos(this.spin.under.bottom[g]+this.anim.direction),2.5*this.anim.under.top)
-                        this.layer.ellipse(6.15*sin(this.spin.under.bottom[g]+this.anim.direction),this.parts.under.top+3*this.anim.under.top,cos(this.spin.under.bottom[g]+this.anim.direction),2.5*this.anim.under.top)
+                        this.layer.ellipse(5.5*sin(this.spin.under.bottom[g]+this.anim.direction)*this.anim.under.top.x,this.parts.under.top-2*this.anim.under.top.y,cos(this.spin.under.bottom[g]+this.anim.direction)*this.anim.under.top.x,2.5*this.anim.under.top.y)
+                        this.layer.ellipse(6.15*sin(this.spin.under.bottom[g]+this.anim.direction)*this.anim.under.top.x,this.parts.under.top+3*this.anim.under.top.y,cos(this.spin.under.bottom[g]+this.anim.direction)*this.anim.under.top.x,2.5*this.anim.under.top.y)
                     }
                 }
             }
@@ -639,16 +639,16 @@ class player extends partisan{
                 this.layer.stroke(this.color.under.bow[0],this.color.under.bow[1],this.color.under.bow[2],this.fade*this.fades.under.bow)
                 this.layer.strokeWeight(0.4)
                 if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[0]/2+this.anim.direction)>0){
-                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[0]+this.anim.direction)*2.875,this.parts.under.top-1.5*this.anim.under.top,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[0]+this.anim.direction)*5.5),1.6*this.anim.under.top)
+                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875*this.anim.under.bow.x+sin(this.spin.underBow.loop[0]+this.anim.direction)*2.875*this.anim.under.bow.x,this.parts.under.top+this.parts.under.bow*this.anim.under.bow.y,(sin(this.spin.underBow.center+this.anim.direction)*5.5*this.anim.under.bow.x-sin(this.spin.underBow.loop[0]+this.anim.direction)*5.5*this.anim.under.bow.x),1.6*this.anim.under.bow.y)
                 }
                 if(cos(this.spin.underBow.center/2+this.spin.underBow.loop[1]/2+this.anim.direction)>0){
-                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875+sin(this.spin.underBow.loop[1]+this.anim.direction)*2.875,this.parts.under.top-1.5*this.anim.under.top,(sin(this.spin.underBow.center+this.anim.direction)*5.5-sin(this.spin.underBow.loop[1]+this.anim.direction)*5.5),1.6*this.anim.under.top)
+                    this.layer.ellipse(sin(this.spin.underBow.center+this.anim.direction)*2.875*this.anim.under.bow.x+sin(this.spin.underBow.loop[1]+this.anim.direction)*2.875*this.anim.under.bow.x,this.parts.under.top+this.parts.under.bow*this.anim.under.bow.y,(sin(this.spin.underBow.center+this.anim.direction)*5.5*this.anim.under.bow.x-sin(this.spin.underBow.loop[1]+this.anim.direction)*5.5*this.anim.under.bow.x),1.6*this.anim.under.bow.y)
                 }
                 if(cos(this.spin.underBow.center/2+this.spin.underBow.end[0]/2+this.anim.direction)>0){
-                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,this.parts.under.top-1.5*this.anim.under.top,sin(this.spin.underBow.end[0]+this.anim.direction)*6,this.parts.under.top+0.9*this.anim.under.top)
+                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75*this.anim.under.bow.x,this.parts.under.top+this.parts.under.bow*this.anim.under.bow.y,sin(this.spin.underBow.end[0]+this.anim.direction)*6*this.anim.under.bow.x,this.parts.under.top+(this.parts.under.bow+2.4)*this.anim.under.bow.y)
                 }
                 if(cos(this.spin.underBow.center/2+this.spin.underBow.end[1]/2+this.anim.direction)>0){
-                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75,this.parts.under.top-1.5*this.anim.under.top,sin(this.spin.underBow.end[1]+this.anim.direction)*6,this.parts.under.top+0.9*this.anim.under.top)
+                    this.layer.line(sin(this.spin.underBow.center+this.anim.direction)*5.75*this.anim.under.bow.x,this.parts.under.top+this.parts.under.bow*this.anim.under.bow.y,sin(this.spin.underBow.end[1]+this.anim.direction)*6*this.anim.under.bow.x,this.parts.under.top+(this.parts.under.bow+2.4)*this.anim.under.bow.y)
                 }
             }
             if(this.trigger.display.necklace.front){

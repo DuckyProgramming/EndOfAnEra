@@ -1,7 +1,7 @@
 class editor{
     constructor(layer){
         this.layer=layer
-        this.groups={name:['Head','Body','Legs'],location:[12,1,5]}
+        this.groups={name:['Head','Body','Legs','Under','Kimono'],location:[12,1,5,17,22]}
         this.tabData=[
             {
                 name:'',fold:[],
@@ -69,8 +69,56 @@ class editor{
                 slide:{type:[50,52,53,54,55],limit:[[-100,0],[0,1],[0,1],[0,1],[0,1]],name:['Level','Right/Anim','Left/Anim','Right/Fade','Left/Fade']}
             },{
                 name:'Head/Attach',fold:[],
+                toggle:{type:[14],name:['Flower/Display']},
+                slide:{type:[51,56],limit:[[-100,0],[0,1]],name:['Flower/Level','Flower/Size']}
+            },{
+                name:'Under',fold:[18,19,20,21],
                 toggle:{type:[],name:[]},
-                slide:{type:[51],limit:[[-100,0]],name:['Flower/Level']}
+                slide:{type:[],limit:[],name:[]}
+            },{
+                name:'Under/Color',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[57,58,59,60,61,62,63,64,65],limit:[[0,255],[0,255],[0,255],[0,255],[0,255],[0,255],[0,255],[0,255],[0,255]],name:['Main/Color/Red','Main/Color/Green','Main/Color/Blue','Fringe/Color/Red','Fringe/Color/Green','Fringe/Color/Blue','Bow/Color/Red','Bow/Color/Green','Bow/Color/Blue']}
+            },{
+                name:'Under/Top',fold:[],
+                toggle:{type:[15],name:['Display']},
+                slide:{type:[66,69,70],limit:[[-100,0],[0,2],[0,2]],name:['Level','Width','Height']}
+            },{
+                name:'Under/Bottom',fold:[],
+                toggle:{type:[16],name:['Display']},
+                slide:{type:[67,71,72],limit:[[-100,0],[0,2],[0,2]],name:['Level','Width','Height']}
+            },{
+                name:'Under/Bow',fold:[],
+                toggle:{type:[17],name:['Display']},
+                slide:{type:[68,73,74],limit:[[-10,10],[0,2],[0,2]],name:['Level','Width','Height']}
+            },{
+                name:'Kimono',fold:[23,24,25,26,27,28],
+                toggle:{type:[],name:[]},
+                slide:{type:[],limit:[],name:[]}
+            },{
+                name:'Kimono/Main',fold:[],
+                toggle:{type:[18,19],name:['Front/Display','Back/Display']},
+                slide:{type:[],limit:[],name:[]}
+            },{
+                name:'Kimono/Outside',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[],limit:[],name:[]}
+            },{
+                name:'Kimono/Fringe',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[],limit:[],name:[]}
+            },{
+                name:'Kimono/Decoration',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[],limit:[],name:[]}
+            },{
+                name:'Kimono/Bow',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[],limit:[],name:[]}
+            },{
+                name:'Kimono/Attach',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[],limit:[],name:[]}
             },
         ]
         this.tabs={list:[],select:0}
@@ -133,6 +181,25 @@ class editor{
             case 53: return entities.players[0].anim.eye[1]
             case 54: return entities.players[0].fades.eye[0]
             case 55: return entities.players[0].fades.eye[1]
+            case 56: return entities.players[0].fades.flower
+            case 57: return entities.players[0].color.under.outside[0]
+            case 58: return entities.players[0].color.under.outside[1]
+            case 59: return entities.players[0].color.under.outside[2]
+            case 60: return entities.players[0].color.under.fringe[0]
+            case 61: return entities.players[0].color.under.fringe[1]
+            case 62: return entities.players[0].color.under.fringe[2]
+            case 63: return entities.players[0].color.under.bow[0]
+            case 64: return entities.players[0].color.under.bow[1]
+            case 65: return entities.players[0].color.under.bow[2]
+            case 66: return entities.players[0].parts.under.top
+            case 67: return entities.players[0].parts.under.bottom
+            case 68: return entities.players[0].parts.under.bow
+            case 69: return entities.players[0].anim.under.top.x
+            case 70: return entities.players[0].anim.under.top.y
+            case 71: return entities.players[0].anim.under.bottom.x
+            case 72: return entities.players[0].anim.under.bottom.y
+            case 73: return entities.players[0].anim.under.bow.x
+            case 74: return entities.players[0].anim.under.bow.y
         }
     }
     slide(type,value){
@@ -192,6 +259,25 @@ class editor{
             case 53: entities.players[0].anim.eye[1]=value; break
             case 54: entities.players[0].fades.eye[0]=value; break
             case 55: entities.players[0].fades.eye[1]=value; break
+            case 56: entities.players[0].fades.flower=value; break
+            case 57: entities.players[0].color.under.outside[0]=value; break
+            case 58: entities.players[0].color.under.outside[1]=value; break
+            case 59: entities.players[0].color.under.outside[2]=value; break
+            case 60: entities.players[0].color.under.fringe[0]=value; break
+            case 61: entities.players[0].color.under.fringe[1]=value; break
+            case 62: entities.players[0].color.under.fringe[2]=value; break
+            case 63: entities.players[0].color.under.bow[0]=value; break
+            case 64: entities.players[0].color.under.bow[1]=value; break
+            case 65: entities.players[0].color.under.bow[2]=value; break
+            case 66: entities.players[0].parts.under.top=value; break
+            case 67: entities.players[0].parts.under.bottom=value; break
+            case 68: entities.players[0].parts.under.bow=value; break
+            case 69: entities.players[0].anim.under.top.x=value; break
+            case 70: entities.players[0].anim.under.top.y=value; break
+            case 71: entities.players[0].anim.under.bottom.x=value; break
+            case 72: entities.players[0].anim.under.bottom.y=value; break
+            case 73: entities.players[0].anim.under.bow.x=value; break
+            case 74: entities.players[0].anim.under.bow.y=value; break
         }
     }
     findToggle(type){
@@ -209,6 +295,12 @@ class editor{
             case 11: return entities.players[0].trigger.display.hair.back
             case 12: return entities.players[0].trigger.display.eye[0]
             case 13: return entities.players[0].trigger.display.eye[1]
+            case 14: return entities.players[0].trigger.display.flower
+            case 15: return entities.players[0].trigger.display.under.top
+            case 16: return entities.players[0].trigger.display.under.bottom
+            case 17: return entities.players[0].trigger.display.under.bow
+            case 18: return entities.players[0].trigger.display.kimono.main.front
+            case 19: return entities.players[0].trigger.display.kimono.main.back
         }
     }
     toggle(type){
@@ -226,6 +318,12 @@ class editor{
             case 11: entities.players[0].trigger.display.hair.back=toggle(entities.players[0].trigger.display.hair.back); if(!entities.players[0].generated.sprites[0]){entities.players[0].generateSprites(0)} break
             case 12: entities.players[0].trigger.display.eye[0]=toggle(entities.players[0].trigger.display.eye[0]); break
             case 13: entities.players[0].trigger.display.eye[1]=toggle(entities.players[0].trigger.display.eye[1]); break
+            case 14: entities.players[0].trigger.display.flower=toggle(entities.players[0].trigger.display.flower); break
+            case 15: entities.players[0].trigger.display.under.top=toggle(entities.players[0].trigger.display.under.top); if(!entities.players[0].generated.parts[5]){entities.players[0].generateParts(5)} break
+            case 16: entities.players[0].trigger.display.under.bottom=toggle(entities.players[0].trigger.display.under.bottom); if(!entities.players[0].generated.parts[5]){entities.players[0].generateParts(5)} break
+            case 17: entities.players[0].trigger.display.under.bow=toggle(entities.players[0].trigger.display.under.bow); break
+            case 18: entities.players[0].trigger.display.kimono.main.front=toggle(entities.players[0].trigger.display.kimono.main.front); if(!entities.players[0].generated.sprites[1]){entities.players[0].generateSprites(1)} break
+            case 18: entities.players[0].trigger.display.kimono.main.back=toggle(entities.players[0].trigger.display.kimono.main.back); if(!entities.players[0].generated.sprites[1]){entities.players[0].generateSprites(1)} break
         }
     }
     display(){
