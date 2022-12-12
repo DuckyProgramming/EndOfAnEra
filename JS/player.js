@@ -3,7 +3,7 @@ class player extends partisan{
         super(layer,x,y,0,30,90)
         this.offset={position:{x:0,y:145}}
 
-        this.anim={eye:0,direction:36,
+        this.anim={eye:[0,0],direction:36,
         under:{top:1,bottom:1},
         legs:[
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}},
@@ -50,7 +50,7 @@ class player extends partisan{
                 {top:{x:0,y:0},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}}
             ]}
 
-        this.fades={flower:1,eye:1,
+        this.fades={flower:1,eye:[1,1],
             sandal:{back:[1,1],front:[1,1]},necklace:{back:1,front:1},
             skin:{legs:1,body:1,head:1,button:1},
             kimono:{decoration:{large:{x:1,y:1},small:{x:1,y:1}},main:{back:{x:1,y:1},front:{x:1,y:1}},outside:{back:1,front:1},fringe:{back:1,front:1},bow:1,flower:1},
@@ -58,7 +58,7 @@ class player extends partisan{
         }
 
         this.trigger.display={flower:true,
-            hair:{back:true,front:true},eye:true,sandal:{back:[true,true],front:[true,true]},sleeve:{back:false,front:false},necklace:{back:true,front:true},
+            hair:{back:true,front:true},eye:[true,true],sandal:{back:[true,true],front:[true,true]},sleeve:{back:false,front:false},necklace:{back:true,front:true},
             skin:{legs:true,body:true,head:true,button:true},
             kimono:{main:{back:false,front:false},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
             under:{top:false,bottom:false,bow:false},
@@ -166,6 +166,7 @@ class player extends partisan{
         this.generated.sprites[type]=true
         switch(type){
             case 0:
+                this.sprites.hair={front:[],back:[]}
                 for(let g=0;g<360/this.sprites.detail;g++){
                     this.sprites.hair.front.push(createGraphics(200,300))
                     setupLayer(this.sprites.hair.front[g])
@@ -182,6 +183,7 @@ class player extends partisan{
                 }
             break
             case 1:
+                this.sprites.kimono.main={front:[],back:[]}
                 for(let g=0;g<360/this.sprites.detail;g++){
                     this.sprites.kimono.main.front.push(createGraphics(150,330))
                     setupLayer(this.sprites.kimono.main.front[g])
@@ -198,6 +200,7 @@ class player extends partisan{
                 }
             break
             case 2:
+                this.sprites.kimono.outside={front:[],back:[]}
                 for(let g=0;g<24;g++){
                     this.sprites.kimono.outside.front.push(createGraphics(150,200))
                     setupLayer(this.sprites.kimono.outside.front[g])
@@ -214,6 +217,7 @@ class player extends partisan{
                 }
             break
             case 3:
+                this.sprites.kimono.frigne={front:[],back:[]}
                 for(let g=0;g<12;g++){
                     this.sprites.kimono.fringe.front.push(createGraphics(150,50))
                     setupLayer(this.sprites.kimono.fringe.front[g])
@@ -749,21 +753,17 @@ class player extends partisan{
                 this.layer.noStroke()
                 this.layer.ellipse(0,-75,30,30)
             }
-            if(this.trigger.display.eye){
-                this.layer.stroke(this.color.eye.back[0],this.color.eye.back[1],this.color.eye.back[2],this.fade*this.fades.eye)
-                this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
-                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2)
-                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[0]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2)
-                this.layer.strokeWeight((4-this.anim.eye*3)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
-                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2)
-                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*15-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel,sin(this.spin.eye[1]+this.anim.direction)*15+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2)
-                this.layer.stroke(this.color.eye.front[0],this.color.eye.front[1],this.color.eye.front[2],this.fade)
-                this.layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[0]+this.anim.direction)*5,0,1))
-                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2+0.2-this.anim.eye*0.2)
-                this.layer.line(sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[0]+this.anim.direction)*(15.5+this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2+0.2-this.anim.eye*0.2)
-                this.layer.strokeWeight((3-this.anim.eye*2)*constrain(cos(this.spin.eye[1]+this.anim.direction)*5,0,1))
-                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel-this.anim.eye*2+0.2-this.anim.eye*0.2)
-                this.layer.line(sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)-cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+0.2-this.anim.eye*0.2,sin(this.spin.eye[1]+this.anim.direction)*(15.5-this.anim.eye*0.5)+cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye*2,this.parts.eyeLevel+this.anim.eye*2+0.2-this.anim.eye*0.2)
+            for(let g=0;g<2;g++){
+                if(this.trigger.display.eye[g]){
+                    this.layer.stroke(this.color.eye.back[0],this.color.eye.back[1],this.color.eye.back[2],this.fade*this.fades.eye[g])
+                    this.layer.strokeWeight((4-this.anim.eye[g]*3)*constrain(cos(this.spin.eye[g]+this.anim.direction)*5,0,1))
+                    this.layer.line(sin(this.spin.eye[g]+this.anim.direction)*15-(g*2-1)*cos(this.spin.eye[g]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel,sin(this.spin.eye[g]+this.anim.direction)*15+(g*2-1)*cos(this.spin.eye[g]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel-this.anim.eye[g]*2)
+                    this.layer.line(sin(this.spin.eye[g]+this.anim.direction)*15-(g*2-1)*cos(this.spin.eye[g]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel,sin(this.spin.eye[g]+this.anim.direction)*15+(g*2-1)*cos(this.spin.eye[g]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel+this.anim.eye[g]*2)
+                    this.layer.stroke(this.color.eye.front[0],this.color.eye.front[1],this.color.eye.front[2],this.fade*this.fades.eye[g])
+                    this.layer.strokeWeight((3-this.anim.eye[g]*2)*constrain(cos(this.spin.eye[g]+this.anim.direction)*5,0,1))
+                    this.layer.line(sin(this.spin.eye[g]+this.anim.direction)*(15.5+this.anim.eye[g]*0.5)-(g*2-1)*cos(this.spin.eye[g]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel+0.2-this.anim.eye[g]*0.2,sin(this.spin.eye[g]+this.anim.direction)*(15.5+this.anim.eye[g]*0.5)+(g*2-1)*cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel-this.anim.eye[g]*2+0.2-this.anim.eye[g]*0.2)
+                    this.layer.line(sin(this.spin.eye[g]+this.anim.direction)*(15.5+this.anim.eye[g]*0.5)-(g*2-1)*cos(this.spin.eye[g]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel+0.2-this.anim.eye[g]*0.2,sin(this.spin.eye[g]+this.anim.direction)*(15.5+this.anim.eye[g]*0.5)+(g*2-1)*cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel+this.anim.eye[g]*2+0.2-this.anim.eye[g]*0.2)
+                }
             }
             if(this.trigger.display.hair.front){
                 this.layer.image(this.sprites.hair.front[this.sprites.spinDetail],-20*this.fade,-75-20*this.fade,40*this.fade,60*this.fade)
