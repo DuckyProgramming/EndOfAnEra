@@ -38,7 +38,7 @@ class player extends partisan{
 
         this.parts={eyeLevel:-72,flowerLevel:-77.5,
             under:{top:-50.5,bottom:-31,bow:-1.5},
-            kimono:{flowerLevel:-44},
+            kimono:{main:-60,outside:-60,fringe:-38,flowerLevel:-44},
             legs:[
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}}
@@ -53,14 +53,14 @@ class player extends partisan{
         this.fades={flower:1,eye:[1,1],
             sandal:{back:[1,1],front:[1,1]},necklace:{back:1,front:1},
             skin:{legs:1,body:1,head:1,button:1},
-            kimono:{decoration:{large:{x:1,y:1},small:{x:1,y:1}},main:{back:{x:1,y:1},front:{x:1,y:1}},outside:{back:1,front:1},fringe:{back:1,front:1},bow:1,flower:1},
+            kimono:{decoration:{position:{large:{x:1,y:1},small:{x:1,y:1}},size:{large:{x:1,y:1},small:{x:1,y:1}}},main:{back:{x:1,y:1},front:{x:1,y:1}},outside:{back:{x:1,y:1},front:{x:1,y:1}},fringe:{back:{x:1,y:1},front:{x:1,y:1}},bow:1,flower:1},
             under:{top:1,bottom:1,bow:1},
         }
 
         this.trigger.display={flower:true,
             hair:{back:true,front:true},eye:[true,true],sandal:{back:[true,true],front:[true,true]},sleeve:{back:false,front:false},necklace:{back:true,front:true},
             skin:{legs:true,body:true,head:true,button:true},
-            kimono:{main:{back:false,front:false},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
+            kimono:{main:{back:true,front:true},outside:{back:true,front:true},fringe:{back:true,front:true},decoration:{large:true,small:true},bow:false,flower:false},
             under:{top:false,bottom:false,bow:false},
         }
 
@@ -498,13 +498,13 @@ class player extends partisan{
             this.layer.triangle(0,-44,-10,-50,-10,-38)
             this.layer.triangle(0,-44,10,-50,10,-38)*/
             if(this.trigger.display.kimono.fringe.back){
-                this.layer.image(this.sprites.kimono.fringe.back[this.sprites.spin%12],-15*this.fade*this.fades.kimono.fringe.back,-38-5*this.fade*this.fades.kimono.fringe.back,30*this.fade*this.fades.kimono.fringe.back,10*this.fade*this.fades.kimono.fringe.back)
+                this.layer.image(this.sprites.kimono.fringe.back[this.sprites.spin%12],-15*this.fade*this.fades.kimono.fringe.back.x,this.parts.kimono.fringe-5*this.fade*this.fades.kimono.fringe.back.y,30*this.fade*this.fades.kimono.fringe.back.x,10*this.fade*this.fades.kimono.fringe.back.y)
             }
             if(this.trigger.display.kimono.outside.back){
-                this.layer.image(this.sprites.kimono.outside.back[this.sprites.spin%24],-15*this.fade*this.fades.kimono.outside.back,-60,30*this.fade*this.fades.kimono.outside.back,40*this.fade*this.fades.kimono.outside.back)
+                this.layer.image(this.sprites.kimono.outside.back[this.sprites.spin%24],-15*this.fade*this.fades.kimono.outside.back.x,this.parts.kimono.outside,30*this.fade*this.fades.kimono.outside.back.x,40*this.fade*this.fades.kimono.outside.back.y)
             }
             if(this.trigger.display.kimono.main.back){
-                this.layer.image(this.sprites.kimono.main.back[this.sprites.spinDetail],-15*this.fade*this.fades.kimono.main.back.x,-60-15*this.fades.kimono.main.back.y,30*this.fade*this.fades.kimono.main.back.x,66*this.fade*this.fades.kimono.main.back.y)
+                this.layer.image(this.sprites.kimono.main.back[this.sprites.spinDetail],-15*this.fade*this.fades.kimono.main.back.x,this.parts.kimono.main-15*this.fades.kimono.main.back.y,30*this.fade*this.fades.kimono.main.back.x,66*this.fade*this.fades.kimono.main.back.y)
             }
             if(this.trigger.display.skin.body){
                 this.layer.noStroke()
@@ -680,18 +680,18 @@ class player extends partisan{
                 }
             }
             if(this.trigger.display.kimono.main.front){
-                this.layer.image(this.sprites.kimono.main.front[this.sprites.spinDetail],-15*this.fade*this.fades.kimono.main.front.x,-60-15*this.fades.kimono.main.front.y,30*this.fade*this.fades.kimono.main.front.x,66*this.fade*this.fades.kimono.main.front.y)
+                this.layer.image(this.sprites.kimono.main.front[this.sprites.spinDetail],-15*this.fade*this.fades.kimono.main.front.x,this.parts.kimono.main-15*this.fades.kimono.main.front.y,30*this.fade*this.fades.kimono.main.front.x,66*this.fade*this.fades.kimono.main.front.y)
             }
             if(this.trigger.display.kimono.decoration.small){
                 this.layer.noStroke()
                 this.layer.fill(this.color.kimono.decoration[0],this.color.kimono.decoration[1],this.color.kimono.decoration[2],this.fade)
                 for(let g=0,lg=this.kimono.decoration.small.length;g<lg;g++){
                     if(cos(this.kimono.decoration.small[g].spin+this.anim.direction)>0){
-                        this.layer.translate((2.64+this.kimono.decoration.small[g].y*0.16)*sin(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.small.x,-60-11*this.fades.kimono.decoration.small.y+this.kimono.decoration.small[g].y*this.fades.kimono.decoration.small.y)
+                        this.layer.translate((2.64+this.kimono.decoration.small[g].y*0.16)*sin(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.position.small.x,-60-11*this.fades.kimono.decoration.position.small.y+this.kimono.decoration.small[g].y*this.fades.kimono.decoration.position.small.y)
                         this.layer.rotate(this.kimono.decoration.small[g].rotate)
-                        this.layer.ellipse(0,0,this.kimono.decoration.small[g].width*cos(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.small.x,this.kimono.decoration.small[g].height*this.fades.kimono.decoration.small.y)
+                        this.layer.ellipse(0,0,this.kimono.decoration.small[g].width*cos(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.size.small.x,this.kimono.decoration.small[g].height*this.fades.kimono.decoration.size.small.y)
                         this.layer.rotate(-this.kimono.decoration.small[g].rotate)
-                        this.layer.translate(-(2.64+this.kimono.decoration.small[g].y*0.16)*sin(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.small.x,60+11*this.fades.kimono.decoration.small.y-this.kimono.decoration.small[g].y*this.fades.kimono.decoration.small.y)
+                        this.layer.translate(-(2.64+this.kimono.decoration.small[g].y*0.16)*sin(this.kimono.decoration.small[g].spin+this.anim.direction)*this.fades.kimono.decoration.position.small.x,60+11*this.fades.kimono.decoration.position.small.y-this.kimono.decoration.small[g].y*this.fades.kimono.decoration.position.small.y)
                     }
                 }
             }
@@ -700,21 +700,21 @@ class player extends partisan{
                 this.layer.fill(this.color.kimono.decoration[0],this.color.kimono.decoration[1],this.color.kimono.decoration[2],this.fade)
                 for(let g=0,lg=this.kimono.decoration.large.length;g<lg;g++){
                     if(cos(this.kimono.decoration.large[g].spin+this.anim.direction)>0){
-                        this.layer.translate((2.64+this.kimono.decoration.large[g].y*0.16)*sin(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,-60-11*this.fades.kimono.decoration.large.y+this.kimono.decoration.large[g].y*this.fades.kimono.decoration.large.y)
+                        this.layer.translate((2.64+this.kimono.decoration.large[g].y*0.16)*sin(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.position.large.x,this.parts.kimono.main-11*this.fades.kimono.decoration.position.large.y+this.kimono.decoration.large[g].y*this.fades.kimono.decoration.position.large.y)
                         this.layer.rotate(this.kimono.decoration.large[g].rotate)
-                        this.layer.ellipse(0,0,this.kimono.decoration.large[g].width*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,this.kimono.decoration.large[g].height*this.fades.kimono.decoration.large.y)
-                        this.layer.ellipse(-this.kimono.decoration.large[g].width*4/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,0,this.kimono.decoration.large[g].width*2/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,this.kimono.decoration.large[g].height*2/3*this.fades.kimono.decoration.large.y)
-                        this.layer.ellipse(this.kimono.decoration.large[g].width*4/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,0,this.kimono.decoration.large[g].width*2/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,this.kimono.decoration.large[g].height*2/3*this.fades.kimono.decoration.large.y)
+                        this.layer.ellipse(0,0,this.kimono.decoration.large[g].width*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.size.large.x,this.kimono.decoration.large[g].height*this.fades.kimono.decoration.size.large.y)
+                        this.layer.ellipse(-this.kimono.decoration.large[g].width*4/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.size.large.x,0,this.kimono.decoration.large[g].width*2/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.size.large.x,this.kimono.decoration.large[g].height*2/3*this.fades.kimono.decoration.size.large.y)
+                        this.layer.ellipse(this.kimono.decoration.large[g].width*4/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.size.large.x,0,this.kimono.decoration.large[g].width*2/3*cos(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.size.large.x,this.kimono.decoration.large[g].height*2/3*this.fades.kimono.decoration.size.large.y)
                         this.layer.rotate(-this.kimono.decoration.large[g].rotate)
-                        this.layer.translate(-(2.64+this.kimono.decoration.large[g].y*0.16)*sin(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.large.x,60+11*this.fades.kimono.decoration.large.y-this.kimono.decoration.large[g].y*this.fades.kimono.decoration.large.y)
+                        this.layer.translate(-(2.64+this.kimono.decoration.large[g].y*0.16)*sin(this.kimono.decoration.large[g].spin+this.anim.direction)*this.fades.kimono.decoration.position.large.x,-this.parts.kimono.main+11*this.fades.kimono.decoration.position.large.y-this.kimono.decoration.large[g].y*this.fades.kimono.decoration.position.large.y)
                     }
                 }
             }
             if(this.trigger.display.kimono.outside.front){
-                this.layer.image(this.sprites.kimono.outside.front[this.sprites.spin%24],-15*this.fade*this.fades.kimono.outside.front,-60,30*this.fade**this.fades.kimono.outside.front,40*this.fade**this.fades.kimono.outside.front)
+                this.layer.image(this.sprites.kimono.outside.front[this.sprites.spin%24],-15*this.fade*this.fades.kimono.outside.front.x,this.parts.kimono.outside,30*this.fade*this.fades.kimono.outside.front.x,40*this.fade*this.fades.kimono.outside.front.y)
             }
             if(this.trigger.display.kimono.fringe.front){
-                this.layer.image(this.sprites.kimono.fringe.front[this.sprites.spin%12],-15*this.fade*this.fades.kimono.fringe.front,-38-5*this.fade*this.fades.kimono.fringe.front,30*this.fade*this.fades.kimono.fringe.front,10*this.fade*this.fades.kimono.fringe.front)
+                this.layer.image(this.sprites.kimono.fringe.front[this.sprites.spin%12],-15*this.fade*this.fades.kimono.fringe.front.x,this.parts.kimono.fringe-5*this.fade*this.fades.kimono.fringe.front.y,30*this.fade*this.fades.kimono.fringe.front.x,10*this.fade*this.fades.kimono.fringe.front.y)
             }
             /*this.layer.strokeJoin(ROUND)
             this.layer.strokeWeight(0.8)
