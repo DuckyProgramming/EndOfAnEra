@@ -54,7 +54,8 @@ class player extends partisan{
         this.fades={flower:1,eye:[1,1],
             sandal:{back:[1,1],front:[1,1]},necklace:{back:1,front:1},
             skin:{legs:1,body:1,head:1,button:1},
-            kimono:{decoration:{position:{large:{x:1,y:1},small:{x:1,y:1}},size:{large:{x:1,y:1},small:{x:1,y:1}}},main:{back:{x:1,y:1},front:{x:1,y:1}},outside:{back:{x:1,y:1},front:{x:1,y:1}},fringe:{back:{x:1,y:1},front:{x:1,y:1}},bow:1,flower:1},
+            kimono:{decoration:{position:{large:{x:1,y:1},small:{x:1,y:1}},size:{large:{x:1,y:1},small:{x:1,y:1}}},
+            main:{back:{x:1,y:1},front:{x:1,y:1}},outside:{back:{x:1,y:1},front:{x:1,y:1}},fringe:{back:{x:1,y:1},front:{x:1,y:1}},bow:1,flower:1},
             under:{top:1,bottom:1,bow:1},
         }
 
