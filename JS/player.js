@@ -4,7 +4,7 @@ class player extends partisan{
         this.offset={position:{x:0,y:145}}
 
         this.anim={eye:[0,0],direction:36,
-        under:{top:{x:1,y:1},bottom:{x:1,y:1},bow:{position:{x:1,y:1},size:{x:1,y:1}}},
+        under:{top:{x:1,y:1},bottom:{x:1,y:1},bow:{position:{x:1,y:1},size:{x:1,y:1}},under:{bottom:1}},
         kimono:{bow:{position:{x:1,y:1},size:{x:1,y:1}}},
         legs:[
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}},
@@ -23,7 +23,7 @@ class player extends partisan{
         this.spin={
             legs:[{top:-60,bottom:-120},{top:60,bottom:120}],
             bow:{center:0,end:[-5,5],loop:[-20,20]},
-            under:{top:[],bottom:[],under:{top:[-40,40],button:[-39,39],bottom:[0,-10,10]}},
+            under:{top:[],bottom:[],under:{top:[-40,40],button:[-39,39],bottom:[0,-15,15,-9,9]}},
             underBow:{center:0,end:[-8,8],loop:[-32,32]},
             sandal:[10,-10],eye:[-18,18],flower:[-45,-30],necklace:[-45,45,0],button:0}
 
@@ -31,7 +31,7 @@ class player extends partisan{
             hair:{back:[243,154,163],front:[250,211,216]},
             skin:{head:[255,239,224],body:[254,238,223],legs:[255,235,217],button:[250,188,173]},
             eye:{back:[201,108,113],front:[48,4,7]},
-            under:{outside:[242,205,219],fringe:[255,234,241],bow:[172,44,53],under:{top:[251,223,202],button:[234,166,156]}},
+            under:{outside:[242,205,219],fringe:[255,234,241],bow:[172,44,53],under:{top:[251,223,202],button:[234,166,156],bottom:[[255,188,181],[241,138,131]]}},
             kimono:{outside:[255,252,254],outsideBack:[244,220,232],fringe:[242,235,244],fringeBack:[244,199,213],bow:[158,57,60],decoration:[114,40,119],
             main:{start:[232,164,199],end:[255,246,249]},mainBack:{start:[176,108,132],end:[255,228,236]}},
             necklace:[207,90,101],
@@ -56,7 +56,7 @@ class player extends partisan{
             skin:{legs:1,body:1,head:1,button:1},
             kimono:{decoration:{position:{large:{x:1,y:1},small:{x:1,y:1}},size:{large:{x:1,y:1},small:{x:1,y:1}}},
             main:{back:{x:1,y:1},front:{x:1,y:1}},outside:{back:{x:1,y:1},front:{x:1,y:1}},fringe:{back:{x:1,y:1},front:{x:1,y:1}},bow:1,flower:1},
-            under:{top:1,bottom:1,bow:1,under:{top:1,button:1}},
+            under:{top:1,bottom:1,bow:1,under:{top:1,button:1,bottom:1}},
         }
 
         this.trigger.display={flower:true,
@@ -633,6 +633,25 @@ class player extends partisan{
                         }
                     }
                 }
+            }
+            if(this.trigger.display.under.under.bottom&&cos(this.spin.under.under.bottom[0]+this.anim.direction)>0){
+                this.layer.noStroke()
+                this.layer.fill(mergeColor(this.color.skin.body,this.color.under.under.bottom[0],cos(this.spin.under.under.bottom[0]+this.anim.direction)),this.fade*this.fades.under.under.bottom)
+                this.layer.beginShape()
+                this.layer.vertex(sin(this.spin.under.under.bottom[0]+this.anim.direction)*3.5,-35)
+                this.layer.bezierVertex(sin(this.spin.under.under.bottom[0]+this.anim.direction)*2.75,-33.5,sin(this.spin.under.under.bottom[1]*this.anim.under.under.bottom+this.anim.direction)*2.75,-34,sin(this.spin.under.under.bottom[1]*this.anim.under.under.bottom+this.anim.direction)*2.5,-33)
+                this.layer.bezierVertex(sin(this.spin.under.under.bottom[1]*this.anim.under.under.bottom+this.anim.direction)*2.25,-32,sin(this.spin.under.under.bottom[0]+this.anim.direction)*2.25,-32.5,sin(this.spin.under.under.bottom[0]+this.anim.direction)*1.5,-31)
+                this.layer.bezierVertex(sin(this.spin.under.under.bottom[0]+this.anim.direction)*2.25,-32.5,sin(this.spin.under.under.bottom[2]*this.anim.under.under.bottom+this.anim.direction)*2.25,-32,sin(this.spin.under.under.bottom[2]*this.anim.under.under.bottom+this.anim.direction)*2.5,-33)
+                this.layer.bezierVertex(sin(this.spin.under.under.bottom[2]*this.anim.under.under.bottom+this.anim.direction)*2.75,-34,sin(this.spin.under.under.bottom[0]+this.anim.direction)*2.75,-33.5,sin(this.spin.under.under.bottom[0]+this.anim.direction)*3.5,-35)
+                this.layer.endShape()
+                this.layer.fill(mergeColor(this.color.skin.body,this.color.under.under.bottom[1],cos(this.spin.under.under.bottom[0]+this.anim.direction)),this.fade*this.fades.under.under.bottom)
+                this.layer.beginShape()
+                this.layer.vertex(sin(this.spin.under.under.bottom[0]+this.anim.direction)*3.5,-35)
+                this.layer.bezierVertex(sin(this.spin.under.under.bottom[0]+this.anim.direction)*2.75,-33.5,sin(this.spin.under.under.bottom[3]*this.anim.under.under.bottom+this.anim.direction)*2.75,-34,sin(this.spin.under.under.bottom[3]*this.anim.under.under.bottom+this.anim.direction)*2.5,-33)
+                this.layer.bezierVertex(sin(this.spin.under.under.bottom[3]*this.anim.under.under.bottom+this.anim.direction)*2.25,-32,sin(this.spin.under.under.bottom[0]+this.anim.direction)*2.25,-32.5,sin(this.spin.under.under.bottom[0]+this.anim.direction)*1.5,-31)
+                this.layer.bezierVertex(sin(this.spin.under.under.bottom[0]+this.anim.direction)*2.25,-32.5,sin(this.spin.under.under.bottom[4]*this.anim.under.under.bottom+this.anim.direction)*2.25,-32,sin(this.spin.under.under.bottom[4]*this.anim.under.under.bottom+this.anim.direction)*2.5,-33)
+                this.layer.bezierVertex(sin(this.spin.under.under.bottom[4]*this.anim.under.under.bottom+this.anim.direction)*2.75,-34,sin(this.spin.under.under.bottom[0]+this.anim.direction)*2.75,-33.5,sin(this.spin.under.under.bottom[0]+this.anim.direction)*3.5,-35)
+                this.layer.endShape()
             }
             if(this.trigger.display.under.bottom){
                 this.layer.noStroke()
