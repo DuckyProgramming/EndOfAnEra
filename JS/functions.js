@@ -44,6 +44,9 @@ function toggle(bool){
 function mergeColor(color1,color2,value){
 	return [color1[0]*(1-value)+color2[0]*value,color1[1]*(1-value)+color2[1]*value,color1[2]*(1-value)+color2[2]*value]
 }
+function upColor(color,value,key){
+	return [color[0]+value*key[0],color[1]+value*key[1],color[2]+value*key[2]]
+}
 function pointInsideBox(point,box){
 	if(point.position.x>box.position.x-box.width/2&&point.position.x<box.position.x+box.width/2&&point.position.y>box.position.y-box.height/2&&point.position.y<box.position.y+box.height/2){
 		return true
@@ -139,6 +142,8 @@ function generateWorld(layer,level){
 				if(level[a][b]>=100){
 					entities.walls.push(new wall(layer,b*game.tileSize+floor((level[a][b]%100)/10)*game.tileSize/2+game.tileSize/2,a*game.tileSize+(level[a][b]%10)*game.tileSize/2+game.tileSize/2,floor(level[a][b]/100),floor((level[a][b]%100)/10)*game.tileSize+game.tileSize,(level[a][b]%10)*game.tileSize+game.tileSize))
 				}else if(level[a][b]==-1){
+					stage.focus.x=b*game.tileSize+game.tileSize/2
+					stage.focus.y=a*game.tileSize+game.tileSize/2
 					entities.players.push(new player(layer,b*game.tileSize+game.tileSize/2,a*game.tileSize+game.tileSize/2))
 				}
 			}

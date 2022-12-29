@@ -18,6 +18,8 @@ class player extends partisan{
             {spin:[120,-160,155],height:21},{spin:[60,130,90],height:4},{spin:[75,180,110],height:11},{spin:[105,-140,130],height:16}
         ]
 
+        this.tail=[]
+
         this.kimono={main:[],outside:[],fringe:[],decoration:{large:[],small:[]}}
 
         this.spin={
@@ -25,10 +27,10 @@ class player extends partisan{
             bow:{center:0,end:[-5,5],loop:[-20,20]},
             under:{top:[],bottom:[],under:{top:[-40,40],button:[-39,39],bottom:[0,-15,15,-9,9]}},
             underBow:{center:0,end:[-8,8],loop:[-32,32]},
-            sandal:[10,-10],eye:[-18,18],flower:[-45,-30],necklace:[-45,45,0],button:0}
+            sandal:[10,-10],eye:[-18,18],flower:[-45,-30],necklace:[-45,45,0],button:0,tail:85}
 
         this.color={
-            hair:{back:[243,154,163],front:[250,211,216]},
+            hair:{back:[243,154,163],front:[250,211,216],tail:{start:[231,146,154],end:[255,206,214]}},
             skin:{head:[255,239,224],body:[254,238,223],legs:[255,235,217],button:[250,188,173]},
             eye:{back:[201,108,113],front:[48,4,7]},
             under:{outside:[242,205,219],fringe:[255,234,241],bow:[172,44,53],under:{top:[251,223,202],button:[234,166,156],bottom:[[255,188,181],[241,138,131]]}},
@@ -60,13 +62,13 @@ class player extends partisan{
         }
 
         this.trigger.display={flower:true,
-            hair:{back:true,front:true},eye:[true,true],sandal:{back:[false,false],front:[false,false]},sleeve:{back:false,front:false},necklace:{back:false,front:false},
+            hair:{back:true,front:true,tail:true},eye:[true,true],sandal:{back:[false,false],front:[false,false]},sleeve:{back:false,front:false},necklace:{back:false,front:false},
             skin:{legs:true,body:true,head:true,button:true},
             kimono:{main:{back:false,front:false},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
-            under:{top:false,bottom:false,bow:false,under:{top:true,button:true,bottom:true}},
+            under:{top:false,bottom:false,bow:false,under:{top:false,button:false,bottom:false}},
         }
 
-        this.sprites={detail:3,spin:0,spinDetail:0,hair:{back:[],front:[]},kimono:{main:{back:[],front:[]},outside:{back:[],front:[]},fringe:{back:[],front:[]}}}
+        this.sprites={detail:3,spin:0,spinDetail:0,hair:{back:[],front:[],tail:[]},kimono:{main:{back:[],front:[]},outside:{back:[],front:[]},fringe:{back:[],front:[]}}}
 
         this.generated={parts:[false,false,false,false,false,false],sprites:[false,false,false,false]}
 
@@ -76,11 +78,13 @@ class player extends partisan{
         if(this.trigger.display.kimono.decoration.large){this.generateParts(3)}
         if(this.trigger.display.kimono.decoration.small){this.generateParts(4)}
         if(this.trigger.display.under.top||this.trigger.display.under.bottom){this.generateParts(5)}
+        if(this.trigger.display.hair.tail){this.generateParts(6)}
 
         if(this.trigger.display.hair.back||this.trigger.display.hair.front){this.generateSprites(0)}
         if(this.trigger.display.kimono.main.back||this.trigger.display.kimono.main.front){this.generateSprites(1)}
         if(this.trigger.display.kimono.outside.back||this.trigger.display.kimono.outside.front){this.generateSprites(2)}
         if(this.trigger.display.kimono.fringe.back||this.trigger.display.kimono.fringe.front){this.generateSprites(3)}
+        if(this.trigger.display.hair.tail){this.generateSprites(4)}
 
         this.movement={speed:0.4,jump:8}
 
@@ -162,6 +166,15 @@ class player extends partisan{
                     this.spin.under.bottom.push(g*30+15)
                 }
             break
+            case 6:
+                for(let g=0;g<6;g++){
+                    this.tail.push([[],[]])
+                    for(let h=0;h<12;h++){
+                        this.tail[g][0].push({spin:[g*15+h*30-15,g*15+h*30+15,g*15+h*30],y:[0,0,-5]})
+                        this.tail[g][1].push({spin:[g*15+h*30-15,g*15+h*30+15,g*15+h*30],y:[0,0,5]})
+                    }
+                }
+            break
         }
     }
     generateSprites(type){
@@ -235,6 +248,17 @@ class player extends partisan{
                     print('Generated KFB-'+(g+1))
                 }
             break
+            case 4:
+                this.sprites.hair.tail=[]
+                for(let g=0;g<360/this.sprites.detail;g++){
+                    this.sprites.hair.tail.push(createGraphics(120,300))
+                    setupLayer(this.sprites.hair.tail[g])
+                    this.sprites.hair.tail[g].translate(60,0)
+                    this.sprites.hair.tail[g].scale(5)
+                    this.generateSprite(this.sprites.hair.tail[g],8,g*this.sprites.detail)
+                    print('Generated HT-'+(g+1))
+                }
+            break
         }
     }
     generateSprite(layer,type,direction){
@@ -269,6 +293,23 @@ class player extends partisan{
             break
             case 7:
                 this.displayTrianglesBack(layer,this.kimono.fringe,direction,0,18,0.5,0.2,this.color.kimono.fringeBack,1)
+            break
+            case 8:
+                for(let g=0,lg=this.tail.length;g<lg;g++){
+                    this.controlSpin(this.tail[g][0],direction,0)
+                    this.controlSpin(this.tail[g][1],direction,0)
+                    layer.translate(sin(direction*6+g*135)*0.6,0)
+                    this.displayTrianglesFrontMerge(layer,this.tail[g][0],direction,30-g*5,4,1,0.4,
+                        upColor(mergeColor(this.color.hair.tail.start,this.color.hair.tail.end,g/lg),cos(direction+this.spin.tail)*20,[0,1,1]),
+                        upColor(mergeColor(this.color.hair.tail.start,this.color.hair.tail.end,(g+1)/lg),cos(direction+this.spin.tail)*20,[0,1,1]),1),
+                    this.displayTrianglesFrontMerge(layer,this.tail[g][1],direction,30-g*5,4,1,-0.4,
+                        upColor(mergeColor(this.color.hair.tail.start,this.color.hair.tail.end,g/lg),cos(direction+this.spin.tail)*20,[0,1,1]),
+                        upColor(mergeColor(this.color.hair.tail.start,this.color.hair.tail.end,(g+1)/lg),cos(direction+this.spin.tail)*20,[0,1,1]),1)
+                    layer.translate(sin(direction*6+g*135)*-0.6,0)
+                }
+                layer.noStroke()
+                layer.fill(111,23,27)
+                layer.rect(sin(direction*6)*0.3+sin(direction*6+135)*0.3,27.5,abs(sin(direction*6)*0.6-sin(direction*6+135)*0.6)+4,1)
             break
         }
     }
@@ -439,6 +480,9 @@ class player extends partisan{
             if(this.trigger.display.hair.back){
                 this.layer.image(this.sprites.hair.back[this.sprites.spinDetail],-20*this.fade,-75-20*this.fade,40*this.fade,60*this.fade)
             }
+            if(this.trigger.display.hair.tail&&cos(this.spin.tail+this.anim.direction)<=0){
+                this.layer.image(this.sprites.hair.tail[this.sprites.spinDetail],sin(this.spin.tail+this.anim.direction)*16-10*this.fade,-50-25*this.fade,20*this.fade,50*this.fade)
+            }
             /*if(this.anim.sleeve.back>0&&this.trigger.display.sleeve.back){
                 this.layer.noStroke()
                 this.layer.fill(230,186,197,this.fade*this.anim.sleeve.back)
@@ -552,7 +596,7 @@ class player extends partisan{
             if(this.trigger.display.skin.button){
                 if(cos(this.spin.button+this.anim.direction)>0){
                     this.layer.fill(this.color.skin.button[0],this.color.skin.button[1],this.color.skin.button[2],this.fade*this.fades.skin.button)
-                    this.layer.ellipse(sin(this.spin.button+this.anim.direction)*5.3,-42,1*cos(this.spin.button+this.anim.direction),2)
+                    this.layer.ellipse(sin(this.spin.button+this.anim.direction)*5,-42,1*cos(this.spin.button+this.anim.direction),2)
                 }
             }
             /*if(this.anim.sleeve.front>0&&this.trigger.display.sleeve.front){
@@ -821,6 +865,9 @@ class player extends partisan{
                     this.layer.line(sin(this.spin.eye[g]+this.anim.direction)*(15.5+this.anim.eye[g]*0.5)-(g*2-1)*cos(this.spin.eye[g]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel+0.2-this.anim.eye[g]*0.2,sin(this.spin.eye[g]+this.anim.direction)*(15.5+this.anim.eye[g]*0.5)+(g*2-1)*cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel-this.anim.eye[g]*2+0.2-this.anim.eye[g]*0.2)
                     this.layer.line(sin(this.spin.eye[g]+this.anim.direction)*(15.5+this.anim.eye[g]*0.5)-(g*2-1)*cos(this.spin.eye[g]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel+0.2-this.anim.eye[g]*0.2,sin(this.spin.eye[g]+this.anim.direction)*(15.5+this.anim.eye[g]*0.5)+(g*2-1)*cos(this.spin.eye[0]+this.anim.direction)*this.anim.eye[g]*2,this.parts.eyeLevel+this.anim.eye[g]*2+0.2-this.anim.eye[g]*0.2)
                 }
+            }
+            if(this.trigger.display.hair.tail&&cos(this.spin.tail+this.anim.direction)>0){
+                this.layer.image(this.sprites.hair.tail[this.sprites.spinDetail],sin(this.spin.tail+this.anim.direction)*16-10*this.fade,-50-25*this.fade,20*this.fade,50*this.fade)
             }
             if(this.trigger.display.hair.front){
                 this.layer.image(this.sprites.hair.front[this.sprites.spinDetail],-20*this.fade,-75-20*this.fade,40*this.fade,60*this.fade)
