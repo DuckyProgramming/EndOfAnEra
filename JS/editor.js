@@ -1,7 +1,7 @@
 class editor{
     constructor(layer){
         this.layer=layer
-        this.groups={name:['Head','Body','Legs','Under','Kimono'],location:[12,1,5,17,22]}
+        this.groups={name:['Head','Body','Legs','Arms','Under','Kimono'],location:[12,1,5,30,17,22]}
         this.tabData=[
             {
                 name:'',fold:[],
@@ -123,6 +123,18 @@ class editor{
                 name:'Kimono/Main/Color',fold:[],
                 toggle:{type:[],name:[]},
                 slide:{type:[98,99,100,101,102,103,104,105,106,107,108,109],limit:[[0,255],[0,255],[0,255],[0,255],[0,255],[0,255],[0,255],[0,255],[0,255],[0,255],[0,255],[0,255]],name:['Front/Start/Red','Front/Start/Green','Front/Start/Blue','Front/End/Red','Front/End/Green','Front/End/Blue','Back/Start/Red','Back/Start/Green','Back/Start/Blue','Back/End/Red','Back/End/Green','Back/End/Blue']}
+            },{
+                name:'Arms',fold:[31,32],
+                toggle:{type:[28],name:['Display']},
+                slide:{type:[137,138,139,140],limit:[[0,1],[0,255],[0,255],[0,255]],name:['Fade','Color/Red','Color/Green','Color/Blue']}
+            },{
+                name:'Arms/Length',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[141,142,143,144],limit:[[0,30],[0,30],[0,30],[0,30]],name:['Left/Top','Left/Bottom','Right/Top','Right/Bottom']}
+            },{
+                name:'Arms/Anim',fold:[],
+                toggle:{type:[],name:[]},
+                slide:{type:[145,146,147,148,149,150,151,152],limit:[[0,90],[0,90],[0,90],[0,90],[-180,180],[-180,180],[-180,180],[-180,180]],name:['Right/Angle/Top','Right/Angle/Bottom','Left/Angle/Top','Left/Angle/Bottom','Right/Spin/Top','Right/Spin/Bottom','Left/Spin/Top','Left/Spin/Bottom']}
             },
         ]
         this.tabs={list:[],select:0}
@@ -266,6 +278,22 @@ class editor{
             case 134: return entities.players[0].anim.under.bow.size.y
             case 135: return entities.players[0].parts.kimono.flowerLevel
             case 136: return entities.players[0].fades.kimono.flower
+            case 137: return entities.players[0].fades.skin.arms
+            case 138: return entities.players[0].color.skin.arms[0]
+            case 139: return entities.players[0].color.skin.arms[1]
+            case 140: return entities.players[0].color.skin.arms[2]
+            case 141: return entities.players[0].anim.arms[0].length.top
+            case 142: return entities.players[0].anim.arms[0].length.bottom
+            case 143: return entities.players[0].anim.arms[1].length.top
+            case 144: return entities.players[0].anim.arms[1].length.bottom
+            case 145: return entities.players[0].anim.arms[0].top
+            case 146: return entities.players[0].anim.arms[0].bottom
+            case 147: return entities.players[0].anim.arms[1].top
+            case 148: return entities.players[0].anim.arms[1].bottom
+            case 149: return entities.players[0].spin.arms[0].top
+            case 150: return entities.players[0].spin.arms[0].bottom
+            case 151: return entities.players[0].spin.arms[1].top
+            case 152: return entities.players[0].spin.arms[1].bottom
         }
     }
     slide(type,value){
@@ -406,6 +434,22 @@ class editor{
             case 134: entities.players[0].anim.under.bow.size.y=value; break
             case 135: entities.players[0].parts.kimono.flowerLevel=value; break
             case 136: entities.players[0].fades.kimono.flower=value; break
+            case 137: entities.players[0].fades.skin.arms=value; break
+            case 138: entities.players[0].color.skin.arms[0]=value; break
+            case 139: entities.players[0].color.skin.arms[1]=value; break
+            case 140: entities.players[0].color.skin.arms[2]=value; break
+            case 141: entities.players[0].anim.arms[0].length.top=value; break
+            case 142: entities.players[0].anim.arms[0].length.bottom=value; break
+            case 143: entities.players[0].anim.arms[1].length.top=value; break
+            case 144: entities.players[0].anim.arms[1].length.bottom=value; break
+            case 145: entities.players[0].anim.arms[0].top=value; break
+            case 146: entities.players[0].anim.arms[0].bottom=value; break
+            case 147: entities.players[0].anim.arms[1].top=value; break
+            case 148: entities.players[0].anim.arms[1].bottom=value; break
+            case 149: entities.players[0].spin.arms[0].top=value; break
+            case 150: entities.players[0].spin.arms[0].bottom=value; break
+            case 151: entities.players[0].spin.arms[1].top=value; break
+            case 152: entities.players[0].spin.arms[1].bottom=value; break
         }
     }
     findToggle(type){
@@ -437,6 +481,7 @@ class editor{
             case 25: return entities.players[0].trigger.display.kimono.decoration.small
             case 26: return entities.players[0].trigger.display.kimono.bow
             case 27: return entities.players[0].trigger.display.kimono.flower
+            case 28: return entities.players[0].trigger.display.skin.arms
         }
     }
     toggle(type){
@@ -468,6 +513,7 @@ class editor{
             case 25: entities.players[0].trigger.display.kimono.decoration.small=toggle(entities.players[0].trigger.display.kimono.decoration.small); break
             case 26: entities.players[0].trigger.display.kimono.bow=toggle(entities.players[0].trigger.display.kimono.bow); break
             case 27: entities.players[0].trigger.display.kimono.flower=toggle(entities.players[0].trigger.display.kimono.flower); break
+            case 28: entities.players[0].trigger.display.skin.arms=toggle(entities.players[0].trigger.display.skin.arms); break
         }
     }
     display(){

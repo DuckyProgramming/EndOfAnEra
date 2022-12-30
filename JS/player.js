@@ -9,6 +9,9 @@ class player extends partisan{
         legs:[
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}},
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}}
+        ],arms:[
+            {top:18,bottom:9,length:{top:16,bottom:16}},
+            {top:18,bottom:9,length:{top:16,bottom:16}}
         ]}
 
         this.hair=[
@@ -24,6 +27,7 @@ class player extends partisan{
 
         this.spin={
             legs:[{top:-60,bottom:-120},{top:60,bottom:120}],
+            arms:[{top:-90,bottom:-45},{top:90,bottom:45}],
             bow:{center:0,end:[-5,5],loop:[-20,20]},
             under:{top:[],bottom:[],under:{top:[-40,40],button:[-39,39],bottom:[0,-15,15,-9,9]}},
             underBow:{center:0,end:[-8,8],loop:[-32,32]},
@@ -31,7 +35,7 @@ class player extends partisan{
 
         this.color={
             hair:{back:[243,154,163],front:[250,211,216],tail:{start:[231,146,154],end:[255,206,214]}},
-            skin:{head:[255,239,224],body:[254,238,223],legs:[255,235,217],button:[250,188,173]},
+            skin:{head:[255,239,224],body:[254,238,223],legs:[255,235,217],arms:[255,233,216],button:[250,188,173]},
             eye:{back:[201,108,113],front:[48,4,7]},
             under:{outside:[242,205,219],fringe:[255,234,241],bow:[172,44,53],under:{top:[251,223,202],button:[234,166,156],bottom:[[255,188,181],[241,138,131]]}},
             kimono:{outside:[255,252,254],outsideBack:[244,220,232],fringe:[242,235,244],fringeBack:[244,199,213],bow:[158,57,60],decoration:[114,40,119],
@@ -70,7 +74,7 @@ class player extends partisan{
         this.trigger.display={flower:true,
             hair:{back:true,front:true,tail:true},eye:[true,true],sandal:{back:[false,false],front:[false,false]},sleeve:{back:false,front:false},necklace:{back:false,front:false},
             skin:{legs:true,arms:true,body:true,head:true,button:true},
-            kimono:{main:{back:false,front:false},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
+            kimono:{main:{back:true,front:true},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
             under:{top:false,bottom:false,bow:false,under:{top:false,button:false,bottom:false}},
         }
 
@@ -340,6 +344,18 @@ class player extends partisan{
             this.graphics.legs[g].sandal.front.y=this.parts.legs[g].sandal.front.y
             this.graphics.legs[g].sandal.back.x=this.parts.legs[g].sandal.back.x*sin(this.spin.legs[g].bottom+this.anim.direction),
             this.graphics.legs[g].sandal.back.y=this.parts.legs[g].sandal.back.y
+
+            this.parts.arms[g].middle.x=this.parts.arms[g].top.x+sin(this.anim.arms[g].top)*this.anim.arms[g].length.top
+            this.parts.arms[g].middle.y=this.parts.arms[g].top.y+cos(this.anim.arms[g].top)*this.anim.arms[g].length.top
+            this.parts.arms[g].bottom.x=this.parts.arms[g].middle.x+sin(this.anim.arms[g].bottom)*this.anim.arms[g].length.bottom
+            this.parts.arms[g].bottom.y=this.parts.arms[g].middle.y+cos(this.anim.arms[g].bottom)*this.anim.arms[g].length.bottom
+
+            this.graphics.arms[g].top.x=this.parts.arms[g].top.x*sin(this.spin.arms[g].top+this.anim.direction),
+            this.graphics.arms[g].top.y=this.parts.arms[g].top.y
+            this.graphics.arms[g].middle.x=this.parts.arms[g].middle.x*sin(this.spin.arms[g].top+this.anim.direction),
+            this.graphics.arms[g].middle.y=this.parts.arms[g].middle.y
+            this.graphics.arms[g].bottom.x=this.parts.arms[g].bottom.x*sin(this.spin.arms[g].bottom+this.anim.direction),
+            this.graphics.arms[g].bottom.y=this.parts.arms[g].bottom.y
         }
         this.sprites.spin=(((this.anim.direction%360)+360)%360)
         this.sprites.spinDetail=floor((((this.anim.direction%360)+360)%360)/this.sprites.detail)
@@ -628,6 +644,12 @@ class player extends partisan{
                 this.layer.translate(-3,51)
             }*/
             for(let g=0;g<2;g++){
+                if(this.trigger.display.skin.arms){
+                    this.layer.stroke(this.color.skin.arms[0],this.color.skin.arms[1],this.color.skin.arms[2],this.fade*this.fades.skin.arms)
+                    this.layer.strokeWeight(4)
+                    this.layer.line(this.graphics.arms[g].top.x,this.graphics.arms[g].top.y,this.graphics.arms[g].middle.x,this.parts.arms[g].middle.y)
+                    this.layer.line(this.graphics.arms[g].middle.x,this.graphics.arms[g].middle.y,this.graphics.arms[g].bottom.x,this.parts.arms[g].bottom.y)
+                }
                 for(let h=0;h<2;h++){
                     if((g==0&&h==0||g==1&&h==1)&&cos(this.spin.legs[0].bottom+this.anim.direction)<=cos(this.spin.legs[1].bottom+this.anim.direction)||(g==0&&h==1||g==1&&h==0)&&cos(this.spin.legs[0].bottom+this.anim.direction)>cos(this.spin.legs[1].bottom+this.anim.direction)){
                         if(this.fades.sandal.back[h]>0&&this.trigger.display.sandal.back[h]){
