@@ -10,8 +10,8 @@ class player extends partisan{
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}},
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}}
         ],arms:[
-            {top:18,bottom:9,length:{top:16,bottom:16}},
-            {top:18,bottom:9,length:{top:16,bottom:16}}
+            {top:27,bottom:9,length:{top:16,bottom:16}},
+            {top:27,bottom:9,length:{top:16,bottom:16}}
         ]}
 
         this.hair=[
@@ -27,7 +27,7 @@ class player extends partisan{
 
         this.spin={
             legs:[{top:-60,bottom:-120},{top:60,bottom:120}],
-            arms:[{top:-90,bottom:-45},{top:90,bottom:45}],
+            arms:[{top:-90,bottom:-75},{top:90,bottom:75}],
             bow:{center:0,end:[-5,5],loop:[-20,20]},
             under:{top:[],bottom:[],under:{top:[-40,40],button:[-39,39],bottom:[0,-15,15,-9,9]}},
             underBow:{center:0,end:[-8,8],loop:[-32,32]},
@@ -50,8 +50,8 @@ class player extends partisan{
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}}
             ],arms:[
-                {top:{x:3,y:-54},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
-                {top:{x:3,y:-54},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}}
+                {top:{x:4.5,y:-54},middle:{x:0,y:0},bottom:{x:0,y:0}},
+                {top:{x:4.5,y:-54},middle:{x:0,y:0},bottom:{x:0,y:0}}
             ]}
 
         this.graphics={
@@ -59,8 +59,8 @@ class player extends partisan{
                 {top:{x:0,y:0},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
                 {top:{x:0,y:0},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}}
             ],arms:[
-                {top:{x:0,y:0},middle:{x:0,y:0},bottom:{x:0,y:0}},
-                {top:{x:0,y:0},middle:{x:0,y:0},bottom:{x:0,y:0}}
+                {top:{x:0,y:0},middle:{x:0,y:0},bottom:{x:0,y:0},topStack:{x:0,y:0},middleStack:{x:0,y:0},bottomStack:{x:0,y:0}},
+                {top:{x:0,y:0},middle:{x:0,y:0},bottom:{x:0,y:0},topStack:{x:0,y:0},middleStack:{x:0,y:0},bottomStack:{x:0,y:0}}
             ]}
 
         this.fades={flower:1,eye:[1,1],
@@ -78,7 +78,7 @@ class player extends partisan{
             under:{top:false,bottom:false,bow:false,under:{top:false,button:false,bottom:false}},
         }
 
-        this.sprites={detail:3,spin:0,spinDetail:0,hair:{back:[],front:[],tail:[]},kimono:{main:{back:[],front:[]},outside:{back:[],front:[]},fringe:{back:[],front:[]}}}
+        this.sprites={detail:3,spin:0,spinDetail:0,hair:{back:[],front:[],tail:[]},kimono:{main:{back:[],front:[]},outside:{back:[],front:[]},fringe:{back:[],front:[]},arms:[]}}
 
         this.generated={parts:[false,false,false,false,false,false],sprites:[false,false,false,false]}
 
@@ -208,7 +208,7 @@ class player extends partisan{
                 }
             break
             case 1:
-                this.sprites.kimono.main={front:[],back:[]}
+                this.sprites.kimono.main={front:[],back:[],center:[]}
                 for(let g=0;g<360/this.sprites.detail;g++){
                     this.sprites.kimono.main.front.push(createGraphics(150,330))
                     setupLayer(this.sprites.kimono.main.front[g])
@@ -356,6 +356,13 @@ class player extends partisan{
             this.graphics.arms[g].middle.y=this.parts.arms[g].middle.y
             this.graphics.arms[g].bottom.x=this.parts.arms[g].bottom.x*sin(this.spin.arms[g].bottom+this.anim.direction),
             this.graphics.arms[g].bottom.y=this.parts.arms[g].bottom.y
+
+            this.graphics.arms[g].topStack.x=(this.parts.arms[g].top.x+(4-min(4,cos(this.spin.arms[g].top+this.anim.direction)*10))/2)*sin(this.spin.arms[g].top+this.anim.direction),
+            this.graphics.arms[g].topStack.y=this.parts.arms[g].top.y-(4-min(4,cos(this.spin.arms[g].top+this.anim.direction)*10))/4
+            this.graphics.arms[g].middleStack.x=(this.parts.arms[g].middle.x+(4-min(4,cos(this.spin.arms[g].top+this.anim.direction)*10))/2)*sin(this.spin.arms[g].top+this.anim.direction),
+            this.graphics.arms[g].middleStack.y=this.parts.arms[g].middle.y
+            this.graphics.arms[g].bottomStack.x=(this.parts.arms[g].bottom.x+(4-min(4,cos(this.spin.arms[g].top+this.anim.direction)*10))/2)*sin(this.spin.arms[g].bottom+this.anim.direction),
+            this.graphics.arms[g].bottomStack.y=this.parts.arms[g].bottom.y
         }
         this.sprites.spin=(((this.anim.direction%360)+360)%360)
         this.sprites.spinDetail=floor((((this.anim.direction%360)+360)%360)/this.sprites.detail)
@@ -644,11 +651,11 @@ class player extends partisan{
                 this.layer.translate(-3,51)
             }*/
             for(let g=0;g<2;g++){
-                if(this.trigger.display.skin.arms){
+                if(this.trigger.display.skin.arms&&cos(this.spin.arms[g].top+this.anim.direction)<0.4){
                     this.layer.stroke(this.color.skin.arms[0],this.color.skin.arms[1],this.color.skin.arms[2],this.fade*this.fades.skin.arms)
                     this.layer.strokeWeight(4)
-                    this.layer.line(this.graphics.arms[g].top.x,this.graphics.arms[g].top.y,this.graphics.arms[g].middle.x,this.parts.arms[g].middle.y)
-                    this.layer.line(this.graphics.arms[g].middle.x,this.graphics.arms[g].middle.y,this.graphics.arms[g].bottom.x,this.parts.arms[g].bottom.y)
+                    this.layer.line(this.graphics.arms[g].top.x,this.graphics.arms[g].top.y,this.graphics.arms[g].middle.x,this.graphics.arms[g].middle.y)
+                    this.layer.line(this.graphics.arms[g].middle.x,this.graphics.arms[g].middle.y,this.graphics.arms[g].bottom.x,this.graphics.arms[g].bottom.y)
                 }
                 for(let h=0;h<2;h++){
                     if((g==0&&h==0||g==1&&h==1)&&cos(this.spin.legs[0].bottom+this.anim.direction)<=cos(this.spin.legs[1].bottom+this.anim.direction)||(g==0&&h==1||g==1&&h==0)&&cos(this.spin.legs[0].bottom+this.anim.direction)>cos(this.spin.legs[1].bottom+this.anim.direction)){
@@ -682,8 +689,8 @@ class player extends partisan{
                         if(this.trigger.display.skin.legs){
                             this.layer.stroke(this.color.skin.legs[0],this.color.skin.legs[1],this.color.skin.legs[2],this.fade*this.fades.skin.legs)
                             this.layer.strokeWeight(4)
-                            this.layer.line(this.graphics.legs[h].top.x,this.graphics.legs[h].top.y,this.graphics.legs[h].middle.x,this.parts.legs[h].middle.y)
-                            this.layer.line(this.graphics.legs[h].middle.x,this.graphics.legs[h].middle.y,this.graphics.legs[h].bottom.x,this.parts.legs[h].bottom.y)
+                            this.layer.line(this.graphics.legs[h].top.x,this.graphics.legs[h].top.y,this.graphics.legs[h].middle.x,this.graphics.legs[h].middle.y)
+                            this.layer.line(this.graphics.legs[h].middle.x,this.graphics.legs[h].middle.y,this.graphics.legs[h].bottom.x,this.graphics.legs[h].bottom.y)
                         }
                         if(this.fades.sandal.front[h]>0&&this.trigger.display.sandal.front[h]){
                             this.layer.translate(this.graphics.legs[h].sandal.front.x,this.graphics.legs[h].sandal.front.y+1.5)
@@ -844,6 +851,14 @@ class player extends partisan{
             }
             if(this.trigger.display.kimono.fringe.front){
                 this.layer.image(this.sprites.kimono.fringe.front[this.sprites.spin%12],-15*this.fade*this.fades.kimono.fringe.front.x,this.parts.kimono.fringe-5*this.fade*this.fades.kimono.fringe.front.y,30*this.fade*this.fades.kimono.fringe.front.x,10*this.fade*this.fades.kimono.fringe.front.y)
+            }
+            for(let g=0;g<2;g++){
+                if(this.trigger.display.skin.arms&&cos(this.spin.arms[g].top+this.anim.direction)>0){
+                    this.layer.stroke(this.color.skin.arms[0],this.color.skin.arms[1],this.color.skin.arms[2],this.fade*this.fades.skin.arms)
+                    this.layer.strokeWeight(min(4,cos(this.spin.arms[g].top+this.anim.direction)*10))
+                    this.layer.line(this.graphics.arms[g].topStack.x,this.graphics.arms[g].topStack.y,this.graphics.arms[g].middleStack.x,this.graphics.arms[g].middleStack.y)
+                    this.layer.line(this.graphics.arms[g].middleStack.x,this.graphics.arms[g].middleStack.y,this.graphics.arms[g].bottomStack.x,this.graphics.arms[g].bottomStack.y)
+                }
             }
             /*this.layer.strokeJoin(ROUND)
             this.layer.strokeWeight(0.8)
