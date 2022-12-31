@@ -32,6 +32,7 @@ class player extends partisan{
             bow:{center:0,end:[-5,5],loop:[-20,20]},
             under:{top:[],bottom:[],under:{top:[-40,40],button:[-39,39],bottom:[0,-15,15,-9,9]}},
             underBow:{center:0,end:[-8,8],loop:[-32,32]},
+            necklaceBow:{center:180,end:[172,-172],loop:[160,-160]},
             wrap:{bow:180,bar:33},
             sandal:[10,-10],eye:[-18,18],flower:[-45,-30],necklace:[-45,45,0],button:0,tail:85}
 
@@ -47,7 +48,7 @@ class player extends partisan{
             necklace:[207,90,101],
         }
 
-        this.parts={eyeLevel:-72,flowerLevel:-77.5,
+        this.parts={eyeLevel:-72,flowerLevel:-77.5,necklaceBow:-59,
             under:{top:-50.5,bottom:-31,bow:-1.5},
             kimono:{main:-60,outside:-60,fringe:-38,bow:-53,flowerLevel:-44},
             wrap:{bow:-44,bar:8},
@@ -78,7 +79,7 @@ class player extends partisan{
         }
 
         this.trigger.display={flower:true,
-            hair:{back:true,front:true,tail:true},eye:[true,true],sandal:{back:[false,false],front:[false,false]},sleeve:{back:true,front:true},necklace:{back:false,front:false},
+            hair:{back:true,front:true,tail:true},eye:[true,true],sandal:{back:[false,false],front:[false,false]},sleeve:{back:true,front:true},necklace:{back:true,front:true},
             skin:{legs:true,arms:true,body:true,head:true,button:true},
             kimono:{main:{back:true,front:true},outside:{back:true,front:true},fringe:{back:true,front:true},decoration:{large:true,small:true},bow:false,flower:true},
             under:{top:false,bottom:false,bow:false,under:{top:false,button:false,bottom:false}},
@@ -532,6 +533,16 @@ class player extends partisan{
                 if(cos(this.spin.necklace[0]+this.anim.direction)>0&&cos(this.spin.necklace[1]+this.anim.direction)>0){
                     this.layer.arc(0,-59,6,3,-180,0)
                 }
+                if(cos(this.spin.necklaceBow.center+this.anim.direction)>0){
+                    this.layer.line(sin(this.spin.necklaceBow.center+this.anim.direction)*3,this.parts.necklaceBow+1.5*sqrt(1-sin(this.spin.necklaceBow.center+this.anim.direction)*sin(this.spin.necklaceBow.center+this.anim.direction)),
+                    sin(this.spin.necklaceBow.end[0]+this.anim.direction)*3.5,this.parts.necklaceBow+2+1.5*sqrt(1-sin(this.spin.necklaceBow.end[0]+this.anim.direction)*sin(this.spin.necklaceBow.end[0]+this.anim.direction)))
+                    this.layer.line(sin(this.spin.necklaceBow.center+this.anim.direction)*3,this.parts.necklaceBow+1.5*sqrt(1-sin(this.spin.necklaceBow.center+this.anim.direction)*sin(this.spin.necklaceBow.center+this.anim.direction)),
+                    sin(this.spin.necklaceBow.end[1]+this.anim.direction)*3.5,this.parts.necklaceBow+2+1.5*sqrt(1-sin(this.spin.necklaceBow.end[1]+this.anim.direction)*sin(this.spin.necklaceBow.end[1]+this.anim.direction)))
+                    this.layer.ellipse(sin(this.spin.necklaceBow.loop[0]+this.anim.direction)*3.2,this.parts.necklaceBow+0.5+1.5*sqrt(1-sin(this.spin.necklaceBow.loop[0]+this.anim.direction)*sin(this.spin.necklaceBow.loop[0]+this.anim.direction)),
+                    cos(this.spin.necklaceBow.loop[0]+this.anim.direction)*1.2,1.2)
+                    this.layer.ellipse(sin(this.spin.necklaceBow.loop[1]+this.anim.direction)*3.2,this.parts.necklaceBow+0.5+1.5*sqrt(1-sin(this.spin.necklaceBow.loop[1]+this.anim.direction)*sin(this.spin.necklaceBow.loop[1]+this.anim.direction)),
+                    cos(this.spin.necklaceBow.loop[1]+this.anim.direction)*1.2,1.2)
+                }
                 if(!(this.spin.necklace[0]+this.anim.direction>-130&&this.spin.necklace[0]+this.anim.direction<65)){
                     if(sin(this.spin.necklace[2]+this.anim.direction)*5.25<sin(this.spin.necklace[0]+this.anim.direction)*3){
                         this.layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-180,-90)
@@ -794,6 +805,16 @@ class player extends partisan{
                 if(cos(this.spin.necklace[0]+this.anim.direction)<=0&&cos(this.spin.necklace[1]+this.anim.direction)<=0){
                     this.layer.arc(0,-59,6,3,0,180)
                 }
+                if(cos(this.spin.necklaceBow.center+this.anim.direction)>0){
+                    this.layer.line(sin(this.spin.necklaceBow.center+this.anim.direction)*3,this.parts.necklaceBow+1.5*sqrt(1-sin(this.spin.necklaceBow.center+this.anim.direction)*sin(this.spin.necklaceBow.center+this.anim.direction)),
+                    sin(this.spin.necklaceBow.end[0]+this.anim.direction)*3.5,this.parts.necklaceBow+2+1.5*sqrt(1-sin(this.spin.necklaceBow.end[0]+this.anim.direction)*sin(this.spin.necklaceBow.end[0]+this.anim.direction)))
+                    this.layer.line(sin(this.spin.necklaceBow.center+this.anim.direction)*3,this.parts.necklaceBow+1.5*sqrt(1-sin(this.spin.necklaceBow.center+this.anim.direction)*sin(this.spin.necklaceBow.center+this.anim.direction)),
+                    sin(this.spin.necklaceBow.end[1]+this.anim.direction)*3.5,this.parts.necklaceBow+2+1.5*sqrt(1-sin(this.spin.necklaceBow.end[1]+this.anim.direction)*sin(this.spin.necklaceBow.end[1]+this.anim.direction)))
+                    this.layer.ellipse(sin(this.spin.necklaceBow.loop[0]+this.anim.direction)*3.2,this.parts.necklaceBow+0.5+1.5*sqrt(1-sin(this.spin.necklaceBow.loop[0]+this.anim.direction)*sin(this.spin.necklaceBow.loop[0]+this.anim.direction)),
+                    cos(this.spin.necklaceBow.loop[0]+this.anim.direction)*1.2,1.2)
+                    this.layer.ellipse(sin(this.spin.necklaceBow.loop[1]+this.anim.direction)*3.2,this.parts.necklaceBow+0.5+1.5*sqrt(1-sin(this.spin.necklaceBow.loop[1]+this.anim.direction)*sin(this.spin.necklaceBow.loop[1]+this.anim.direction)),
+                    cos(this.spin.necklaceBow.loop[1]+this.anim.direction)*1.2,1.2)
+                }
                 if(this.spin.necklace[0]+this.anim.direction>-130&&this.spin.necklace[0]+this.anim.direction<65){
                     if(sin(this.spin.necklace[2]+this.anim.direction)*5.25<sin(this.spin.necklace[0]+this.anim.direction)*3){
                         this.layer.arc(sin(this.spin.necklace[0]+this.anim.direction)*3,-54,sin(this.spin.necklace[2]+this.anim.direction)*10.5-sin(this.spin.necklace[0]+this.anim.direction)*6,10-cos(this.spin.necklace[0]+this.anim.direction)*3,-180,-90)
@@ -852,7 +873,7 @@ class player extends partisan{
                 this.layer.quad(-7.3,-44,7.3,-44,7.7,-42,-7.7,-42)
                 this.layer.strokeJoin(MITER)
             }
-            if(this.trigger.display.wrap.bar){
+            if(this.trigger.display.wrap.bar&&cos(this.spin.wrap.bar+this.anim.direction)>0){
                 this.layer.strokeJoin(ROUND)
                 this.layer.strokeWeight(0.8)
                 this.layer.fill(this.color.wrap.in[0],this.color.wrap.in[1],this.color.wrap.in[2],this.fade*this.fades.wrap.bar)
