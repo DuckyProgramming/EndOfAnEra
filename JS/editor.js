@@ -509,8 +509,8 @@ class editor{
             case 21: entities.players[0].trigger.display.kimono.outside.back=toggle(entities.players[0].trigger.display.kimono.outside.back); if(!entities.players[0].generated.parts[1]){entities.players[0].generateParts(1)} if(!entities.players[0].generated.sprites[2]){entities.players[0].generateSprites(2)} break
             case 22: entities.players[0].trigger.display.kimono.fringe.front=toggle(entities.players[0].trigger.display.kimono.fringe.front); if(!entities.players[0].generated.parts[2]){entities.players[0].generateParts(2)} if(!entities.players[0].generated.sprites[3]){entities.players[0].generateSprites(3)} break
             case 23: entities.players[0].trigger.display.kimono.fringe.back=toggle(entities.players[0].trigger.display.kimono.fringe.back); if(!entities.players[0].generated.parts[2]){entities.players[0].generateParts(2)} if(!entities.players[0].generated.sprites[3]){entities.players[0].generateSprites(3)} break
-            case 24: entities.players[0].trigger.display.kimono.decoration.large=toggle(entities.players[0].trigger.display.kimono.decoration.large); break
-            case 25: entities.players[0].trigger.display.kimono.decoration.small=toggle(entities.players[0].trigger.display.kimono.decoration.small); break
+            case 24: entities.players[0].trigger.display.kimono.decoration.large=toggle(entities.players[0].trigger.display.kimono.decoration.large); if(!entities.players[0].generated.parts[3]){entities.players[0].generateParts(3)}; break
+            case 25: entities.players[0].trigger.display.kimono.decoration.small=toggle(entities.players[0].trigger.display.kimono.decoration.small); if(!entities.players[0].generated.parts[4]){entities.players[0].generateParts(4)}; break
             case 26: entities.players[0].trigger.display.kimono.bow=toggle(entities.players[0].trigger.display.kimono.bow); break
             case 27: entities.players[0].trigger.display.kimono.flower=toggle(entities.players[0].trigger.display.kimono.flower); break
             case 28: entities.players[0].trigger.display.skin.arms=toggle(entities.players[0].trigger.display.skin.arms); break
