@@ -6,6 +6,7 @@ class player extends partisan{
         this.anim={eye:[0,0],direction:36,
         under:{top:{x:1,y:1},bottom:{x:1,y:1},bow:{position:{x:1,y:1},size:{x:1,y:1}},under:{bottom:1}},
         kimono:{bow:{position:{x:1,y:1},size:{x:1,y:1}}},
+        wrap:{bow:{position:{x:1,y:1}}},
         legs:[
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}},
             {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}}
@@ -31,7 +32,7 @@ class player extends partisan{
             bow:{center:0,end:[-5,5],loop:[-20,20]},
             under:{top:[],bottom:[],under:{top:[-40,40],button:[-39,39],bottom:[0,-15,15,-9,9]}},
             underBow:{center:0,end:[-8,8],loop:[-32,32]},
-            sandal:[10,-10],eye:[-18,18],flower:[-45,-30],necklace:[-45,45,0],button:0,tail:85}
+            sandal:[10,-10],eye:[-18,18],flower:[-45,-30],necklace:[-45,45,0],button:0,tail:85,wrapBow:180}
 
         this.color={
             hair:{back:[243,154,163],front:[250,211,216],tail:{start:[231,146,154],end:[255,206,214]}},
@@ -71,7 +72,7 @@ class player extends partisan{
             kimono:{decoration:{position:{large:{x:1,y:1},small:{x:1,y:1}},size:{large:{x:1,y:1},small:{x:1,y:1}}},
             main:{back:{x:1,y:1},front:{x:1,y:1}},outside:{back:{x:1,y:1},front:{x:1,y:1}},fringe:{back:{x:1,y:1},front:{x:1,y:1}},bow:1,flower:1},
             under:{top:1,bottom:1,bow:1,under:{top:1,button:1,bottom:1}},
-            wrap:{round:1},
+            wrap:{round:1,bow:true},
         }
 
         this.trigger.display={flower:true,
@@ -79,7 +80,7 @@ class player extends partisan{
             skin:{legs:true,arms:true,body:true,head:true,button:true},
             kimono:{main:{back:true,front:true},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
             under:{top:false,bottom:false,bow:false,under:{top:false,button:false,bottom:false}},
-            wrap:{round:true},
+            wrap:{round:true,bow:true},
         }
 
         this.sprites={detail:3,spin:0,spinDetail:0,hair:{back:[],front:[],tail:[]},kimono:{main:{back:[],front:[]},outside:{back:[],front:[]},fringe:{back:[],front:[]},arms:[]}}
@@ -544,16 +545,15 @@ class player extends partisan{
                     }
                 }
             }
-            /*this.layer.stroke(255,235,217,this.fade)
-            this.layer.strokeWeight(4)
-            this.layer.line(-3,-54,-12,-24)
-            this.layer.line(3,-54,12,-24)
-            this.layer.strokeWeight(0.8)
-            this.layer.stroke(202,51,60,this.fade*this.anim.kimono)
-            this.layer.fill(209,80,84,this.fade*this.anim.kimono)
-            this.layer.strokeJoin(ROUND)
-            this.layer.triangle(0,-44,-10,-50,-10,-38)
-            this.layer.triangle(0,-44,10,-50,10,-38)*/
+            if(this.trigger.display.wrap.bow&&cos(this.spin.wrapBow+this.anim.direction)<=0){
+                this.layer.strokeJoin(ROUND)
+                this.layer.strokeWeight(0.8)
+                this.layer.fill(this.color.wrap.in[0],this.color.wrap.in[1],this.color.wrap.in[2],this.fade*this.fades.wrap.bow)
+                this.layer.stroke(this.color.wrap.out[0],this.color.wrap.out[1],this.color.wrap.out[2],this.fade*this.fades.wrap.bow)
+                this.layer.triangle(sin(this.spin.wrapBow+this.anim.direction)*7.2,-44,sin(this.spin.wrapBow+this.anim.direction)*7.5-cos(this.spin.wrapBow+this.anim.direction)*10,-38,sin(this.spin.wrapBow+this.anim.direction)*7.5-cos(this.spin.wrapBow+this.anim.direction)*10,-50)
+                this.layer.triangle(sin(this.spin.wrapBow+this.anim.direction)*7.2,-44,sin(this.spin.wrapBow+this.anim.direction)*7.5+cos(this.spin.wrapBow+this.anim.direction)*10,-38,sin(this.spin.wrapBow+this.anim.direction)*7.5+cos(this.spin.wrapBow+this.anim.direction)*10,-50)
+                this.layer.strokeJoin(MITER)
+            }
             if(this.trigger.display.kimono.fringe.back){
                 this.layer.image(this.sprites.kimono.fringe.back[this.sprites.spin%12],-15*this.fade*this.fades.kimono.fringe.back.x,this.parts.kimono.fringe-5*this.fade*this.fades.kimono.fringe.back.y,30*this.fade*this.fades.kimono.fringe.back.x,10*this.fade*this.fades.kimono.fringe.back.y)
             }
@@ -892,6 +892,15 @@ class player extends partisan{
                         this.graphics.arms[g].middle.y-(this.graphics.arms[g].top.x-this.graphics.arms[g].middle.x)*(g*2-1)*sign(cos(this.anim.direction))*(0.15+0.12*min(0.5,cos(this.spin.arms[g].top+this.anim.direction)*2+0.8))
                     )
                 }
+            }
+            if(this.trigger.display.wrap.bow&&cos(this.spin.wrapBow+this.anim.direction)>0){
+                this.layer.strokeJoin(ROUND)
+                this.layer.strokeWeight(0.8)
+                this.layer.fill(this.color.wrap.in[0],this.color.wrap.in[1],this.color.wrap.in[2],this.fade*this.fades.wrap.bow)
+                this.layer.stroke(this.color.wrap.out[0],this.color.wrap.out[1],this.color.wrap.out[2],this.fade*this.fades.wrap.bow)
+                this.layer.triangle(sin(this.spin.wrapBow+this.anim.direction)*7.2,-44,sin(this.spin.wrapBow+this.anim.direction)*7.5-cos(this.spin.wrapBow+this.anim.direction)*10,-38,sin(this.spin.wrapBow+this.anim.direction)*7.5-cos(this.spin.wrapBow+this.anim.direction)*10,-50)
+                this.layer.triangle(sin(this.spin.wrapBow+this.anim.direction)*7.2,-44,sin(this.spin.wrapBow+this.anim.direction)*7.5+cos(this.spin.wrapBow+this.anim.direction)*10,-38,sin(this.spin.wrapBow+this.anim.direction)*7.5+cos(this.spin.wrapBow+this.anim.direction)*10,-50)
+                this.layer.strokeJoin(MITER)
             }
             if(this.trigger.display.kimono.bow){
                 this.layer.noFill()
