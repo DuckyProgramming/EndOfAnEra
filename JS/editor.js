@@ -38,7 +38,7 @@ class editor{
             },{
                 name:'Legs/Main/Anim',fold:[],
                 toggle:{type:[],name:[]},
-                slide:{type:[22,23,24,25,26,27,28,29],limit:[[0,90],[0,90],[0,90],[0,90],[-180,180],[-180,180],[-180,180],[-180,180]],name:['Right/Angle/Top','Right/Angle/Bottom','Left/Angle/Top','Left/Angle/Bottom','Right/Spin/Top','Right/Spin/Bottom','Left/Spin/Top','Left/Spin/Bottom']}
+                slide:{type:[22,23,24,25,26,27,28,29],limit:[[-90,90],[-90,90],[-90,90],[-90,90],[-180,180],[-180,180],[-180,180],[-180,180]],name:['Right/Angle/Top','Right/Angle/Bottom','Left/Angle/Top','Left/Angle/Bottom','Right/Spin/Top','Right/Spin/Bottom','Left/Spin/Top','Left/Spin/Bottom']}
             },{
                 name:'Legs/Sandal',fold:[10,11],
                 toggle:{type:[6,7,8,9],name:['Right/Top/Display','Right/Bottom/Display','Left/Top/Display','Left/Bottom/Display']},

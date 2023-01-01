@@ -3,8 +3,8 @@ class player extends partisan{
         super(layer,x,y,0,30,90)
         this.offset={position:{x:0,y:145}}
 
-        this.anim={eye:[0,0],direction:36,
-        under:{top:{x:1,y:1},bottom:{x:1,y:1},bow:{position:{x:1,y:1},size:{x:1,y:1}},under:{bottom:1}},
+        this.anim={direction:36,
+        eye:[0,0],under:{top:{x:1,y:1},bottom:{x:1,y:1},bow:{position:{x:1,y:1},size:{x:1,y:1}},under:{bottom:1}},
         kimono:{bow:{position:{x:1,y:1},size:{x:1,y:1}}},
         wrap:{bow:{position:{x:1,y:1}}},
         legs:[
@@ -80,11 +80,11 @@ class player extends partisan{
         }
 
         this.trigger.display={flower:true,
-            hair:{back:true,front:true,tail:true},eye:[true,true],sandal:{back:[true,true],front:[true,true]},sleeve:{back:true,front:true},necklace:{back:true,front:true},
+            hair:{back:true,front:true,tail:true},eye:[true,true],sandal:{back:[false,false],front:[false,false]},sleeve:{back:false,front:false},necklace:{back:false,front:false},
             skin:{legs:true,arms:true,body:true,head:true,button:true},
-            kimono:{main:{back:true,front:true},outside:{back:true,front:true},fringe:{back:true,front:true},decoration:{large:true,small:true},bow:true,flower:true},
+            kimono:{main:{back:true,front:true},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
             under:{top:false,bottom:false,bow:false,under:{top:false,button:false,bottom:false}},
-            wrap:{round:true,bow:true,bar:true,sleeve:true},
+            wrap:{round:false,bow:false,bar:false,sleeve:false},
         }
 
         this.calc={int:[0,0,0,0]}
@@ -107,9 +107,10 @@ class player extends partisan{
         if(this.trigger.display.kimono.fringe.back||this.trigger.display.kimono.fringe.front){this.generateSprites(3)}
         if(this.trigger.display.hair.tail){this.generateSprites(4)}
 
+        this.animSet={active:false,loop:0,flip:0}
+
         this.movement={speed:0.4,jump:8}
         
-
         this.fade=1
 
         this.size=3
@@ -1071,29 +1072,58 @@ class player extends partisan{
     }
     update(){
         super.update()
+        this.animSet.active=false
         if(inputs.keys[0][0]||inputs.keys[1][0]){
-            //this.velocity.x-=this.movement.speed
-            this.anim.direction-=3
+            this.velocity.x-=this.movement.speed
+            if(this.anim.direction>-84){
+                this.anim.direction-=6
+            }
+            this.animSet.active=toggle(this.animSet.active)
         }
         if(inputs.keys[0][1]||inputs.keys[1][1]){
-            //this.velocity.x+=this.movement.speed
-            this.anim.direction+=3
+            this.velocity.x+=this.movement.speed
+            if(this.anim.direction<84){
+                this.anim.direction+=6
+            }
+            this.animSet.active=toggle(this.animSet.active)
         }
-        //this.anim.direction+=6
+        if(this.animSet.active||this.animSet.loop>0){
+            this.animSet.loop++
+            if(this.animSet.loop>=30){
+                this.animSet.loop-=30
+                this.animSet.flip=1-this.animSet.flip
+            }
+        }
+        this.animSet.start=round(this.animSet.start)
+        this.animSet.loop=round(this.animSet.loop)
+        this.animSet.flip=round(this.animSet.flip)
+        for(let g=0;g<2;g++){
+            this.fades.kimono.size.x=1+abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.2
+            if(sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)>0){
+                this.anim.legs[g].top=24+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*42
+                this.anim.legs[g].bottom=sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-12
+                this.spin.legs[g].top=(60+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-45)*(g*2-1)
+                this.spin.legs[g].bottom=(120+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-90)*(g*2-1)
+            }else{
+                this.anim.legs[g].top=24+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*12
+                this.anim.legs[g].bottom=sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-48
+                this.spin.legs[g].top=(60+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-60)*(g*2-1)
+                this.spin.legs[g].bottom=(120+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-60)*(g*2-1)
+            }
+        }
+
+        /*this.anim.legs=
+        [{top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}},
+        {top:24,bottom:0,length:{top:16,bottom:16,sandal:{back:15.5,front:14.5}}}]
+        
+        this.spin.legs=
+        [{top:-60,bottom:-120},{top:60,bottom:120}]*/
+
         if(this.anim.direction>180){
             this.anim.direction-=360
         }else if(this.anim.direction<-180){
             this.anim.direction+=360
         }
-        /*for(let g=0,lg=this.spinSet.length;g<lg;g++){
-            if(g==1){
-                this.controlSpin(this.spinSet[g],this.anim.direction,1)
-            }else{
-                this.controlSpin(this.spinSet[g],this.anim.direction,0)
-            }
-        }*/
-        //this.anim.directionPosition=constrain(this.anim.directionPosition+this.velocity.x/30,-1,1)
-        //this.anim.eye=sin(this.time*10)*0.5+0.5
         if((inputs.keys[0][2]||inputs.keys[1][2])&&this.timers[0]>0){
             this.timers[0]=0
             this.velocity.y=-this.movement.jump
