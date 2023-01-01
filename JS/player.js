@@ -1116,11 +1116,19 @@ class player extends partisan{
                 this.anim.legs[g].bottom=sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-12
                 this.spin.legs[g].top=(60+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-36)*(g*2-1)
                 this.spin.legs[g].bottom=(120+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-72)*(g*2-1)
+                this.anim.arms[g].top=27+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*3
+                this.anim.arms[g].bottom=9+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*9
+                this.spin.arms[g].top=(93+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*48)*(g*2-1)
+                this.spin.arms[g].bottom=(75+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*45)*(g*2-1)
             }else{
                 this.anim.legs[g].top=24+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*12
                 this.anim.legs[g].bottom=sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-48
                 this.spin.legs[g].top=(60+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-60)*(g*2-1)
                 this.spin.legs[g].bottom=(120+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-60)*(g*2-1)
+                this.anim.arms[g].top=27-sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*9
+                this.anim.arms[g].bottom=9-sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*18
+                this.spin.arms[g].top=(93-sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-33)*(g*2-1)
+                this.spin.arms[g].bottom=(75-sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-27)*(g*2-1)
             }
         }
 
