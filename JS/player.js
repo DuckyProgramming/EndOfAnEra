@@ -51,7 +51,7 @@ class player extends partisan{
 
         this.parts={eyeLevel:-72,flowerLevel:-77.5,necklaceBow:-59,
             under:{top:-50.5,bottom:-31,bow:-1.5},
-            kimono:{main:-60,outside:-60,fringe:-38,bow:-53,flowerLevel:-44},
+            kimono:{main:-58,outside:-62,fringe:-38,bow:-53,flowerLevel:-44},
             wrap:{bow:-44,bar:8},
             legs:[
                 {top:{x:3,y:-32},middle:{x:0,y:0},bottom:{x:0,y:0},sandal:{back:{x:0,y:0},front:{x:0,y:0}}},
@@ -82,7 +82,7 @@ class player extends partisan{
         this.trigger.display={flower:true,
             hair:{back:true,front:true,tail:true},eye:[true,true],sandal:{back:[false,false],front:[false,false]},sleeve:{back:false,front:false},necklace:{back:false,front:false},
             skin:{legs:true,arms:true,body:true,head:true,button:true},
-            kimono:{main:{back:true,front:true},outside:{back:false,front:false},fringe:{back:false,front:false},decoration:{large:false,small:false},bow:false,flower:false},
+            kimono:{main:{back:true,front:true},outside:{back:true,front:true},fringe:{back:true,front:true},decoration:{large:false,small:false},bow:false,flower:false},
             under:{top:false,bottom:false,bow:false,under:{top:false,button:false,bottom:false}},
             wrap:{round:false,bow:false,bar:false,sleeve:false},
         }
@@ -297,18 +297,18 @@ class player extends partisan{
             break
             case 2:
                 this.controlSpin(this.kimono.main,direction,1)
-                this.displayTrianglesFrontMerge(layer,this.kimono.main,direction,20,10,0.5,0.16,this.color.kimono.main.start,this.color.kimono.main.end,1)
+                this.displayTrianglesFrontMerge(layer,this.kimono.main,direction,18,9,0.5,0.16,this.color.kimono.main.start,this.color.kimono.main.end,1)
             break
             case 3:
-                this.displayTrianglesBackMerge(layer,this.kimono.main,direction,20,10,0.5,0.16,this.color.kimono.mainBack.start,this.color.kimono.mainBack.end,1)
+                this.displayTrianglesBackMerge(layer,this.kimono.main,direction,18,9,0.5,0.16,this.color.kimono.mainBack.start,this.color.kimono.mainBack.end,1)
             break
             case 4:
                 this.controlSpin(this.kimono.outside,direction,0)
-                this.displayTrianglesFront(layer,this.kimono.outside,direction,24,18,0.5,0.2,this.color.kimono.outside,1)
-                layer.quad(-5,5,5,5,9,24,-9,24)
+                this.displayTrianglesFront(layer,this.kimono.outside,direction,27,18,0.5,0.2,this.color.kimono.outside,1)
+                layer.quad(-5,7,5,7,9,27,-9,27)
             break
             case 5:
-                this.displayTrianglesBack(layer,this.kimono.outside,direction,24,18,0.5,0.2,this.color.kimono.outsideBack,1)
+                this.displayTrianglesBack(layer,this.kimono.outside,direction,27,18,0.5,0.2,this.color.kimono.outsideBack,1)
             break
             case 6:
                 this.controlSpin(this.kimono.fringe,direction,0)
@@ -1098,12 +1098,24 @@ class player extends partisan{
         this.animSet.loop=round(this.animSet.loop)
         this.animSet.flip=round(this.animSet.flip)
         for(let g=0;g<2;g++){
-            this.fades.kimono.size.x=1+abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.2
+            this.fades.kimono.main.back.x=1+abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.1
+            this.fades.kimono.main.front.x=1+abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.1
+            this.fades.kimono.main.back.y=1-abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.05
+            this.fades.kimono.main.front.y=1-abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.05
+            this.fades.kimono.outside.back.x=1+abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.05
+            this.fades.kimono.outside.front.x=1+abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.05
+            this.fades.kimono.outside.back.y=1-abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.025
+            this.fades.kimono.outside.front.y=1-abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.025
+            this.fades.kimono.fringe.back.x=1+abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.05
+            this.fades.kimono.fringe.front.x=1+abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.05
+            this.fades.kimono.fringe.back.y=1-abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.025
+            this.fades.kimono.fringe.front.y=1-abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.025
+            this.parts.kimono.fringe=-38-abs(sin((this.animSet.loop+this.animSet.flip*30)*6))*0.5
             if(sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)>0){
-                this.anim.legs[g].top=24+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*42
+                this.anim.legs[g].top=24+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*30
                 this.anim.legs[g].bottom=sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-12
-                this.spin.legs[g].top=(60+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-45)*(g*2-1)
-                this.spin.legs[g].bottom=(120+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-90)*(g*2-1)
+                this.spin.legs[g].top=(60+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-36)*(g*2-1)
+                this.spin.legs[g].bottom=(120+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-72)*(g*2-1)
             }else{
                 this.anim.legs[g].top=24+sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*12
                 this.anim.legs[g].bottom=sin((this.animSet.loop+this.animSet.flip*30+g*30)*6)*-48
