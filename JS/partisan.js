@@ -11,7 +11,7 @@ class partisan extends physical{
 			this.velocity.x*=(1-physics.resistance)
 		}
 		if(this.trigger.physics.gravity){
-			//this.velocity.y+=physics.gravity
+			this.velocity.y+=physics.gravity
 		}
 		for(let a=0,la=this.timers.length;a<la;a++){
 			if(this.timers[a]>0){
